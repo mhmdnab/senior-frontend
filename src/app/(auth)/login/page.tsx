@@ -2,10 +2,11 @@
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -13,11 +14,20 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
-        username,
+        email,
         password,
       });
-      console.log("ooooooooooooooooooooooo", res.data);
-      router.push("/");
+
+      // Save token in cookies (available to middleware)
+      Cookies.set("token", res.data.token, {
+        expires: 1, // expires in 1 day
+        path: "/", // make it accessible across the app
+      });
+
+      // Redirect to homepage or callbackUrl if provided
+      const urlParams = new URLSearchParams(window.location.search);
+      const callbackUrl = urlParams.get("callbackUrl") || "/";
+      router.push(callbackUrl);
     } catch (error: any) {
       setError(error.response?.data?.error || "Login failed");
       console.error(error);
@@ -31,14 +41,14 @@ export default function Login() {
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Username
+              Email
             </label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#cb6ce6] focus:border-[#cb6ce6]"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -64,6 +74,9 @@ export default function Login() {
           >
             Login
           </button>
+          <h1 className="text-sm text-[#703381] m-6 text-center underline">
+            <a href="/register">Don't have an account? Register Here</a>
+          </h1>
         </form>
       </div>
     </div>

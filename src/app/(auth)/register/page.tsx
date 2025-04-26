@@ -93,9 +93,7 @@ export default function RegisterPage() {
           >
             Register
           </button>
-          <h1 className="text-sm text-[#703381] m-6 text-center underline">
-            <a href="/login">Already have an account?</a>
-          </h1>
+
           {message && (
             <p className="mt-4 text-center text-sm text-red-600">{message}</p>
           )}

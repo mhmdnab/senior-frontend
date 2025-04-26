@@ -1,147 +1,191 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import type React from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
+import axios from "axios";
 
-interface User {
-  username: string;
-  email: string;
-  // Add other user information as needed
-}
-
-interface ReduxState {
-  user: {
-    userInfo: User | null;
-  };
-}
-
-const ProfileScreen: React.FC = () => {
-  // Use useSelector to get the userInfo from the Redux store
-  const userInfo = useSelector((state: ReduxState) => state.user.userInfo);
-  const dispatch = useDispatch();
+export default function ProfilePage() {
   const router = useRouter();
-
-  const [newUsername, setNewUsername] = useState<string>("");
-  const [newEmail, setNewEmail] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false); // No initial loading from direct fetch anymore
-  const [error, setError] = useState<string | null>(null);
-
-  // Replace with your actual backend API endpoint
-  const updateUserProfileEndpoint = "/profile";
+  type Product = {
+    id: string;
+    title: string;
+    description: string;
+    images: string[];
+    category: string;
+    owner: string;
+    isAvailable: boolean;
+    createdAt: string;
+  };
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+  const [formData, setFormData] = useState({
+    email: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   useEffect(() => {
-    // If userInfo exists in Redux, populate the local state for editing
-    if (userInfo) {
-      setNewUsername(userInfo.username);
-      setNewEmail(userInfo.email);
-    } else {
-      // If userInfo is not in Redux, you might want to fetch it here
-      // or handle the case where the user is not logged in.
-      // For this example, we'll assume userInfo is loaded on login.
-      // You might want to redirect to login if not present.
-      // Example:
-      // router.push('/login');
-    }
-  }, [userInfo, router]);
-
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewUsername(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewEmail(event.target.value);
-  };
-
-  const handleUpdateProfile = async () => {
-    if (!userInfo) {
-      console.error("User data not loaded yet.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(updateUserProfileEndpoint, {
-        method: "PUT", // Or 'PATCH' depending on your API
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: newUsername, email: newEmail }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products"); // Your Express API
+        setUserProducts(res.data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
       }
+    };
 
-      const updatedUser: User = await response.json();
-      // In a real application, you might want to dispatch an action here
-      // to update the userInfo in the Redux store as well.
-      // dispatch(loginSuccess(updatedUser));
-      alert("Profile updated successfully!");
-    } catch (e: any) {
-      setError("Failed to update profile.");
-      console.error("Error updating profile:", e);
-    } finally {
-      setLoading(false);
-    }
+    fetchProducts();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (loading) {
-    return <div>Updating profile information...</div>;
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log("Form submitted:", formData);
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userInfo) {
-    return <div>Please log in to view your profile.</div>;
-  }
+  const handleLogout = () => {
+    // Handle logout logic here
+    console.log("Logging out...");
+    router.push("/");
+  };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Your Profile</h2>
+    <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] text-gray-100">
+      <div className="container mx-auto px-4 py-12">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-10">
+          <h1 className="text-3xl font-bold">My Profile</h1>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 px-4 py-2 rounded-md transition"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Log Out
+          </button>
+        </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Username:
-        </label>
-        <input
-          type="text"
-          value={newUsername}
-          onChange={handleUsernameChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Form Section */}
+          <div className="lg:col-span-1">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-1">
+                <label
+                  htmlFor="email"
+                  className="text-sm font-medium text-gray-300"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 focus:border-gray-400 focus:outline-none py-2 px-0"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label
+                  htmlFor="phoneNumber"
+                  className="text-sm font-medium text-gray-300"
+                >
+                  Phone Number
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 focus:border-gray-400 focus:outline-none py-2 px-0"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-300"
+                >
+                  Change Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 focus:border-gray-400 focus:outline-none py-2 px-0"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium text-gray-300"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 focus:border-gray-400 focus:outline-none py-2 px-0"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 rounded-md transition"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          {/* Products Section */}
+          <div className="lg:col-span-2">
+            <h2 className="text-xl font-semibold text-gray-200 mb-6">
+              My Products
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {userProducts?.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+                >
+                  <div className="relative aspect-square w-full">
+                    <Image
+                      src={product.images?.[0] || "/placeholder.svg"}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-medium text-lg text-gray-200 mb-2">
+                      {product.title}
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                      {product.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Email:
-        </label>
-        <input
-          type="email"
-          value={newEmail}
-          onChange={handleEmailChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <button
-        onClick={handleUpdateProfile}
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
-      >
-        Update Profile
-      </button>
-
-      <h3 className="text-xl font-semibold mt-8 mb-2">Current Information:</h3>
-      <p className="text-gray-700">
-        Username: <span className="font-medium">{userInfo?.username}</span>
-      </p>
-      <p className="text-gray-700">
-        Email: <span className="font-medium">{userInfo?.email}</span>
-      </p>
     </div>
   );
-};
-
-export default ProfileScreen;
+}

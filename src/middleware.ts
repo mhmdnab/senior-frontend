@@ -14,19 +14,14 @@ export function middleware(request: NextRequest) {
 
   if (isProtected && !token) {
     // Encode the original path into a query param
-    const registerUrl = new URL("/register", request.url);
-    registerUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(registerUrl);
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/categories/:path*",
-    "/profile/:path*",
-    "/products/:path*",
-    "/contact/:path*",
-  ],
+  matcher: ["/categories/:path*", "/profile", "/products/:path*", "/contact"],
 };
