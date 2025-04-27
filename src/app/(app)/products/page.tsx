@@ -1,26 +1,31 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 
 type Product = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
-  images: string;
+  images: string[];
   category: string;
-  owner: string;
+  owner: {
+    _id: string;
+    username: string;
+  };
   isAvailable: boolean;
   createdAt: string;
 };
-const [userProducts, setUserProducts] = useState<Product[]>([]);
 
 const ProductsPage = () => {
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products"); // Your Express API
+        const res = await axios.get("http://localhost:5000/api/products");
         setUserProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -37,25 +42,28 @@ const ProductsPage = () => {
           Our Products
         </h1>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {userProducts.map((userProducts) => (
+          {userProducts.map((product) => (
             <Link
-              href={"/products/:id"}
-              key={userProducts.id}
+              href={`/products/${product._id}`}
+              key={product._id}
               className="block"
             >
               <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
                 <div className="relative w-full h-48">
                   <Image
-                    src={userProducts.images}
-                    alt={userProducts.title}
+                    src={product.images?.[0] || "/placeholder.svg"}
+                    alt={product.title}
                     fill
-                    objectFit="cover"
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                    {userProducts.title}
+                  <h3 className="text-lg font-semibold text-gray-700 mb-1">
+                    {product.title}
                   </h3>
+                  <p className="text-sm text-gray-500">
+                    By {product.owner?.username || "Unknown"}
+                  </p>
                 </div>
               </div>
             </Link>

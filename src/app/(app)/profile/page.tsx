@@ -3,13 +3,14 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogOut, Plus } from "lucide-react"; // <-- Added Plus icon
 import axios from "axios";
 
 export default function ProfilePage() {
   const router = useRouter();
+
   type Product = {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     images: string[];
@@ -18,6 +19,7 @@ export default function ProfilePage() {
     isAvailable: boolean;
     createdAt: string;
   };
+
   const [userProducts, setUserProducts] = useState<Product[]>([]);
   const [formData, setFormData] = useState({
     email: "",
@@ -29,7 +31,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products"); // Your Express API
+        const res = await axios.get("http://localhost:5000/api/products");
         setUserProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -46,14 +48,16 @@ export default function ProfilePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Form submitted:", formData);
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
     console.log("Logging out...");
     router.push("/");
+  };
+
+  const handleAddProduct = () => {
+    router.push("/add-product"); // <-- Adjust the route to where your add product page is
   };
 
   return (
@@ -66,7 +70,7 @@ export default function ProfilePage() {
             onClick={handleLogout}
             className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 px-4 py-2 rounded-md transition"
           >
-            <LogOut className="mr-2 h-4 w-4" />
+            <LogOut className="h-4 w-4" />
             Log Out
           </button>
         </div>
@@ -155,13 +159,23 @@ export default function ProfilePage() {
 
           {/* Products Section */}
           <div className="lg:col-span-2">
-            <h2 className="text-xl font-semibold text-gray-200 mb-6">
-              My Products
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-200">
+                My Products
+              </h2>
+              <button
+                onClick={handleAddProduct}
+                className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-md transition"
+              >
+                <Plus className="h-5 w-5" />
+                Add Product
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {userProducts?.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
                 >
                   <div className="relative aspect-square w-full">
