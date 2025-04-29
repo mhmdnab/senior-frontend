@@ -36,11 +36,14 @@ const ProductsPage = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 py-12">
+    <div className="bg-gradient-to-tr from-[#383838] to-[#232323] py-12 h-screen">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+        <h1 className="text-3xl font-bold text-white mb-10 text-center">
           Our Products
         </h1>
+        <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
+          Check out the latest items that you might wanna barter with.
+        </p>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {userProducts.map((product) => (
             <Link
