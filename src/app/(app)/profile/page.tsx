@@ -2,6 +2,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { LogOut, Plus } from "lucide-react"; // <-- Added Plus icon
 import axios from "axios";
@@ -31,10 +32,18 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products");
+        const token = Cookies.get("token");
+        console.log("Token:", token);
+        const res = await axios.get(
+          "http://localhost:5000/api/products/my-products"
+        );
         setUserProducts(res.data);
       } catch (err) {
-        console.error("Error fetching products:", err);
+        if (axios.isAxiosError(err)) {
+          console.error("Axios Error:", err.response?.data || err.message);
+        } else {
+          console.error("Unexpected Error:", err);
+        }
       }
     };
 
@@ -52,7 +61,10 @@ export default function ProfilePage() {
   };
 
   const handleLogout = () => {
-    console.log("Logging out...");
+    // Remove the auth token cookie
+    Cookies.remove("token");
+    Cookies.remove("user");
+    console.log("Logged out.");
     router.push("/");
   };
 

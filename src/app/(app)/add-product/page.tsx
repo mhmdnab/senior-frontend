@@ -1,21 +1,50 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+
+type DecodedToken = {
+  id: string;
+  exp: number;
+};
 
 export default function AddProductPage() {
   const router = useRouter();
-
-  // 🧠 Assuming you already know the logged-in user's ID
-  const ownerId = "your-logged-in-user-id"; // Replace this with dynamic data later!
+  const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     images: "",
-    category: "Electronics", // default selected
+    category: "Electronics",
     isAvailable: true,
   });
+
+  useEffect(() => {
+    const token = Cookies.get("token"); // ✅ get token from cookie
+    if (token) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+
+        if (decoded.exp * 1000 < Date.now()) {
+          Cookies.remove("token");
+          router.push("/login");
+        } else {
+          setOwnerId(decoded.id);
+        }
+      } catch (err) {
+        console.error("Invalid token", err);
+        Cookies.remove("token");
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+    setCheckingAuth(false);
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -31,10 +60,12 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!ownerId) return alert("User not authenticated!");
+
     try {
       await axios.post("http://localhost:5000/api/products", {
         ...formData,
-        owner: ownerId, // 👈 Attach the owner ID manually here
+        owner: ownerId,
       });
       alert("Product added successfully!");
       router.push("/products");
@@ -43,6 +74,8 @@ export default function AddProductPage() {
       alert("Failed to add product.");
     }
   };
+
+  if (checkingAuth) return <p className="text-white">Checking auth...</p>;
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] text-gray-100 flex items-center justify-center p-6">
