@@ -2,7 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Protected routes
-const protectedRoutes = ["/categories", "/profile", "/products", "/contact"];
+const protectedRoutes = [
+  "/categories",
+  "/profile",
+  "/products",
+  "/contact",
+  "/my-products",
+];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -23,5 +29,11 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/categories/:path*", "/profile", "/products/:path*", "/contact"],
+  matcher: [
+    "/categories/:path*",
+    "/profile",
+    "/products/:path*",
+    "/contact",
+    "/my-products",
+  ],
 };

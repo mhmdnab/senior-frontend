@@ -10,45 +10,12 @@ import axios from "axios";
 export default function ProfilePage() {
   const router = useRouter();
 
-  type Product = {
-    _id: string;
-    title: string;
-    description: string;
-    images: string[];
-    category: string;
-    owner: string;
-    isAvailable: boolean;
-    createdAt: string;
-  };
-
-  const [userProducts, setUserProducts] = useState<Product[]>([]);
   const [formData, setFormData] = useState({
     email: "",
     phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const token = Cookies.get("token");
-        console.log("Token:", token);
-        const res = await axios.get(
-          "http://localhost:5000/api/products/my-products"
-        );
-        setUserProducts(res.data);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          console.error("Axios Error:", err.response?.data || err.message);
-        } else {
-          console.error("Unexpected Error:", err);
-        }
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -172,9 +139,6 @@ export default function ProfilePage() {
           {/* Products Section */}
           <div className="lg:col-span-2">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-gray-200">
-                My Products
-              </h2>
               <button
                 onClick={handleAddProduct}
                 className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-md transition"
@@ -182,32 +146,6 @@ export default function ProfilePage() {
                 <Plus className="h-5 w-5" />
                 Add Product
               </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {userProducts?.map((product) => (
-                <div
-                  key={product._id}
-                  className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
-                >
-                  <div className="relative aspect-square w-full">
-                    <Image
-                      src={product.images?.[0] || "/placeholder.svg"}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-medium text-lg text-gray-200 mb-2">
-                      {product.title}
-                    </h3>
-                    <p className="text-sm text-gray-400">
-                      {product.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>

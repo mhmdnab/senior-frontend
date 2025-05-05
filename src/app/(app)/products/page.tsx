@@ -36,15 +36,16 @@ const ProductsPage = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-tr from-[#383838] to-[#232323] py-12 h-screen">
+    <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] py-12 overflow-x-hidden">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-white mb-10 text-center">
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Our Products
         </h1>
         <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
           Check out the latest items that you might wanna barter with.
         </p>
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {userProducts.map((product) => (
             <Link
               href={`/products/${product._id}`}
@@ -57,7 +58,7 @@ const ProductsPage = () => {
                     src={product.images?.[0] || "/placeholder.svg"}
                     alt={product.title}
                     fill
-                    style={{ objectFit: "cover" }}
+                    className="object-cover"
                   />
                 </div>
                 <div className="p-4">

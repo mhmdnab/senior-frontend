@@ -1,49 +1,31 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 interface Product {
-  id: number;
-  name: string;
+  _id: number;
+  title: string;
   description: string;
   imageUrl: string;
   link: string;
 }
 
 const ProductGrid = () => {
-  // Example product data (replace with your actual data)
-  const products: Product[] = [
-    {
-      id: 1,
-      name: "Vintage Camera",
-      description: "Capture memories with this classic vintage camera.",
-      imageUrl: "https://placehold.co/300x300", // Placeholder image URL
-      link: "/products/vintage-camera",
-    },
-    {
-      id: 2,
-      name: "Cozy Knit Sweater",
-      description: "Stay warm and stylish in this comfortable knit sweater.",
-      imageUrl: "https://placehold.co/300x300", // Placeholder image URL
-      link: "/products/cozy-sweater",
-    },
-    {
-      id: 3,
-      name: "Leather Backpack",
-      description:
-        "Carry your essentials in this durable and stylish leather backpack.",
-      imageUrl: "https://placehold.co/300x300", // Placeholder image URL
-      link: "/products/leather-backpack",
-    },
-    {
-      id: 4,
-      name: "Handmade Pottery Mug",
-      description:
-        "Enjoy your favorite beverage in this unique handmade pottery mug.",
-      imageUrl: "https://placehold.co/300x300", // Placeholder image URL
-      link: "/products/pottery-mug",
-    },
-    // Add more products as needed
-  ];
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products");
+        setUserProducts(res.data); // Set the fetched products to state
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className="bg-white py-12 min-h-screen mt-12">
@@ -55,24 +37,32 @@ const ProductGrid = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0 py-12">
-          {products.map((product) => (
-            <Link href={product.link} key={product.id} className="block">
-              <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                    {product.name}
-                  </h3>
-                  <p className="text-gray-500 text-sm">{product.description}</p>
+          {userProducts.map((product) => {
+            const key = `product-${product._id}`;
+            const productLink = `/products/${product._id}`;
+
+            return (
+              <Link href={productLink} key={key} className="block">
+                <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                      {product.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm">
+                      {product.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
+
         {/* View More Button */}
         <div className="mt-8">
           <Link href="/products">

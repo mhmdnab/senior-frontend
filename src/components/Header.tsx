@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Header = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Toggle true/false to test
+
   return (
     <header className="flex flex-col md:flex-row items-center border-b-2 border-white justify-between p-5 bg-[#232323] shadow-md sticky">
       {/* Logo */}
@@ -27,28 +30,29 @@ const Header = () => {
           Contact Us
         </Link>
 
-        {/* {isAuthenticated ? (
-          <Link legacyBehavior href="/profile">
-            <a className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base">
-              Profile
-            </a>
-          </Link>
-        ) : ( */}
-        <>
+        {isAuthenticated ? (
           <Link
-            href="/login"
+            href="/profile"
             className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
           >
-            Login
+            Profile
           </Link>
-          <Link
-            href="/register"
-            className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
-          >
-            Register
-          </Link>
-        </>
-        {/* )} */}
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
+            >
+              Login
+            </Link>
+            <Link
+              href="/register"
+              className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
+            >
+              Register
+            </Link>
+          </>
+        )}
 
         <Link
           href="/products"
