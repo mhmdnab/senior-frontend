@@ -23,7 +23,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-tr from-[#383838] to-[#232323] py-16 px-6 shadow-2xl flex flex-col items-center">
+    <div className="bg-gradient-to-tr from-[#522c5d] to-[#232323] py-16 px-6 shadow-2xl flex flex-col items-center">
       <div className="max-w-md w-full">
         <h2 className="text-3xl font-bold text-[#cb6ce6] mb-6 text-center">
           Let's Connect
@@ -51,6 +51,7 @@ const ContactForm = () => {
               required
             />
           </div>
+
           <div>
             <label
               htmlFor="email"
@@ -62,6 +63,24 @@ const ContactForm = () => {
               type="email"
               id="email"
               name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-gray-300 text-sm font-semibold mb-2"
+            >
+              Your Email
+            </label>
+            <input
+              type="gender"
+              id="gender"
+              name="gender"
               value={formData.email}
               onChange={handleChange}
               className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"

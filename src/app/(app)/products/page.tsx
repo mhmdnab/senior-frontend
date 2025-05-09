@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 type Product = {
   _id: string;
@@ -25,18 +26,29 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products");
+        const res = await axios.get("http://localhost:5001/api/products/", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          withCredentials: true,
+        });
         setUserProducts(res.data);
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error fetching products:", err);
+        if (err.response && err.response.status === 401) {
+          console.error(
+            "User is not authenticated (401). Redirecting to login."
+          );
+        } else {
+          console.error("Other API error:", err.message);
+        }
       }
     };
-
     fetchProducts();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] py-12 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-12 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Our Products
@@ -44,7 +56,6 @@ const ProductsPage = () => {
         <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
           Check out the latest items that you might wanna barter with.
         </p>
-
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {userProducts.map((product) => (
             <Link

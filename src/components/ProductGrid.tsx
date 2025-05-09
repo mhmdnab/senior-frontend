@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 interface Product {
   _id: number;
@@ -17,7 +18,12 @@ const ProductGrid = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products");
+        const res = await axios.get("http://localhost:5001/api/products/", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          withCredentials: true,
+        });
         setUserProducts(res.data); // Set the fetched products to state
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -36,8 +42,9 @@ const ProductGrid = () => {
         </h2>
 
         {/* Product Grid */}
+        {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0 py-12">
-          {userProducts.map((product) => {
+          {userProducts.slice(0, 4).map((product) => {
             const key = `product-${product._id}`;
             const productLink = `/products/${product._id}`;
 

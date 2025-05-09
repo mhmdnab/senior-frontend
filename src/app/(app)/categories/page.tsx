@@ -64,7 +64,7 @@ const Categories = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#232323] py-16 px-5 md:px-12">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-16 px-5 md:px-12">
       <div className="container mx-auto text-center">
         {/* Main Title */}
         <h1 className="text-4xl font-bold text-[#cb6ce6] mb-8">
@@ -78,7 +78,7 @@ const Categories = () => {
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-0 py-12">
           {categories.map((category) => (
             <Link href={category.link} key={category.name} className="block">
               <div className="bg-white rounded-lg shadow-md hover:shadow-[#cb6ce6] overflow-hidden hover:shadow-2xl transition duration-300">

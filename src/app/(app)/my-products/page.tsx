@@ -44,7 +44,7 @@ const MyProductsPage = () => {
 
         // --- Fetch ALL products ---
         const res = await axios.get(
-          "http://localhost:5000/api/products" // <-- Call the GET ALL endpoint
+          "http://localhost:5001/api/products" // <-- Call the GET ALL endpoint
           // No Authorization header needed here if the endpoint is public
         );
 

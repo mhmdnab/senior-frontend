@@ -26,7 +26,7 @@ export default function RegisterPage() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "http://localhost:5001/api/auth/register",
         formData
       );
 
@@ -41,7 +41,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#383838] to-[#232323]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323]">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
         <form onSubmit={handleSubmit}>

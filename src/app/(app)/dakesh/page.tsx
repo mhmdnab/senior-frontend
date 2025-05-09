@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation"; // For navigation and query params
 import axios from "axios"; // For making API calls
 import Cookies from "js-cookie"; // For accessing cookies (like the username and token)
+import Image from "next/image";
 
 // Define your Product interface - must match the structure returned by backend GET /api/products
 // Ensure owner is populated with at least _id and username
@@ -88,7 +89,12 @@ const DakeshPage = () => {
 
         // Call the backend endpoint that returns ALL products
         // Ensure this endpoint is accessible and returns products with populated owner.username
-        const res = await axios.get("http://localhost:5000/api/products");
+        const res = await axios.get("http://localhost:5001/api/products/", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          withCredentials: true,
+        });
         const allProducts: Product[] = res.data; // Cast response data to Product array
 
         console.log("Dakesh Page: Fetched total products:", allProducts.length); // Debug log
@@ -136,7 +142,6 @@ const DakeshPage = () => {
 
   // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
-    // --- 1. Validate Selection and Target ---
     if (!productIdToBarterFor) {
       setError("Internal error: Target product ID is missing.");
       return;
@@ -146,13 +151,10 @@ const DakeshPage = () => {
       return;
     }
 
-    // --- 2. Get Authentication Token ---
     const token = Cookies.get("token"); // Get token for backend authentication
 
     if (!token) {
       setError("Authentication token missing. Please log in again.");
-      // Consider redirecting to login here, similar to the useEffect logic
-      // router.push('/login?callbackUrl=' + window.location.pathname + window.location.search);
       return;
     }
     console.log(
@@ -160,16 +162,9 @@ const DakeshPage = () => {
       token ? "Token Found" : "No Token"
     ); // Debug log
 
-    // --- 3. Make Backend API Call to Initiate Barter ---
-    // This POST request calls the new backend endpoint we planned
-    // It sends the ID of the desired product and the ID of the product being offered by the logged-in user
-    // The backend will verify ownership and return the other user's email
     try {
-      // Set loading or initiating state if needed
-      // setLoading(true); // You might want a separate state for the barter initiation itself
-
       const res = await axios.post(
-        "http://localhost:5000/api/barter/initiate", // <-- CALL THE NEW BACKEND ENDPOINT
+        "http://localhost:5001/api/barter/initiate", // <-- CALL THE NEW BACKEND ENDPOINT
         {
           productIdToBarterFor: productIdToBarterFor, // ID of the product the user wants
           productOfferedId: selectedProductToOffer, // ID of the product the user is offering
@@ -178,21 +173,18 @@ const DakeshPage = () => {
           // Configuration object for axios post
           headers: {
             Authorization: `Bearer ${token}`, // Include the authentication token
-            "Content-Type": "application/json", // Specify content type
+            // "Content-Type": "application/json", // Specify content type
           },
         }
       );
 
       console.log("Dakesh Page: Barter Initiation Response:", res.data); // Debug log
 
-      // Assuming backend response structure is { message: ..., otherUserEmail: ... }
       if (res.data && res.data.otherUserEmail) {
         setOtherUserEmail(res.data.otherUserEmail); // Store the other user's email
-        setBarterInitiated(true); // Set success state to true
-        // You might want to clear selectedProductToOffer here too
-        // setSelectedProductToOffer(null);
+        setBarterInitiated(true);
+        setSelectedProductToOffer(null);
       } else {
-        // Handle unexpected backend response format
         setError("Backend did not return the other user's email.");
       }
     } catch (err: any) {
@@ -200,30 +192,27 @@ const DakeshPage = () => {
         "Dakesh Page: Error initiating barter:",
         err.response?.data || err
       );
-      // Display the error message from the backend response or a default one
       setError(
         err.response?.data?.message || "Failed to initiate barter request."
       );
     } finally {
-      //setLoading(false); // Reset loading state
+      setLoading(false); // Reset loading state
     }
   };
   // --- End Handle Initiate Barter ---
 
   // --- Render Logic ---
   return (
-    <div className="p-6 max-w-screen-lg mx-auto">
+    <div className="p-6 w-full mx-auto bg-gradient-to-tr from-[#522c5d] to-[#232323]">
       <h1 className="text-2xl font-bold mb-4">Initiate Barter</h1>
 
-      {/* Display the ID of the target product (optional, for verification) */}
       {productIdToBarterFor && (
         <p className="mb-4 text-gray-700">
-          You are offering a product to barter for product:{" "}
+          You are offering a product to barter for product:
           <span className="font-semibold">{productIdToBarterFor}</span>
         </p>
       )}
 
-      {/* Loading, Error, or No Products Message */}
       {loading && <p>Loading your products...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
@@ -231,7 +220,6 @@ const DakeshPage = () => {
         <p>You have no products available to offer for barter.</p>
       )}
 
-      {/* List User's Products for Selection */}
       {!loading && !error && myProducts.length > 0 && (
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-3">
@@ -241,26 +229,36 @@ const DakeshPage = () => {
             {myProducts.map((product) => (
               <div
                 key={product._id}
-                className={`p-4 border rounded shadow cursor-pointer transition ${
+                className={`p-4 border rounded shadow cursor-pointer transition-transform transform hover:scale-105 ${
                   selectedProductToOffer === product._id
                     ? "bg-green-200 border-green-500"
                     : "bg-white hover:border-gray-300"
                 }`}
-                onClick={() => handleProductSelect(product._id)} // Make the whole div clickable
+                onClick={() => handleProductSelect(product._id)}
               >
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={selectedProductToOffer === product._id}
-                    onChange={() => handleProductSelect(product._id)} // Keep onChange for accessibility
+                    onChange={() => handleProductSelect(product._id)}
                     className="mr-2"
                   />
                   <div>
+                    {product.images && product.images.length > 0 && (
+                      <div className="relative w-full h-32 mb-2">
+                        <Image
+                          src={product.images[0]}
+                          alt={product.title}
+                          layout="fill"
+                          objectFit="cover"
+                          className="rounded"
+                        />
+                      </div>
+                    )}
                     <h3 className="text-lg font-semibold">{product.title}</h3>
                     <p className="text-sm text-gray-600">
                       {product.description}
                     </p>
-                    {/* Optional: Display owner username for verification */}
                     <p className="text-xs text-gray-400">
                       Owner: {product.owner?.username}
                     </p>
@@ -272,26 +270,20 @@ const DakeshPage = () => {
         </div>
       )}
 
-      {/* Initiate Barter Button */}
-      {!loading &&
-        !error &&
-        myProducts.length > 0 && ( // Only show button if there are products to offer
-          <button
-            onClick={handleInitiateBarter}
-            // Disable if no product is selected or if there's an error
-            disabled={!selectedProductToOffer || !!error || loading}
-            className={`mt-6 py-2 px-6 rounded-md font-bold transition ${
-              !selectedProductToOffer || !!error || loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-700 text-white"
-            }`}
-          >
-            {loading ? "Initiating..." : "Initiate Barter"}{" "}
-            {/* Button text changes based on loading */}
-          </button>
-        )}
+      {!loading && !error && myProducts.length > 0 && (
+        <button
+          onClick={handleInitiateBarter}
+          disabled={!selectedProductToOffer || !!error || loading}
+          className={`mt-6 py-2 px-6 rounded-md font-bold transition-colors duration-300 ${
+            !selectedProductToOffer || !!error || loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-500 hover:bg-green-700 text-white"
+          }`}
+        >
+          {loading ? "Initiating..." : "Initiate Barter"}
+        </button>
+      )}
 
-      {/* --- Barter Success Popup / Message --- */}
       {barterInitiated && otherUserEmail && (
         <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow-lg">
           <h3 className="text-xl font-semibold mb-2">
@@ -302,11 +294,9 @@ const DakeshPage = () => {
           </p>
           <p>You can contact them directly:</p>
           <p className="font-bold text-lg">Email: {otherUserEmail}</p>
-          {/* You might want to add a button to close this message or redirect */}
           <button onClick={() => setBarterInitiated(false)}>Close</button>
         </div>
       )}
-      {/* --- End Barter Success --- */}
     </div>
   );
 };

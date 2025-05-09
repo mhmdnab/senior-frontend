@@ -19,7 +19,7 @@ export default function AddProductPage() {
     title: "",
     description: "",
     images: "",
-    category: "Electronics",
+    category: "Other",
     isAvailable: true,
   });
 
@@ -63,9 +63,13 @@ export default function AddProductPage() {
     if (!ownerId) return alert("User not authenticated!");
 
     try {
-      await axios.post("http://localhost:5000/api/products", {
+      await axios.post("http://localhost:5001/api/products", {
         ...formData,
         owner: ownerId,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+        withCredentials: true,
       });
       alert("Product added successfully!");
       router.push("/products");
@@ -78,7 +82,7 @@ export default function AddProductPage() {
   if (checkingAuth) return <p className="text-white">Checking auth...</p>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] text-gray-100 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-gray-100 flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Add New Product</h1>
         <form onSubmit={handleSubmit} className="space-y-4">

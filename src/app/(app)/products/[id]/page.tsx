@@ -37,7 +37,7 @@ const ProductPage = () => {
         setLoading(true);
         setError(null);
         const res = await axios.get(
-          `http://localhost:5000/api/products/${productId}`
+          `http://localhost:5001/api/products/${productId}`
         );
         setProduct(res.data as Product);
       } catch (err: any) {
@@ -77,10 +77,10 @@ const ProductPage = () => {
     );
 
   return (
-    <div className="p-8 max-w-6xl mx-auto h-screen">
-      <div className="flex flex-col md:flex-row gap-8 items-start">
+    <div className="p-8 max-w-full h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323]">
+      <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
         {/* Image on the left */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/3">
           <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-md bg-white">
             {/* Add check if images array is not empty */}
             {product.images && product.images.length > 0 ? (
@@ -101,12 +101,12 @@ const ProductPage = () => {
         {/* Product details on the right */}
         <div className="w-full md:w-1/2 flex flex-col gap-4">
           {" "}
-          <h1 className="text-3xl font-bold text-gray-800">{product.title}</h1>
-          <p className="text-gray-600 text-sm">
+          <h1 className="text-3xl font-bold text-white">{product.title}</h1>
+          <p className="text-white text-sm">
             By {product.owner?.username || "Unknown"}
             {/* Use optional chaining for safety */}
           </p>
-          <p className="text-gray-700">{product.description}</p>
+          <p className="text-gray-400">{product.description}</p>
           {/* --- Dakesh Button --- */}
           {/* Conditionally render the button if it's NOT the user's own product */}
           {/* Uncomment the isMyProduct check above if using it */}

@@ -19,13 +19,13 @@ type Product = {
 const CategoryPage = async ({ params }: { params: { category: string } }) => {
   params;
   const res = await axios.get(
-    `http://localhost:5000/api/products?category=${params.category}`
+    `http://localhost:5001/api/products?category=${params.category}`
   );
   const products: Product[] = res.data;
 
   return (
-    <div className="p-8 h-screen">
-      <h1 className="text-2xl font-bold capitalize mb-6">
+    <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323]">
+      <h1 className="text-2xl font-bold capitalize mb-6 text-white">
         {params.category} Products
       </h1>
       {products.length === 0 ? (
