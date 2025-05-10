@@ -207,23 +207,25 @@ const DakeshPage = () => {
       <h1 className="text-2xl font-bold mb-4">Initiate Barter</h1>
 
       {productIdToBarterFor && (
-        <p className="mb-4 text-gray-700">
+        <p className="mb-4 text-white">
           You are offering a product to barter for product:
           <span className="font-semibold">{productIdToBarterFor}</span>
         </p>
       )}
 
-      {loading && <p>Loading your products...</p>}
+      {loading && <p className="text-white">Loading your products...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       {!loading && !error && myProducts.length === 0 && (
-        <p>You have no products available to offer for barter.</p>
+        <p className="text-[#f58d33]">
+          You have no products available to offer for barter.
+        </p>
       )}
 
       {!loading && !error && myProducts.length > 0 && (
         <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-3">
-            Your Products: Choose one to offer
+          <h2 className="text-xl text-white font-semibold mb-3">
+            Choose one of your products to offer
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {myProducts.map((product) => (

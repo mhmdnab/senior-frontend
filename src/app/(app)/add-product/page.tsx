@@ -63,14 +63,20 @@ export default function AddProductPage() {
     if (!ownerId) return alert("User not authenticated!");
 
     try {
-      await axios.post("http://localhost:5001/api/products", {
-        ...formData,
-        owner: ownerId,
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
+      await axios.post(
+        "http://localhost:5001/api/products",
+        {
+          ...formData,
+          owner: ownerId,
         },
-        withCredentials: true,
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+
       alert("Product added successfully!");
       router.push("/products");
     } catch (err) {

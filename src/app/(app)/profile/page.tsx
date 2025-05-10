@@ -30,7 +30,7 @@ export default function ProfilePage() {
   const handleLogout = () => {
     // Remove the auth token cookie
     Cookies.remove("token");
-    Cookies.remove("user");
+    Cookies.remove("username");
     console.log("Logged out.");
     router.push("/");
   };
