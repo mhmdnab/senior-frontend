@@ -34,6 +34,7 @@ const DakeshPage = () => {
   // --- State Variables ---
   // Get the ID of the product the user wants to barter FOR from the query params
   const productIdToBarterFor = searchParams.get("productIdToBarterFor");
+  const productNameToBarterFor = searchParams.get("productNameToBarterFor");
 
   const [myProducts, setMyProducts] = useState<Product[]>([]); // Products owned by the logged-in user
   const [loading, setLoading] = useState(true); // Loading state for fetching products
@@ -142,8 +143,8 @@ const DakeshPage = () => {
 
   // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
-    if (!productIdToBarterFor) {
-      setError("Internal error: Target product ID is missing.");
+    if (!productNameToBarterFor) {
+      setError("Internal error: Target product name is missing.");
       return;
     }
     if (!selectedProductToOffer) {
@@ -151,7 +152,7 @@ const DakeshPage = () => {
       return;
     }
 
-    const token = Cookies.get("token"); // Get token for backend authentication
+    const token = Cookies.get("token");
 
     if (!token) {
       setError("Authentication token missing. Please log in again.");
@@ -160,28 +161,26 @@ const DakeshPage = () => {
     console.log(
       "Dakesh Page: Initiating barter with token:",
       token ? "Token Found" : "No Token"
-    ); // Debug log
+    );
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/barter/initiate", // <-- CALL THE NEW BACKEND ENDPOINT
+        "http://localhost:5001/api/barter/initiate",
         {
-          productIdToBarterFor: productIdToBarterFor, // ID of the product the user wants
-          productOfferedId: selectedProductToOffer, // ID of the product the user is offering
+          productNameToBarterFor: productNameToBarterFor, // Use product name
+          productOfferedId: selectedProductToOffer,
         },
         {
-          // Configuration object for axios post
           headers: {
-            Authorization: `Bearer ${token}`, // Include the authentication token
-            // "Content-Type": "application/json", // Specify content type
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      console.log("Dakesh Page: Barter Initiation Response:", res.data); // Debug log
+      console.log("Dakesh Page: Barter Initiation Response:", res.data);
 
       if (res.data && res.data.otherUserEmail) {
-        setOtherUserEmail(res.data.otherUserEmail); // Store the other user's email
+        setOtherUserEmail(res.data.otherUserEmail);
         setBarterInitiated(true);
         setSelectedProductToOffer(null);
       } else {
@@ -196,7 +195,7 @@ const DakeshPage = () => {
         err.response?.data?.message || "Failed to initiate barter request."
       );
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
   // --- End Handle Initiate Barter ---
@@ -204,11 +203,11 @@ const DakeshPage = () => {
   // --- Render Logic ---
   return (
     <div className="p-6 w-full mx-auto bg-gradient-to-tr from-[#522c5d] to-[#232323]">
-      <h1 className="text-2xl font-bold mb-4">Initiate Barter</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Initiate Barter</h1>
 
       {productIdToBarterFor && (
         <p className="mb-4 text-white">
-          You are offering a product to barter for product:
+          You are offering a product to barter for the product:{"  "}
           <span className="font-semibold">{productIdToBarterFor}</span>
         </p>
       )}

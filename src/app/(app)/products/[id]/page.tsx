@@ -40,6 +40,7 @@ const ProductPage = () => {
           `http://localhost:5001/api/products/${productId}`
         );
         setProduct(res.data as Product);
+        console.log("Fetched Product:", res.data);
       } catch (err: any) {
         console.error("Error fetching product:", err.response?.data || err);
         setError("Failed to load product.");

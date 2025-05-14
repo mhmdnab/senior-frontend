@@ -18,47 +18,24 @@ const Categories = () => {
       link: "/categories/clothing",
     },
     {
-      name: "Home & Kitchen",
-      description: "Find everything you need for your home and kitchen.",
-      imageUrl:
-        "https://via.placeholder.com/300/dc3545/FFFFFF?Text=Home&Kitchen", // Placeholder image URL
-      link: "/categories/home-kitchen",
-    },
-    {
-      name: "Cars",
+      name: "Books",
       description: "Dive into a world of stories and knowledge.",
       imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
       link: "/categories/books",
     },
     {
-      name: "Accessories",
-      description: "Dive into a world of stories and knowledge.",
+      name: "Toys",
+      description:
+        "A wide variety of fun and educational toys for children of all ages.",
       imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
-      link: "/categories/accessories",
+      link: "/categories/toys",
     },
     {
-      name: "Car Parts",
-      description: "Dive into a world of stories and knowledge.",
+      name: "Other",
+      description:
+        "Miscellaneous items that don’t fit into specific categories, but are still worth exploring.",
       imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
-      link: "/categories/car-parts",
-    },
-    {
-      name: "Motorcycles",
-      description: "Dive into a world of stories and knowledge.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
-      link: "/categories/motorcycles",
-    },
-    {
-      name: "Agriculture",
-      description: "Dive into a world of stories and knowledge.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
-      link: "/categories/agriculture",
-    },
-    {
-      name: "Sneakers",
-      description: "Dive into a world of stories and knowledge.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
-      link: "/categories/sneakers",
+      link: "/categories/other",
     },
     // Add more categories as needed
   ];
