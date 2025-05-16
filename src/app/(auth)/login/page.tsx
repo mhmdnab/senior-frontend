@@ -23,32 +23,36 @@ export default function Login() {
         path: "/", // make it accessible across the app
       });
 
-      // --- SAVE USERNAME (OR USER ID) TO A COOKIE ---
+      // Save username if exists
       if (res.data.user?.username) {
-        // Check if username exists in the response
         Cookies.set("username", res.data.user.username, {
-          // Save the username
-          expires: 1, // Match token expiry
-          path: "/",
-        });
-      } else if (res.data.user?.id) {
-        // Or save the ID if username isn't always sent/needed directly
-        Cookies.set("userId", res.data.user.id, {
-          // Save the user ID
           expires: 1,
           path: "/",
         });
-      } // Redirect to homepage or callbackUrl if provided
-      // --- END SAVE USERNAME ---
+      } else if (res.data.user?.id) {
+        Cookies.set("userId", res.data.user.id, {
+          expires: 1,
+          path: "/",
+        });
+      }
+
+      // Save role if exists
+      if (res.data.user?.role) {
+        Cookies.set("role", res.data.user.role, {
+          expires: 1,
+          path: "/",
+        });
+      }
 
       const urlParams = new URLSearchParams(window.location.search);
       const callbackUrl = urlParams.get("callbackUrl") || "/";
       router.push(callbackUrl);
     } catch (error: any) {
-      setError(error.response?.data?.message || "Login failed"); // Use error.response.data.message
-      console.error("Login error:", error.response?.data || error); // Log the actual error response
+      setError(error.response?.data?.message || "Login failed");
+      console.error("Login error:", error.response?.data || error);
     }
   };
+
   // end
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">

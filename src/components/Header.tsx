@@ -1,10 +1,16 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Toggle true/false to test
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedRole = Cookies.get("role");
+    setRole(savedRole || null);
+  }, []);
 
   return (
     <header className="flex flex-col md:flex-row items-center border-b-2 border-white justify-between p-5 bg-[#232323] shadow-md sticky">
@@ -30,9 +36,9 @@ const Header = () => {
           Contact Us
         </Link>
 
-        {isAuthenticated ? (
+        {role ? (
           <Link
-            href="/profile"
+            href={role === "admin" ? "/admin/dashboard" : "/profile"}
             className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
           >
             Profile

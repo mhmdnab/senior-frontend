@@ -31,6 +31,7 @@ export default function ProfilePage() {
     // Remove the auth token cookie
     Cookies.remove("token");
     Cookies.remove("username");
+    Cookies.remove("role");
     console.log("Logged out.");
     router.push("/");
   };
@@ -40,18 +41,20 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#383838] to-[#232323] text-gray-100">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-gray-100">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
           <h1 className="text-3xl font-bold">My Profile</h1>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 px-4 py-2 rounded-md transition"
-          >
-            <LogOut className="h-4 w-4" />
-            Log Out
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 px-4 py-2 rounded-md transition"
+            >
+              <LogOut className="h-4 w-4" />
+              Log Out
+            </button>
+          </div>
         </div>
 
         {/* Main Grid */}

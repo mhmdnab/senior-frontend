@@ -9,6 +9,9 @@ const protectedRoutes = [
   "/contact",
   "/my-products",
   "/dakesh",
+  "/admin/dashboard",
+  "/admin/users",
+  "/admin/products",
 ];
 
 export function middleware(request: NextRequest) {
@@ -37,5 +40,8 @@ export const config = {
     "/contact",
     "/my-products",
     "/dakesh",
+    "/admin/dashboard",
+    "/admin/users",
+    "/admin/products",
   ],
 };
