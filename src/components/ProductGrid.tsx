@@ -8,7 +8,7 @@ interface Product {
   _id: number;
   title: string;
   description: string;
-  imageUrl: string;
+  images: string[];
   link: string;
 }
 
@@ -52,7 +52,7 @@ const ProductGrid = () => {
               <Link href={productLink} key={key} className="block">
                 <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
                   <img
-                    src={product.imageUrl}
+                    src={product.images[0]}
                     alt={product.title}
                     className="w-full h-48 object-cover"
                   />

@@ -89,7 +89,7 @@ export default function AddProductPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
+      <div className="w-full max-w-md bg-[#60346c] backdrop-blur-md rounded-lg shadow-md p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Add New Product</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -99,7 +99,7 @@ export default function AddProductPage() {
             value={formData.title}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none"
+            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
           />
           <textarea
             name="description"
@@ -107,7 +107,7 @@ export default function AddProductPage() {
             value={formData.description}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none"
+            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
           />
           <input
             type="text"
@@ -115,14 +115,14 @@ export default function AddProductPage() {
             placeholder="Image URL"
             value={formData.images}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none"
+            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
           />
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none"
+            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
           >
             <option value="Electronics">Electronics</option>
             <option value="Clothing">Clothing</option>
@@ -133,14 +133,14 @@ export default function AddProductPage() {
           </select>
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-md transition"
+            className="w-full hover:bg-[#89499b] bg-[#cb6ce6] text-white py-2 px-4 rounded-md transition"
           >
             Add Product
           </button>
         </form>
         <button
           onClick={() => router.back()}
-          className="mt-4 w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md transition"
+          className="mt-4 w-full bg-gray-700 text-gray-300 hover:bg-gray-800 py-2 px-4 rounded-md transition"
         >
           Go Back
         </button>

@@ -8,33 +8,37 @@ const Categories = () => {
       name: "Electronics",
       description: "Explore the latest gadgets and electronic devices.",
       imageUrl:
-        "https://via.placeholder.com/300/007bff/FFFFFF?Text=Electronics", // Placeholder image URL
+        "https://i.pinimg.com/736x/44/d2/ad/44d2add5a8454d1eb4d7fed3015abcd8.jpg", // Placeholder image URL
       link: "/categories/electronics",
     },
     {
       name: "Clothing",
       description: "Discover stylish clothing for every occasion.",
-      imageUrl: "https://via.placeholder.com/300/28a745/FFFFFF?Text=Clothing", // Placeholder image URL
+      imageUrl:
+        "https://i.pinimg.com/736x/3d/4d/33/3d4d33650996dc8ff6e0503093627bf0.jpg", // Placeholder image URL
       link: "/categories/clothing",
     },
     {
       name: "Books",
       description: "Dive into a world of stories and knowledge.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
+      imageUrl:
+        "https://i.pinimg.com/736x/56/f7/15/56f715fb5e0233a4985911be387bb89b.jpg", // Placeholder image URL
       link: "/categories/books",
     },
     {
       name: "Toys",
       description:
         "A wide variety of fun and educational toys for children of all ages.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
+      imageUrl:
+        "https://i.pinimg.com/736x/7b/05/fa/7b05fab78047f0491935e3efcf654776.jpg", // Placeholder image URL
       link: "/categories/toys",
     },
     {
       name: "Other",
       description:
         "Miscellaneous items that don’t fit into specific categories, but are still worth exploring.",
-      imageUrl: "https://via.placeholder.com/300/ffc107/000000?Text=Books", // Placeholder image URL
+      imageUrl:
+        "https://i.pinimg.com/736x/7c/72/4b/7c724b52594be48660e723177efcb637.jpg", // Placeholder image URL
       link: "/categories/other",
     },
     // Add more categories as needed

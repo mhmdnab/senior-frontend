@@ -5,15 +5,8 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 const Header = () => {
-  const [role, setRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedRole = Cookies.get("role");
-    setRole(savedRole || null);
-  }, []);
-
   return (
-    <header className="flex flex-col md:flex-row items-center border-b-2 border-white justify-between p-5 bg-[#232323] shadow-md sticky">
+    <header className="flex flex-col md:flex-row items-center border-b-2 border-white justify-between px-4 py-2 bg-[#232323] shadow-md sticky">
       {/* Logo */}
       <div className="flex justify-center md:justify-start mb-4 md:mb-0">
         <Link href="/">
@@ -35,31 +28,12 @@ const Header = () => {
         >
           Contact Us
         </Link>
-
-        {role ? (
-          <Link
-            href={role === "admin" ? "/admin/dashboard" : "/profile"}
-            className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
-          >
-            Profile
-          </Link>
-        ) : (
-          <>
-            <Link
-              href="/login"
-              className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
-            >
-              Register
-            </Link>
-          </>
-        )}
-
+        <Link
+          href={"/profile"}
+          className="text-[#cb6ce6] hover:text-[#89499b] text-sm md:text-base"
+        >
+          Profile
+        </Link>
         <Link
           href="/products"
           className="px-4 py-2 text-white bg-[#cb6ce6] rounded-lg hover:bg-[#89499b] transition duration-300 text-sm md:text-base"

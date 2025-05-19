@@ -24,7 +24,7 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
   const products: Product[] = res.data;
 
   return (
-    <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323]">
+    <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
       <h1 className="text-2xl font-bold capitalize mb-6 text-white">
         {params.category} Products
       </h1>

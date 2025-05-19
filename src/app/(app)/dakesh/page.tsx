@@ -34,62 +34,45 @@ const DakeshPage = () => {
   // --- State Variables ---
   // Get the ID of the product the user wants to barter FOR from the query params
   const productIdToBarterFor = searchParams.get("productIdToBarterFor");
-  const productNameToBarterFor = searchParams.get("productNameToBarterFor");
 
-  const [myProducts, setMyProducts] = useState<Product[]>([]); // Products owned by the logged-in user
-  const [loading, setLoading] = useState(true); // Loading state for fetching products
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [myProducts, setMyProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // State to hold the ID of the product the user selects to OFFER for barter
   const [selectedProductToOffer, setSelectedProductToOffer] = useState<
     string | null
   >(null);
 
-  // State to manage the success popup and display the other user's email
   const [barterInitiated, setBarterInitiated] = useState(false);
   const [otherUserEmail, setOtherUserEmail] = useState<string | null>(null);
-  // --- End State Variables ---
 
-  // --- Effect to Fetch User's Products ---
   useEffect(() => {
-    // --- 1. Validate Target Product ID ---
-    // If productIdToBarterFor is missing, the user didn't come from a product page.
-    // Redirect them or show an error.
     if (!productIdToBarterFor) {
       setError("No target product specified for barter.");
       setLoading(false);
-      // Optionally redirect after a delay
-      // setTimeout(() => router.push('/products'), 3000);
-      return; // Stop execution
+      return;
     }
 
-    // --- 2. Get Logged-in User Username ---
     const loggedInUsername = getLoggedInUsername();
 
     if (!loggedInUsername) {
-      // Handle case where user is not logged in (e.g., redirect to login page)
       console.warn(
         "User not logged in or username cookie not found for Dakesh page."
       );
       setError("Please log in to initiate a barter.");
       setLoading(false);
-      // Example redirect: Redirect to login, and after login, come back here
-      // router.push(`/login?callbackUrl=/dakesh?productIdToBarterFor=${productIdToBarterFor}`);
-      return; // Stop execution
+      return;
     }
     console.log(
       "Dakesh Page: Logged-in username from cookie:",
       loggedInUsername
     ); // Debug log
 
-    // --- 3. Fetch All Products and Filter ---
     const fetchAllProductsAndFilter = async () => {
       try {
         setLoading(true);
         setError(null); // Clear previous errors
 
-        // Call the backend endpoint that returns ALL products
-        // Ensure this endpoint is accessible and returns products with populated owner.username
         const res = await axios.get("http://localhost:5001/api/products/", {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -143,10 +126,10 @@ const DakeshPage = () => {
 
   // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
-    if (!productNameToBarterFor) {
-      setError("Internal error: Target product name is missing.");
-      return;
-    }
+    // if (!productNameToBarterFor) {
+    //   setError("Internal error: Target product name is missing.");
+    //   return;
+    // }
     if (!selectedProductToOffer) {
       setError("Please select one of your products to offer for barter.");
       return;
@@ -167,8 +150,8 @@ const DakeshPage = () => {
       const res = await axios.post(
         "http://localhost:5001/api/barter/initiate",
         {
-          productNameToBarterFor: productNameToBarterFor, // Use product name
-          productOfferedId: selectedProductToOffer,
+          // productNameToBarterFor: productNameToBarterFor, // Use product name
+          productIdToBarterFor: selectedProductToOffer,
         },
         {
           headers: {
