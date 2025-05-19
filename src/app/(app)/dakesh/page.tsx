@@ -126,10 +126,15 @@ const DakeshPage = () => {
 
   // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
-    // if (!productNameToBarterFor) {
-    //   setError("Internal error: Target product name is missing.");
-    //   return;
-    // }
+    // productIdToBarterFor is already available from useSearchParams
+    // const productIdToBarterFor = searchParams.get("productIdToBarterFor");
+
+    if (!productIdToBarterFor) {
+      // Ensure the target product ID from URL is present
+      setError("Target product ID for barter is missing from the URL.");
+      return;
+    }
+
     if (!selectedProductToOffer) {
       setError("Please select one of your products to offer for barter.");
       return;
@@ -147,11 +152,14 @@ const DakeshPage = () => {
     );
 
     try {
+      setLoading(true); // Set loading true at the start of the async operation
+      setError(null); // Clear previous errors
+
       const res = await axios.post(
         "http://localhost:5001/api/barter/initiate",
         {
-          // productNameToBarterFor: productNameToBarterFor, // Use product name
-          productIdToBarterFor: selectedProductToOffer,
+          productIdToBarterFor: productIdToBarterFor, // The product the user WANTS
+          productOfferedId: selectedProductToOffer, // The product the user IS OFFERING
         },
         {
           headers: {
@@ -165,7 +173,7 @@ const DakeshPage = () => {
       if (res.data && res.data.otherUserEmail) {
         setOtherUserEmail(res.data.otherUserEmail);
         setBarterInitiated(true);
-        setSelectedProductToOffer(null);
+        setSelectedProductToOffer(null); // Clear selection after successful initiation
       } else {
         setError("Backend did not return the other user's email.");
       }
@@ -181,6 +189,8 @@ const DakeshPage = () => {
       setLoading(false);
     }
   };
+  // --- End Handle Initiate Barter ---
+
   // --- End Handle Initiate Barter ---
 
   // --- Render Logic ---
