@@ -7,8 +7,6 @@ import axios from "axios"; // For making API calls
 import Cookies from "js-cookie"; // For accessing cookies (like the username and token)
 import Image from "next/image";
 
-// Define your Product interface - must match the structure returned by backend GET /api/products
-// Ensure owner is populated with at least _id and username
 interface Product {
   _id: string;
   title: string;
@@ -24,15 +22,12 @@ interface Product {
   createdAt: string;
 }
 
-// Helper function to get the logged-in username from the cookie
 const getLoggedInUsername = () => Cookies.get("username");
 
 const DakeshPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams(); // Hook to read URL query parameters
+  const searchParams = useSearchParams();
 
-  // --- State Variables ---
-  // Get the ID of the product the user wants to barter FOR from the query params
   const productIdToBarterFor = searchParams.get("productIdToBarterFor");
 
   const [myProducts, setMyProducts] = useState<Product[]>([]);
@@ -45,7 +40,9 @@ const DakeshPage = () => {
 
   const [barterInitiated, setBarterInitiated] = useState(false);
   const [otherUserEmail, setOtherUserEmail] = useState<string | null>(null);
-
+  const handleGoHome = () => {
+    router.push("/");
+  };
   useEffect(() => {
     if (!productIdToBarterFor) {
       setError("No target product specified for barter.");
@@ -71,7 +68,7 @@ const DakeshPage = () => {
     const fetchAllProductsAndFilter = async () => {
       try {
         setLoading(true);
-        setError(null); // Clear previous errors
+        setError(null);
 
         const res = await axios.get("http://localhost:5001/api/products/", {
           headers: {
@@ -79,14 +76,11 @@ const DakeshPage = () => {
           },
           withCredentials: true,
         });
-        const allProducts: Product[] = res.data; // Cast response data to Product array
+        const allProducts: Product[] = res.data;
 
-        console.log("Dakesh Page: Fetched total products:", allProducts.length); // Debug log
-
-        // Filter the products client-side to find only those owned by the logged-in user
+        console.log("Dakesh Page: Fetched total products:", allProducts.length);
         const userProducts = allProducts.filter(
           (product) =>
-            // Check if product.owner exists and if its username matches the logged-in username
             product.owner && product.owner.username === loggedInUsername
         );
 
@@ -95,29 +89,25 @@ const DakeshPage = () => {
           userProducts.length
         ); // Debug log
 
-        setMyProducts(userProducts); // Update state with the filtered list
+        setMyProducts(userProducts);
       } catch (err: any) {
         console.error(
           "Dakesh Page: Error fetching all products for filtering:",
           err.response?.data || err
         );
         setError("Failed to load your products to offer.");
-        setMyProducts([]); // Clear products on error
+        setMyProducts([]);
       } finally {
-        setLoading(false); // Set loading to false
+        setLoading(false);
       }
     };
 
-    fetchAllProductsAndFilter(); // Execute the fetch and filter logic
-
-    // Dependencies: Re-run effect if the target product ID changes
-    // If loggedInUsername could change during the component's life (less common if from cookie), add it here too
+    fetchAllProductsAndFilter();
   }, [productIdToBarterFor]);
   // --- End Fetch Effect ---
 
   // --- Handle Product Selection (Checkbox) ---
   const handleProductSelect = (productId: string) => {
-    // This toggles the selection: if already selected, deselect; otherwise, select this one
     setSelectedProductToOffer(
       productId === selectedProductToOffer ? null : productId
     );
@@ -126,11 +116,7 @@ const DakeshPage = () => {
 
   // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
-    // productIdToBarterFor is already available from useSearchParams
-    // const productIdToBarterFor = searchParams.get("productIdToBarterFor");
-
     if (!productIdToBarterFor) {
-      // Ensure the target product ID from URL is present
       setError("Target product ID for barter is missing from the URL.");
       return;
     }
@@ -152,8 +138,8 @@ const DakeshPage = () => {
     );
 
     try {
-      setLoading(true); // Set loading true at the start of the async operation
-      setError(null); // Clear previous errors
+      setLoading(true);
+      setError(null);
 
       const res = await axios.post(
         "http://localhost:5001/api/barter/initiate",
@@ -168,12 +154,26 @@ const DakeshPage = () => {
         }
       );
 
+      const res2 = await axios.delete(
+        `http://localhost:5001/api/products/${selectedProductToOffer}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       console.log("Dakesh Page: Barter Initiation Response:", res.data);
 
       if (res.data && res.data.otherUserEmail) {
         setOtherUserEmail(res.data.otherUserEmail);
         setBarterInitiated(true);
-        setSelectedProductToOffer(null); // Clear selection after successful initiation
+        setMyProducts((prevProducts) =>
+          prevProducts.filter(
+            (product) => product._id !== selectedProductToOffer
+          )
+        );
+        setSelectedProductToOffer(null);
       } else {
         setError("Backend did not return the other user's email.");
       }
@@ -205,6 +205,33 @@ const DakeshPage = () => {
         </p>
       )}
 
+      {barterInitiated && otherUserEmail && (
+        <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow-lg">
+          <h3 className="text-xl font-semibold mb-2">
+            Barter Request Initiated!
+          </h3>
+          <p className="mb-3">
+            The owner of the product you want has been notified.
+          </p>
+          <p>You can contact them directly:</p>
+          <p className="font-bold text-lg">Email: {otherUserEmail}</p>
+          <div className="mt-4 flex gap-3">
+            <button
+              onClick={() => setBarterInitiated(false)}
+              className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition"
+            >
+              Close
+            </button>
+            <button
+              onClick={handleGoHome}
+              className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-md transition"
+            >
+              Go to Homepage
+            </button>
+          </div>
+        </div>
+      )}
+
       {loading && <p className="text-white">Loading your products...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
@@ -214,7 +241,7 @@ const DakeshPage = () => {
         </p>
       )}
 
-      {!loading && !error && myProducts.length > 0 && (
+      {!loading && !error && myProducts.length > 0 && !barterInitiated && (
         <div className="mt-6">
           <h2 className="text-xl text-white font-semibold mb-3">
             Choose one of your products to offer
@@ -276,20 +303,6 @@ const DakeshPage = () => {
         >
           {loading ? "Initiating..." : "Initiate Barter"}
         </button>
-      )}
-
-      {barterInitiated && otherUserEmail && (
-        <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow-lg">
-          <h3 className="text-xl font-semibold mb-2">
-            Barter Request Initiated!
-          </h3>
-          <p className="mb-3">
-            The owner of the product you want has been notified.
-          </p>
-          <p>You can contact them directly:</p>
-          <p className="font-bold text-lg">Email: {otherUserEmail}</p>
-          <button onClick={() => setBarterInitiated(false)}>Close</button>
-        </div>
       )}
     </div>
   );

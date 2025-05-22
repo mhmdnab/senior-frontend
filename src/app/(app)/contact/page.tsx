@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import emailjs from "emailjs-com";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -14,12 +15,26 @@ const ContactForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real application, you would handle form submission here
-    console.log("Form submitted:", formData);
-    alert("Your message has been sent!");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+
+    emailjs
+      .send(
+        "service_p5vr1dt",
+        "template_dmb73fs",
+        formData,
+        "VNUKt7eT6-4RfIXAu"
+      )
+      .then(
+        () => {
+          alert("Your message has been sent!");
+          setFormData({ name: "", email: "", phone: "", message: "" });
+        },
+        (error) => {
+          console.error(error);
+          alert("Failed to send message.");
+        }
+      );
   };
 
   return (
@@ -63,24 +78,6 @@ const ContactForm = () => {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-gray-300 text-sm font-semibold mb-2"
-            >
-              Your Email
-            </label>
-            <input
-              type="gender"
-              id="gender"
-              name="gender"
               value={formData.email}
               onChange={handleChange}
               className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"

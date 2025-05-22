@@ -110,7 +110,7 @@ export default function AddProductPage() {
             className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
           />
           <input
-            type="text"
+            type="file"
             name="images"
             placeholder="Image URL"
             value={formData.images}

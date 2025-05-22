@@ -64,9 +64,43 @@ export default function ProfilePage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const token = Cookies.get("token");
+
+      const response = await axios.put(
+        "http://localhost:5001/api/users/update-password",
+        {
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Password updated successfully.");
+        setFormData((prev) => ({
+          ...prev,
+          password: "",
+          confirmPassword: "",
+        }));
+      }
+    } catch (err: any) {
+      console.error("Error updating password:", err);
+      alert(err.response?.data?.message || "Failed to update password.");
+    }
   };
 
   const handleLogout = () => {
@@ -79,7 +113,7 @@ export default function ProfilePage() {
   };
 
   const handleAddProduct = () => {
-    router.push("/add-product"); // <-- Adjust the route to where your add product page is
+    router.push("/add-product");
   };
 
   return (
