@@ -53,30 +53,31 @@ const CategoriesSection = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0 py-12">
           {categories.map((category) => (
             <Link href={category.link} key={category.name} className="block">
-              <div className="bg-white rounded-lg shadow-md hover:shadow-[#cb6ce6] overflow-hidden hover:shadow-2xl transition duration-300">
+              <div className="bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
                 <img
                   src={category.imageUrl}
                   alt={category.name}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                  <h3 className="text-lg font-semibold text-white mb-1">
                     {category.name}
                   </h3>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-400 text-sm">
                     {category.description}
                   </p>
                 </div>
               </div>
             </Link>
           ))}
-          {/* View More Button */}
         </div>
+
+        {/* View More Button */}
         <div className="mt-8">
           <Link href="/categories">
             <button
-              type="submit"
-              className="w-auto bg-[#cb6ce6] hover:bg-[#89499b] text-white py-2 px-4 rounded-md transition duration-300"
+              type="button"
+              className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300"
             >
               View More
             </button>

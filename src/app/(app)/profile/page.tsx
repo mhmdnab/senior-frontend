@@ -1,47 +1,54 @@
 "use client";
-import type React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { LogOut, Plus } from "lucide-react"; // <-- Added Plus icon
+import { LogOut, Plus } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
+
 type Product = {
   _id: string;
   title: string;
   description: string;
   images: string[];
-  owner: {
-    _id: string;
-    username: string;
-  };
+  owner: { _id: string; username: string };
   category: string;
 };
+
+// Pull from .env.local or fallback
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+
+/**
+ * If `path` is already absolute (http:// or https://) return it.
+ * Otherwise ensure it begins with "/" and prepend API_BASE.
+ */
+function getImageSrc(path: string): string {
+  if (!path) return "";
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE}${clean}`;
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
-
       try {
-        // Assuming you need to send auth token with your request
         const token = Cookies.get("token");
-
-        const response = await axios.get<Product[]>(
-          "http://localhost:5001/api/products/my-products",
-          {
-            headers: {
-              Authorization: token ? `Bearer ${token}` : "",
-            },
-          }
+        const res = await axios.get<Product[]>(
+          `${API_BASE}/api/products/my-products`,
+          { headers: { Authorization: token ? `Bearer ${token}` : "" } }
         );
-
-        setProducts(response.data);
+        setProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Failed to load products.");
@@ -49,66 +56,13 @@ export default function ProfilePage() {
         setLoading(false);
       }
     };
-
     fetchProducts();
-  }, []);
-  const [formData, setFormData] = useState({
-    email: "",
-    phoneNumber: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    try {
-      const token = Cookies.get("token");
-
-      const response = await axios.put(
-        "http://localhost:5001/api/users/update-password",
-        {
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-        },
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        alert("Password updated successfully.");
-        setFormData((prev) => ({
-          ...prev,
-          password: "",
-          confirmPassword: "",
-        }));
-      }
-    } catch (err: any) {
-      console.error("Error updating password:", err);
-      alert(err.response?.data?.message || "Failed to update password.");
-    }
-  };
+  }, []); // empty deps → no hook‐size warnings
 
   const handleLogout = () => {
-    // Remove the auth token cookie
     Cookies.remove("token");
     Cookies.remove("username");
     Cookies.remove("role");
-    console.log("Logged out.");
     router.push("/");
   };
 
@@ -121,17 +75,22 @@ export default function ProfilePage() {
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-6">
-          <h1 className="text-4xl font-bold tracking-wide">My Profile</h1>
+          <div>
+            <h1 className="text-5xl font-bold text-white mb-2">My Profile</h1>
+            <p className="text-gray-300 text-lg">
+              Manage your items and account settings.
+            </p>
+          </div>
           <div className="flex gap-4">
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 px-5 py-2 rounded-md transition"
+              className="flex items-center gap-2 border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white px-6 py-2 rounded-xl transition-shadow hover:shadow-md"
             >
               <LogOut className="h-5 w-5" />
               Log Out
             </button>
             <Link href="/admin/dashboard">
-              <button className="px-8 py-3 bg-[#cb6ce6] text-white rounded-lg text-lg font-semibold hover:bg-[#89499b] transition duration-300">
+              <button className="px-8 py-3 bg-[#cb6ce6] hover:bg-[#89499b] text-white rounded-xl text-lg font-semibold transition-shadow shadow-md">
                 Admin?
               </button>
             </Link>
@@ -140,119 +99,75 @@ export default function ProfilePage() {
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Form Section */}
-          <div className="lg:col-span-1 bg-gray-900 bg-opacity-30 rounded-lg p-6 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 placeholder-gray-400 focus:border-purple-400 focus:outline-none py-3 px-0"
-                  placeholder="you@example.com"
-                />
+          {/* Profile Info */}
+          <div className="lg:col-span-1 self-start h-[370px] bg-gradient-to-br from-[#1f1f1f] to-[#2c2c2c] rounded-2xl p-6 shadow-xl text-center">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="w-24 h-24 rounded-full bg-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-inner">
+                {Cookies.get("username")?.charAt(0).toUpperCase() || "U"}
               </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
-                  Change Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 placeholder-gray-400 focus:border-purple-400 focus:outline-none py-3 px-0"
-                  placeholder="New password"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
-                  Confirm Password
-                </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-600 text-gray-100 placeholder-gray-400 focus:border-purple-400 focus:outline-none py-3 px-0"
-                  placeholder="Confirm new password"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-purple-700 hover:bg-purple-600 text-white py-3 rounded-md font-semibold transition"
-              >
-                Save Changes
+              <h2 className="text-2xl font-bold text-white">
+                {Cookies.get("username") || "User"}
+              </h2>
+              <p className="text-gray-400 text-sm px-2">
+                Welcome back! Here’s your personal space. You can add, edit, and
+                manage your product listings easily.
+              </p>
+            </div>
+            <Link href="/profile/update-profile">
+              <button className="mt-4 px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-md text-sm transition shadow">
+                Edit Profile
               </button>
-            </form>
+            </Link>
           </div>
 
-          {/* Products Section */}
-          <div className="lg:col-span-2 bg-gray-900 bg-opacity-30 rounded-lg p-6 shadow-lg">
-            <div className="flex justify-between items-center mb-6">
+          {/* Your Products */}
+          <div className="lg:col-span-2 bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-2xl p-8 shadow-2xl">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl font-bold text-white">Your Products</h2>
               <button
                 onClick={handleAddProduct}
-                className="flex items-center gap-2 bg-purple-700 hover:bg-purple-600 text-white py-2 px-5 rounded-md font-semibold transition"
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white py-3 px-6 rounded-xl font-semibold text-sm transition-shadow shadow-md"
               >
-                <Plus className="h-6 w-6" />
+                <Plus className="h-5 w-5" />
                 Add Product
               </button>
             </div>
 
-            {loading && <p>Loading products...</p>}
+            {loading && <p className="text-gray-400">Loading products...</p>}
             {error && <p className="text-red-500">{error}</p>}
-
-            {products.length === 0 && !loading && (
+            {!loading && products.length === 0 && (
               <p className="text-gray-400">You don't have any products yet.</p>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {products.map((product) => (
                 <Link
                   key={product._id}
                   href={`/products/${product._id}`}
-                  className="bg-gray-800 p-3 rounded-md shadow hover:shadow-lg transition max-w-xs mx-auto block"
+                  className="bg-[#181818] hover:bg-[#232323] p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 transform hover:scale-[1.02] flex flex-col h-full"
                 >
-                  {product.images && product.images.length > 0 && (
-                    <div className="mb-3 w-full h-32 relative rounded-md overflow-hidden">
+                  {product.images?.length > 0 && (
+                    <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3">
                       <Image
-                        src={product.images[0]}
+                        src={getImageSrc(product.images[0])}
                         alt={product.title}
                         fill
-                        className="object-cover"
+                        style={{ objectFit: "cover" }}
+                        className="rounded"
                       />
                     </div>
                   )}
-                  <h3
-                    className="text-lg font-semibold mb-1 truncate"
-                    title={product.title}
-                  >
-                    {product.title}
-                  </h3>
-                  {product.description && (
-                    <p className="text-gray-400 text-sm line-clamp-3">
+                  <div className="flex flex-col flex-grow">
+                    <h3
+                      className="text-lg font-semibold text-white truncate mb-1"
+                      title={product.title}
+                    >
+                      {product.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm line-clamp-2 flex-grow">
                       {product.description}
                     </p>
-                  )}
+                  </div>
                 </Link>
               ))}
             </div>

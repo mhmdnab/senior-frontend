@@ -10,38 +10,44 @@ type Product = {
   _id: string;
   title: string;
   description: string;
-  images: string[];
+  images: string[]; // e.g. ["/uploads/abc.jpg"] or ["https://i.pinimg.com/..."]
   category: string;
-  owner: {
-    _id: string;
-    username: string;
-  };
+  owner: { _id: string; username: string };
   isAvailable: boolean;
   createdAt: string;
 };
 
-const ProductsPage = () => {
+// read once at module‐scope so it's truly constant
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+
+/**
+ * If `path` starts with "http://" or "https://", return it as-is.
+ * Otherwise treat it as a server-relative path and prepend API_BASE.
+ */
+function getImageSrc(path: string): string {
+  if (!path) return "/placeholder.svg";
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+  // ensure leading slash
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE}${clean}`;
+}
+
+export default function ProductsPage() {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    // empty deps → never changes size/order
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/products/", {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
+        const res = await axios.get(`${API_BASE}/api/products/`, {
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           withCredentials: true,
         });
         setUserProducts(res.data);
       } catch (err: any) {
         console.error("Error fetching products:", err);
-        if (err.response && err.response.status === 401) {
-          console.error(
-            "User is not authenticated (401). Redirecting to login."
-          );
-        } else {
-          console.error("Other API error:", err.message);
-        }
       }
     };
     fetchProducts();
@@ -56,6 +62,7 @@ const ProductsPage = () => {
         <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
           Check out the latest items that you might wanna barter with.
         </p>
+
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {userProducts.map((product) => (
             <Link
@@ -66,10 +73,11 @@ const ProductsPage = () => {
               <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
                 <div className="relative w-full h-48">
                   <Image
-                    src={product.images?.[0] || "/placeholder.svg"}
+                    src={getImageSrc(product.images?.[0] || "")}
                     alt={product.title}
                     fill
-                    className="object-cover"
+                    style={{ objectFit: "cover" }}
+                    className="rounded"
                   />
                 </div>
                 <div className="p-4">
@@ -87,6 +95,4 @@ const ProductsPage = () => {
       </div>
     </div>
   );
-};
-
-export default ProductsPage;
+}

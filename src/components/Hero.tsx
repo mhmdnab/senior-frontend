@@ -7,11 +7,11 @@ const Hero = () => {
       {/* Background Image (Optional) */}
       <div className="absolute inset-0">
         <Image
-          src={"/assets/herobg.jpeg"}
+          src={"/assets/herobg.png"}
           alt="Background"
           layout="fill"
           objectFit="cover"
-          className="opacity-50"
+          className="opacity-90"
         />
       </div>
 

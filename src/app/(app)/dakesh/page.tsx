@@ -25,6 +25,7 @@ interface Product {
 const getLoggedInUsername = () => Cookies.get("username");
 
 const DakeshPage = () => {
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -268,11 +269,11 @@ const DakeshPage = () => {
                     {product.images && product.images.length > 0 && (
                       <div className="relative w-full h-32 mb-2">
                         <Image
-                          src={product.images[0]}
+                          src={`${API_BASE}${product.images[0]}`}
                           alt={product.title}
-                          layout="fill"
-                          objectFit="cover"
-                          className="rounded"
+                          fill
+                          className="rounded object-cover"
+                          sizes="100%"
                         />
                       </div>
                     )}
