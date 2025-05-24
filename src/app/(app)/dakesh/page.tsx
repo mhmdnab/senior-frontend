@@ -1,28 +1,38 @@
-// frontend/app/dakesh/page.tsx
-"use client"; // This is a Client Component
-
+"use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation"; // For navigation and query params
-import axios from "axios"; // For making API calls
-import Cookies from "js-cookie"; // For accessing cookies (like the username and token)
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 
-interface Product {
+// Product/User Types
+type Product = {
   _id: string;
   title: string;
   description: string;
-  images: string[];
+  images?: string[];
   category: string;
   owner: {
-    // Crucially, includes owner with username for frontend filtering
     _id: string;
     username: string;
   };
   isAvailable: boolean;
   createdAt: string;
-}
+};
+type User = {
+  _id: string;
+  username: string;
+  email: string;
+};
 
 const getLoggedInUsername = () => Cookies.get("username");
+
+// Safe image URL builder
+const getImageUrl = (img?: string) => {
+  if (!img) return "/placeholder.svg";
+  if (img.startsWith("http")) return img;
+  return `${process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001"}${img}`;
+};
 
 const DakeshPage = () => {
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
@@ -41,9 +51,11 @@ const DakeshPage = () => {
 
   const [barterInitiated, setBarterInitiated] = useState(false);
   const [otherUserEmail, setOtherUserEmail] = useState<string | null>(null);
+
   const handleGoHome = () => {
     router.push("/");
   };
+
   useEffect(() => {
     if (!productIdToBarterFor) {
       setError("No target product specified for barter.");
@@ -54,24 +66,17 @@ const DakeshPage = () => {
     const loggedInUsername = getLoggedInUsername();
 
     if (!loggedInUsername) {
-      console.warn(
-        "User not logged in or username cookie not found for Dakesh page."
-      );
       setError("Please log in to initiate a barter.");
       setLoading(false);
       return;
     }
-    console.log(
-      "Dakesh Page: Logged-in username from cookie:",
-      loggedInUsername
-    ); // Debug log
 
     const fetchAllProductsAndFilter = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const res = await axios.get("http://localhost:5001/api/products/", {
+        const res = await axios.get(`${API_BASE}/api/products/`, {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
@@ -79,23 +84,12 @@ const DakeshPage = () => {
         });
         const allProducts: Product[] = res.data;
 
-        console.log("Dakesh Page: Fetched total products:", allProducts.length);
         const userProducts = allProducts.filter(
           (product) =>
             product.owner && product.owner.username === loggedInUsername
         );
-
-        console.log(
-          "Dakesh Page: Filtered products for user:",
-          userProducts.length
-        ); // Debug log
-
         setMyProducts(userProducts);
       } catch (err: any) {
-        console.error(
-          "Dakesh Page: Error fetching all products for filtering:",
-          err.response?.data || err
-        );
         setError("Failed to load your products to offer.");
         setMyProducts([]);
       } finally {
@@ -104,49 +98,40 @@ const DakeshPage = () => {
     };
 
     fetchAllProductsAndFilter();
+    // eslint-disable-next-line
   }, [productIdToBarterFor]);
-  // --- End Fetch Effect ---
 
-  // --- Handle Product Selection (Checkbox) ---
+  // Handle selection
   const handleProductSelect = (productId: string) => {
     setSelectedProductToOffer(
       productId === selectedProductToOffer ? null : productId
     );
   };
-  // --- End Handle Product Selection ---
 
-  // --- Handle Initiate Barter Button Click ---
   const handleInitiateBarter = async () => {
     if (!productIdToBarterFor) {
       setError("Target product ID for barter is missing from the URL.");
       return;
     }
-
     if (!selectedProductToOffer) {
       setError("Please select one of your products to offer for barter.");
       return;
     }
-
     const token = Cookies.get("token");
-
     if (!token) {
       setError("Authentication token missing. Please log in again.");
       return;
     }
-    console.log(
-      "Dakesh Page: Initiating barter with token:",
-      token ? "Token Found" : "No Token"
-    );
-
     try {
       setLoading(true);
       setError(null);
 
+      // Only initiate barter
       const res = await axios.post(
-        "http://localhost:5001/api/barter/initiate",
+        `${API_BASE}/api/barter/initiate`,
         {
-          productIdToBarterFor: productIdToBarterFor, // The product the user WANTS
-          productOfferedId: selectedProductToOffer, // The product the user IS OFFERING
+          productIdToBarterFor,
+          productOfferedId: selectedProductToOffer,
         },
         {
           headers: {
@@ -155,34 +140,14 @@ const DakeshPage = () => {
         }
       );
 
-      const res2 = await axios.delete(
-        `http://localhost:5001/api/products/${selectedProductToOffer}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Dakesh Page: Barter Initiation Response:", res.data);
-
       if (res.data && res.data.otherUserEmail) {
         setOtherUserEmail(res.data.otherUserEmail);
         setBarterInitiated(true);
-        setMyProducts((prevProducts) =>
-          prevProducts.filter(
-            (product) => product._id !== selectedProductToOffer
-          )
-        );
         setSelectedProductToOffer(null);
       } else {
         setError("Backend did not return the other user's email.");
       }
     } catch (err: any) {
-      console.error(
-        "Dakesh Page: Error initiating barter:",
-        err.response?.data || err
-      );
       setError(
         err.response?.data?.message || "Failed to initiate barter request."
       );
@@ -190,18 +155,13 @@ const DakeshPage = () => {
       setLoading(false);
     }
   };
-  // --- End Handle Initiate Barter ---
 
-  // --- End Handle Initiate Barter ---
-
-  // --- Render Logic ---
   return (
     <div className="p-6 w-full mx-auto bg-gradient-to-tr from-[#522c5d] to-[#232323]">
       <h1 className="text-2xl font-bold mb-4 text-white">Initiate Barter</h1>
-
       {productIdToBarterFor && (
         <p className="mb-4 text-white">
-          You are offering a product to barter for the product:{"  "}
+          You are offering a product to barter for the product:{" "}
           <span className="font-semibold">{productIdToBarterFor}</span>
         </p>
       )}
@@ -266,17 +226,14 @@ const DakeshPage = () => {
                     className="mr-2"
                   />
                   <div>
-                    {product.images && product.images.length > 0 && (
-                      <div className="relative w-full h-32 mb-2">
-                        <Image
-                          src={`${API_BASE}${product.images[0]}`}
-                          alt={product.title}
-                          fill
-                          className="rounded object-cover"
-                          sizes="100%"
-                        />
-                      </div>
-                    )}
+                    <div className="relative w-full h-32 mb-2">
+                      <img
+                        src={getImageUrl(product.images?.[0])}
+                        alt={product.title}
+                        className="rounded object-cover w-full h-full"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
                     <h3 className="text-lg font-semibold">{product.title}</h3>
                     <p className="text-sm text-gray-600">
                       {product.description}
