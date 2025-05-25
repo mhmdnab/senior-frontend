@@ -17,11 +17,11 @@ type Product = {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
 
-const getImageUrl = (imagePath?: string) => {
+function getImageUrl(imagePath?: string) {
   if (!imagePath) return "/placeholder.svg";
   if (imagePath.startsWith("http")) return imagePath;
   return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
-};
+}
 
 export default async function CategoryPage({
   params,
