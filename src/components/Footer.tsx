@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo (Left on Desktop) */}
           <div className="mb-4 md:mb-0">
-            <Link legacyBehavior href="/">
+            <Link href="/">
               <Image
                 src="/assets/logo.png"
                 width={60}

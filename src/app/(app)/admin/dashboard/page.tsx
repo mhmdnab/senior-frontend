@@ -3,16 +3,16 @@ import { User, Box, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
   const router = useRouter();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    // Remove the auth token cookie
-    Cookies.remove("token");
+    logout(); // Removes token and updates header instantly!
     Cookies.remove("username");
     Cookies.remove("role");
-    console.log("Logged out.");
     router.push("/");
   };
   return (
