@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import AboutSection from "../components/About";
 import CategoriesSection from "../components/CategoriesSection";
 import Hero from "../components/Hero";

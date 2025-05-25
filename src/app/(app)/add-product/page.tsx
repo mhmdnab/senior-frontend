@@ -12,7 +12,6 @@ type DecodedToken = {
 };
 
 export default function AddProductPage() {
-  const API_BASE = "http://localhost:5001";
   const router = useRouter();
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);

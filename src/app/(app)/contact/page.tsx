@@ -38,9 +38,9 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-tr from-[#522c5d] to-[#232323] py-16 px-6 shadow-2xl flex flex-col items-center">
-      <div className="max-w-md w-full">
-        <h2 className="text-3xl font-bold text-[#cb6ce6] mb-6 text-center">
+    <div className="bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen flex items-center justify-center py-16 px-4">
+      <div className="w-full max-w-lg bg-[#3c2343]/80 rounded-2xl shadow-2xl px-8 py-10 backdrop-blur-md border border-[#7c7c7c]/30">
+        <h2 className="text-3xl font-bold text-[#cb6ce6] mb-3 text-center drop-shadow-sm">
           Let's Connect
         </h2>
         <p className="text-[#89499b] mb-8 text-center">
@@ -61,7 +61,7 @@ const ContactForm = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
+              className="shadow-sm appearance-none border border-[#cb6ce6]/40 rounded-lg w-full py-3 px-4 text-[#cb6ce6] bg-white/10 focus:bg-white/20 placeholder:text-[#b891c6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 transition"
               placeholder="Enter your name"
               required
             />
@@ -80,28 +80,12 @@ const ContactForm = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
+              className="shadow-sm appearance-none border border-[#cb6ce6]/40 rounded-lg w-full py-3 px-4 text-[#cb6ce6] bg-white/10 focus:bg-white/20 placeholder:text-[#b891c6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 transition"
               placeholder="Enter your email"
               required
             />
           </div>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-gray-300 text-sm font-semibold mb-2"
-            >
-              Phone Number (Optional)
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
-              placeholder="Your phone number"
-            />
-          </div>
+
           <div>
             <label
               htmlFor="message"
@@ -114,14 +98,16 @@ const ContactForm = () => {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="shadow-sm appearance-none border rounded w-full py-3 px-4 text-[#cb6ce6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 bg-[#7c7c7c]"
+              rows={5}
+              className="shadow-sm appearance-none border border-[#cb6ce6]/40 rounded-lg w-full py-3 px-4 text-[#cb6ce6] bg-white/10 focus:bg-white/20 placeholder:text-[#b891c6] leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 resize-none transition"
               placeholder="Write your message here..."
               required
             ></textarea>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition active:scale-[0.98]"
           >
             Send Message
           </button>

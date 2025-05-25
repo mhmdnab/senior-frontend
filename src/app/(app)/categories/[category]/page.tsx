@@ -16,10 +16,20 @@ type Product = {
   category: string;
 };
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+
+const getImageUrl = (imagePath?: string) => {
+  if (!imagePath) return "/placeholder.svg";
+  // If already an absolute URL
+  if (imagePath.startsWith("http")) return imagePath;
+  // Remove leading slashes to avoid //
+  return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
+};
+
 const CategoryPage = async ({ params }: { params: { category: string } }) => {
-  params;
+  // Fetch products from your backend
   const res = await axios.get(
-    `http://localhost:5001/api/products?category=${params.category}`
+    `${API_BASE}/api/products?category=${params.category}`
   );
   const products: Product[] = res.data;
 
@@ -29,7 +39,7 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
         {params.category} Products
       </h1>
       {products.length === 0 ? (
-        <p>No products found in this category.</p>
+        <p className="text-white">No products found in this category.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
@@ -41,10 +51,11 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="relative h-48 w-full">
                   <Image
-                    src={product.images?.[0] || "/placeholder.svg"}
+                    src={getImageUrl(product.images?.[0])}
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}
+                    sizes="(max-width: 768px) 100vw, 25vw"
                   />
                 </div>
                 <div className="p-4">
