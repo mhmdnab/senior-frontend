@@ -28,10 +28,9 @@ export default async function CategoryPage({
 }: {
   params: { category: string };
 }) {
-  // Use fetch for server-side data fetching
   const res = await fetch(
     `${API_BASE}/api/products?category=${params.category}`,
-    { cache: "no-store" } // Optional: to always fetch latest
+    { cache: "no-store" }
   );
   const products: Product[] = await res.json();
 
