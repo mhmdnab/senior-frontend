@@ -1,11 +1,7 @@
 // app/admin/layout.tsx (or pages/admin/_layout.tsx if using pages)
 import Link from "next/link";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen">
       <aside className="w-64 bg-gray-900 text-white p-4">
@@ -20,3 +16,5 @@ export default function AdminLayout({
     </div>
   );
 }
+
+export { AdminLayout };
