@@ -1,6 +1,5 @@
-// app/categories/[category]/page.tsx
-import React from "react";
-import axios from "axios";
+// src/app/(app)/categories/[category]/page.tsx
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,18 +19,21 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
 
 const getImageUrl = (imagePath?: string) => {
   if (!imagePath) return "/placeholder.svg";
-  // If already an absolute URL
   if (imagePath.startsWith("http")) return imagePath;
-  // Remove leading slashes to avoid //
   return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
 };
 
-const CategoryPage = async ({ params }: { params: { category: string } }) => {
-  // Fetch products from your backend
-  const res = await axios.get(
-    `${API_BASE}/api/products?category=${params.category}`
+export default async function CategoryPage({
+  params,
+}: {
+  params: { category: string };
+}) {
+  // Use fetch for server-side data fetching
+  const res = await fetch(
+    `${API_BASE}/api/products?category=${params.category}`,
+    { cache: "no-store" } // Optional: to always fetch latest
   );
-  const products: Product[] = res.data;
+  const products: Product[] = await res.json();
 
   return (
     <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
@@ -71,6 +73,4 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
       )}
     </div>
   );
-};
-
-export default CategoryPage;
+}
