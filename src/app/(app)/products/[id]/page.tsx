@@ -17,13 +17,8 @@ type Product = {
   createdAt: string;
 };
 
-// Read once - truly constant for hooks
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
 
-/**
- * Prepends API_BASE to any path that isn't already an absolute URL.
- * Leaves full URLs (http:// or https://) untouched.
- */
 function getImageSrc(path: string): string {
   if (!path) return "";
   if (/^https?:\/\//.test(path)) {
@@ -58,7 +53,7 @@ export default function ProductPage() {
       }
     };
     fetchProduct();
-  }, [productId]); // only depends on productId
+  }, [productId]);
 
   const handleDakesh = () => {
     if (product) {
