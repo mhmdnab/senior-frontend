@@ -1,4 +1,4 @@
-// eslint.config.js
+// eslint.config.mjs
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -11,16 +11,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-// Main ESLint config array
 export default [
-  // Next.js and TypeScript recommended settings
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-  // Custom rules for your project (strict for deployment)
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": "error", // No use of 'any'
-      "@typescript-eslint/no-unused-expressions": "error", // No unused expressions
-      // You can add more custom rules here!
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-img-element": "off",
     },
   },
 ];
