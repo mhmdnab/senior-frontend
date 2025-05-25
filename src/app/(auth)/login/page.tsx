@@ -1,11 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cookies from "js-cookie";
+import { useAuth } from "@/contexts/AuthContext"; // <-- import the context hook
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,12 +20,8 @@ export default function Login() {
         password,
       });
 
-      Cookies.set("token", res.data.token, {
-        expires: 1, // expires in 1 day
-        path: "/", // make it accessible across the app
-      });
+      login(res.data.token);
 
-      // Save username if exists
       if (res.data.user?.username) {
         Cookies.set("username", res.data.user.username, {
           expires: 1,
@@ -36,7 +34,6 @@ export default function Login() {
         });
       }
 
-      // Save role if exists
       if (res.data.user?.role) {
         Cookies.set("role", res.data.user.role, {
           expires: 1,
@@ -44,6 +41,7 @@ export default function Login() {
         });
       }
 
+      // Redirect to callback or home
       const urlParams = new URLSearchParams(window.location.search);
       const callbackUrl = urlParams.get("callbackUrl") || "/";
       router.push(callbackUrl);
@@ -53,12 +51,10 @@ export default function Login() {
     }
   };
 
-  // end
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">

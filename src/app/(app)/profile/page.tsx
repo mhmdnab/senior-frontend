@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { LogOut, Plus } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Product = {
   _id: string;
@@ -19,10 +20,6 @@ type Product = {
 // Pull from .env.local or fallback
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
 
-/**
- * If `path` is already absolute (http:// or https://) return it.
- * Otherwise ensure it begins with "/" and prepend API_BASE.
- */
 function getImageSrc(path: string): string {
   if (!path) return "";
   if (/^https?:\/\//.test(path)) {
@@ -34,9 +31,16 @@ function getImageSrc(path: string): string {
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { logout } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRole(Cookies.get("role") || null);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,10 +61,10 @@ export default function ProfilePage() {
       }
     };
     fetchProducts();
-  }, []); // empty deps → no hook‐size warnings
+  }, []);
 
   const handleLogout = () => {
-    Cookies.remove("token");
+    logout(); // <-- This removes the token and updates React state!
     Cookies.remove("username");
     Cookies.remove("role");
     router.push("/");
@@ -89,11 +93,14 @@ export default function ProfilePage() {
               <LogOut className="h-5 w-5" />
               Log Out
             </button>
-            <Link href="/admin/dashboard">
-              <button className="px-8 py-3 bg-[#cb6ce6] hover:bg-[#89499b] text-white rounded-xl text-lg font-semibold transition-shadow shadow-md">
-                Admin?
-              </button>
-            </Link>
+            {/* Only show if admin */}
+            {role === "admin" && (
+              <Link href="/admin/dashboard">
+                <button className="px-8 py-3 bg-[#cb6ce6] hover:bg-[#89499b] text-white rounded-xl text-lg font-semibold transition-shadow shadow-md">
+                  Admin?
+                </button>
+              </Link>
+            )}
           </div>
         </div>
 

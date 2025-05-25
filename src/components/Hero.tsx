@@ -9,10 +9,10 @@ const Hero = () => {
         <Image
           src={"/assets/herobg.png"}
           alt="Background"
-          fill // replaces layout="fill"
-          style={{ objectFit: "cover" }} // replaces objectFit="cover"
-          priority
+          fill
+          style={{ objectFit: "cover" }}
           className="opacity-90"
+          priority
         />
       </div>
 

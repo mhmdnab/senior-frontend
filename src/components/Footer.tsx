@@ -12,11 +12,12 @@ const Footer = () => {
           <div className="mb-4 md:mb-0">
             <Link legacyBehavior href="/">
               <Image
-                src={"/assets/logo.png"}
-                alt="Your Logo"
+                src="/assets/logo.png"
                 width={60}
                 height={20}
+                style={{ width: "100%", height: "auto" }}
                 className="object-contain"
+                alt="Logo"
               />
             </Link>
           </div>

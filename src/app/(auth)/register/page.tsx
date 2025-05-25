@@ -2,9 +2,11 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext"; // <-- import the hook
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -30,12 +32,28 @@ export default function RegisterPage() {
         formData
       );
 
-      router.push("/");
-
+      // Optionally show a message or not
       setMessage("Registration successful!");
-      console.log(res.data);
+
+      // Now, login the user right away (since backend does not return token)
+      const loginRes = await axios.post(
+        "http://localhost:5001/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      // Now call context's login with the received token
+      login(loginRes.data.token);
+
+      router.push("/"); // or wherever
     } catch (error: any) {
-      setMessage(error.response?.data?.error || "Registration failed");
+      setMessage(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          "Registration failed"
+      );
       console.error(error);
     }
   };
