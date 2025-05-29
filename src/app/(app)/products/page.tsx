@@ -57,7 +57,7 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-12 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
-          Our Products
+          Products
         </h1>
         <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
           Check out the latest items that you might wanna barter with.
