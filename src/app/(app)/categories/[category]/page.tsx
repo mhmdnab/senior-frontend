@@ -23,11 +23,10 @@ function getImageUrl(imagePath?: string) {
   return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { category: string };
-}) {
+export default async function CategoryPage(
+  props: Promise<{ params: { category: string } }>
+) {
+  const { params } = await props;
   const res = await fetch(
     `${API_BASE}/api/products?category=${params.category}`,
     { cache: "no-store" }
