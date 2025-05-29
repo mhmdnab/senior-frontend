@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { JSX, use } from "react";
 
 type Product = {
   _id: string;
@@ -23,15 +24,16 @@ function getImageUrl(imagePath?: string) {
   return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
 }
 
-export default async function CategoryPage(
-  props: Promise<{ params: { category: string } }>
-) {
-  const { params } = await props;
-  const res = await fetch(
-    `${API_BASE}/api/products?category=${params.category}`,
-    { cache: "no-store" }
+export default async function CategoryPage({
+  params,
+}: {
+  params: { category: string };
+}): Promise<JSX.Element> {
+  const products: Product[] = use(
+    fetch(`${API_BASE}/api/products?category=${params.category}`, {
+      cache: "no-store",
+    }).then((r) => r.json())
   );
-  const products: Product[] = await res.json();
 
   return (
     <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
