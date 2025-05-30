@@ -8,28 +8,28 @@ const CategoriesSection = () => {
       name: "Electronics",
       description: "Explore the latest gadgets and electronic devices.",
       imageUrl:
-        "https://i.pinimg.com/736x/44/d2/ad/44d2add5a8454d1eb4d7fed3015abcd8.jpg", // Placeholder image URL
+        "https://i.pinimg.com/736x/44/d2/ad/44d2add5a8454d1eb4d7fed3015abcd8.jpg",
       link: "/categories/electronics",
     },
     {
       name: "Clothing",
       description: "Discover stylish clothing for every occasion.",
       imageUrl:
-        "https://i.pinimg.com/736x/3d/4d/33/3d4d33650996dc8ff6e0503093627bf0.jpg", // Placeholder image URL
+        "https://i.pinimg.com/736x/3d/4d/33/3d4d33650996dc8ff6e0503093627bf0.jpg",
       link: "/categories/clothing",
     },
     {
       name: "Home & Kitchen",
       description: "Find everything you need for your home and kitchen.",
       imageUrl:
-        "https://i.pinimg.com/736x/56/f7/15/56f715fb5e0233a4985911be387bb89b.jpg", // Placeholder image URL
+        "https://i.pinimg.com/736x/56/f7/15/56f715fb5e0233a4985911be387bb89b.jpg",
       link: "/categories/home-kitchen",
     },
     {
       name: "Books",
       description: "Dive into a world of stories and knowledge.",
       imageUrl:
-        "https://i.pinimg.com/736x/47/f6/1b/47f61b4b21f5e3b6fd6d06262100cf78.jpg", // Placeholder image URL
+        "https://i.pinimg.com/736x/47/f6/1b/47f61b4b21f5e3b6fd6d06262100cf78.jpg",
       link: "/categories/books",
     },
     // Add more categories as needed
@@ -50,7 +50,7 @@ const CategoriesSection = () => {
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0 py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 py-12">
           {categories.map((category) => (
             <Link href={category.link} key={category.name} className="block">
               <div className="bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">

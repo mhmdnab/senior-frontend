@@ -26,7 +26,7 @@ const ProductGrid = () => {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         });
-        setUserProducts(res.data); // Set the fetched products to state
+        setUserProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
       }
@@ -44,7 +44,7 @@ const ProductGrid = () => {
         </h2>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8">
           {userProducts.slice(0, 4).map((product) => {
             const key = `product-${product._id}`;
             const productLink = `/products/${product._id}`;
