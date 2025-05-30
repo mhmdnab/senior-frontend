@@ -24,15 +24,19 @@ function getImageUrl(imagePath?: string) {
   return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
 }
 
-export default async function CategoryPage({
-  params,
-}: {
+interface PageProps {
   params: { category: string };
-}): Promise<JSX.Element> {
+}
+
+export default function CategoryPage({ params }: PageProps): JSX.Element {
+  // `use` will suspend until the promise resolves, then return your data
   const products: Product[] = use(
-    fetch(`${API_BASE}/api/products?category=${params.category}`, {
-      cache: "no-store",
-    }).then((r) => r.json())
+    fetch(
+      `${API_BASE}/api/products?category=${encodeURIComponent(
+        params.category
+      )}`,
+      { cache: "no-store" }
+    ).then((res) => res.json())
   );
 
   return (
@@ -40,6 +44,7 @@ export default async function CategoryPage({
       <h1 className="text-2xl font-bold capitalize mb-6 text-white">
         {params.category} Products
       </h1>
+
       {products.length === 0 ? (
         <p className="text-white">No products found in this category.</p>
       ) : (
@@ -63,7 +68,7 @@ export default async function CategoryPage({
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{product.title}</h2>
                   <p className="text-sm text-gray-500">
-                    By {product.owner?.username || "Unknown"}
+                    By {product.owner.username}
                   </p>
                 </div>
               </div>

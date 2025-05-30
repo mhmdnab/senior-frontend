@@ -95,7 +95,7 @@ export default function ProfilePage() {
             </button>
             {/* Only show if admin */}
             {role === "admin" && (
-              <Link href="/admin/dashboard">
+              <Link href="/admin">
                 <button className="px-8 py-3 bg-[#cb6ce6] hover:bg-[#89499b] text-white rounded-xl text-lg font-semibold transition-shadow shadow-md">
                   Admin Panel
                 </button>
