@@ -25,7 +25,6 @@ const ProductGrid = () => {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
-          withCredentials: true,
         });
         setUserProducts(res.data); // Set the fetched products to state
       } catch (err) {

@@ -82,7 +82,6 @@ const DakeshPage = () => {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
-          withCredentials: true,
         });
         const allProducts: Product[] = res.data;
 

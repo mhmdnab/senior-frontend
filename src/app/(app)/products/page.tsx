@@ -38,7 +38,6 @@ export default function ProductsPage() {
       try {
         const res = await axios.get(`${API_BASE}/api/products/`, {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-          withCredentials: true,
         });
         setUserProducts(res.data);
       } catch (err: any) {

@@ -87,7 +87,6 @@ export default function AddProductPage() {
           Authorization: `Bearer ${Cookies.get("token")}`,
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true,
       });
 
       alert("Product added successfully!");

@@ -4,7 +4,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["i.pinimg.com", "www.pinterest.com", "example.com", "localhost"],
+    domains: [
+      "i.pinimg.com",
+      "www.pinterest.com",
+      "example.com",
+      "localhost",
+      "dakesh-backend.onrender.com",
+    ],
     remotePatterns: [
       {
         protocol: "http",
