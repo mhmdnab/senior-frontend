@@ -3,37 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-type Product = {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  owner: {
-    _id: string;
-    username: string;
-  };
-  category: string;
-};
-
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
 
-function getImageUrl(imagePath?: string) {
-  if (!imagePath) return "/placeholder.svg";
-  if (imagePath.startsWith("http")) return imagePath;
-  return `${API_BASE}/${imagePath.replace(/^\/+/, "")}`;
-}
-
-interface PageProps {
-  params: { category: string };
-}
-
-export default async function Page({ params }: PageProps) {
-  // fetch your products
+export default async function Page({ params }: any) {
+  // fetch your products server‐side
   const res = await fetch(
     `${API_BASE}/api/products?category=${encodeURIComponent(params.category)}`,
     { cache: "no-store" }
   );
-  const products: Product[] = await res.json();
+  const products = await res.json();
 
   return (
     <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
@@ -45,7 +23,7 @@ export default async function Page({ params }: PageProps) {
         <p className="text-white">No products found in this category.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.map((product: any) => (
             <Link
               key={product._id}
               href={`/products/${product._id}`}
@@ -54,7 +32,14 @@ export default async function Page({ params }: PageProps) {
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="relative h-48 w-full">
                   <Image
-                    src={getImageUrl(product.images?.[0])}
+                    src={
+                      product.images?.[0]?.startsWith("http")
+                        ? product.images[0]
+                        : `${API_BASE}/${product.images[0]?.replace(
+                            /^\/+/,
+                            ""
+                          )}`
+                    }
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}
@@ -64,7 +49,7 @@ export default async function Page({ params }: PageProps) {
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{product.title}</h2>
                   <p className="text-sm text-gray-500">
-                    By {product.owner.username}
+                    By {product.owner?.username || "Unknown"}
                   </p>
                 </div>
               </div>
