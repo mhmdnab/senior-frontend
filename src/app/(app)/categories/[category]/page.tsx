@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { JSX, use } from "react";
 
 type Product = {
   _id: string;
@@ -28,16 +27,13 @@ interface PageProps {
   params: { category: string };
 }
 
-export default function CategoryPage({ params }: PageProps): JSX.Element {
-  // `use` will suspend until the promise resolves, then return your data
-  const products: Product[] = use(
-    fetch(
-      `${API_BASE}/api/products?category=${encodeURIComponent(
-        params.category
-      )}`,
-      { cache: "no-store" }
-    ).then((res) => res.json())
+export default async function Page({ params }: PageProps) {
+  // fetch your products
+  const res = await fetch(
+    `${API_BASE}/api/products?category=${encodeURIComponent(params.category)}`,
+    { cache: "no-store" }
   );
+  const products: Product[] = await res.json();
 
   return (
     <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
