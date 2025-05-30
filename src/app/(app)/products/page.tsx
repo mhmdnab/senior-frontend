@@ -36,9 +36,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/products/`, {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-        });
+        const res = await axios.get(`${API_BASE}/api/products/`);
         setUserProducts(res.data);
       } catch (err: any) {
         console.error("Error fetching products:", err);
