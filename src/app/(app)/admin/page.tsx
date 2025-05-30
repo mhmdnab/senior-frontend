@@ -122,72 +122,60 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6">
         {/* Stats row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 w-full max-w-4xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12 w-full max-w-4xl">
           <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
             <Users className="w-8 h-8 text-purple-400 mb-2" />
             <span className="text-2xl font-bold text-white">{stats.users}</span>
-            <span className="text-gray-400">Total Users</span>
+            <span className="text-gray-400 text-sm text-center">
+              Total Users
+            </span>
           </div>
           <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
             <Box className="w-8 h-8 text-purple-400 mb-2" />
             <span className="text-2xl font-bold text-white">
               {stats.products}
             </span>
-            <span className="text-gray-400">Products</span>
+            <span className="text-gray-400 text-sm text-center">Products</span>
           </div>
           <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
             <Activity className="w-8 h-8 text-purple-400 mb-2" />
             <span className="text-2xl font-bold text-white">
               {stats.barters}
             </span>
-            <span className="text-gray-400">Active Barters</span>
+            <span className="text-gray-400 text-sm text-center">
+              Active Barters
+            </span>
           </div>
         </div>
 
-        {/* Actions row
-        <div className="flex flex-wrap justify-center gap-8 w-full max-w-2xl">
-          <Link href="/admin/users">
-            <span className="flex flex-col items-center bg-[#cb6ce6] hover:bg-purple-700 transition rounded-2xl px-8 py-6 text-white font-semibold text-base shadow-xl transform hover:scale-105 cursor-pointer">
-              <Users className="w-8 h-8 mb-2" />
-              Manage Users
-            </span>
-          </Link>
-          <Link href="/admin/products">
-            <span className="flex flex-col items-center bg-[#cb6ce6] hover:bg-purple-700 transition rounded-2xl px-8 py-6 text-white font-semibold text-base shadow-xl transform hover:scale-105 cursor-pointer">
-              <Box className="w-8 h-8 mb-2" />
-              Manage Products
-            </span>
-          </Link>
-        </div> */}
-
         {/* Barters Table */}
-        <section className="w-full max-w-5xl mt-10">
-          <h2 className="text-2xl font-bold text-purple-300 mb-4">
+        <section className="w-full max-w-5xl">
+          <h2 className="text-2xl font-bold text-purple-300 mb-4 text-center sm:text-left">
             Recent Barters
           </h2>
           <div className="overflow-x-auto rounded-xl shadow-lg">
-            <table className="min-w-full bg-[#29162e]/80 text-gray-100 rounded-xl text-base">
+            <table className="min-w-full bg-[#29162e]/80 text-gray-100 rounded-xl text-sm sm:text-base">
               <thead>
                 <tr>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="px-3 py-2 text-left font-semibold text-sm sm:text-base text-purple-200">
                     Barter ID
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="px-3 py-2 text-left font-semibold text-sm sm:text-base text-purple-200">
                     Offered By
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="hidden sm:table-cell px-3 py-2 text-left font-semibold text-base text-purple-200">
                     Offered Product
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="hidden md:table-cell px-3 py-2 text-left font-semibold text-base text-purple-200">
                     Requested From
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="hidden lg:table-cell px-3 py-2 text-left font-semibold text-base text-purple-200">
                     Requested Product
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="px-3 py-2 text-left font-semibold text-sm sm:text-base text-purple-200">
                     Status
                   </th>
-                  <th className="px-3 py-2 text-left font-semibold text-sm text-purple-200">
+                  <th className="hidden sm:table-cell px-3 py-2 text-left font-semibold text-base text-purple-200">
                     Created At
                   </th>
                 </tr>
@@ -197,28 +185,33 @@ export default function Dashboard() {
                   <tr>
                     <td
                       colSpan={7}
-                      className="px-3 py-4 text-center text-gray-400 text-base"
+                      className="px-3 py-4 text-center text-gray-400"
                     >
                       No barters found.
                     </td>
                   </tr>
                 ) : (
                   barters.map((barter) => (
-                    <tr key={barter._id} className="border-t border-gray-700">
-                      <td className="px-3 py-2">{barter._id}</td>
-                      <td className="px-3 py-2">
+                    <tr
+                      key={barter._id}
+                      className="border-t border-gray-700 hover:bg-[#29162e]/60"
+                    >
+                      <td className="px-3 py-2 text-sm sm:text-base">
+                        {barter._id}
+                      </td>
+                      <td className="px-3 py-2 text-sm sm:text-base">
                         {barter.offeredBy?.username || "-"}
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="hidden sm:table-cell px-3 py-2">
                         {barter.productOfferedId?.title || "-"}
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="hidden md:table-cell px-3 py-2">
                         {barter.requestedFrom?.username || "-"}
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="hidden lg:table-cell px-3 py-2">
                         {barter.productRequestedId?.title || "-"}
                       </td>
-                      <td className="px-3 py-2">
+                      <td className="px-3 py-2 text-sm sm:text-base">
                         <span
                           className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                             barter.status === "pending"
@@ -231,8 +224,8 @@ export default function Dashboard() {
                           {barter.status}
                         </span>
                       </td>
-                      <td className="px-3 py-2">
-                        {new Date(barter.createdAt).toLocaleString()}
+                      <td className="hidden sm:table-cell px-3 py-2 text-sm sm:text-base">
+                        {new Date(barter.createdAt).toLocaleDateString()}
                       </td>
                     </tr>
                   ))
