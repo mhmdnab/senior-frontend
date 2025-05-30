@@ -12,13 +12,16 @@ interface Product {
   link: string;
 }
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 const ProductGrid = () => {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/products/", {
+        const res = await axios.get(`${API_BASE}/api/products/`, {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },

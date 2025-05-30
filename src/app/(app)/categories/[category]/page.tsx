@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
 
 export default async function Page({ params }: any) {
   // fetch your products server‐side

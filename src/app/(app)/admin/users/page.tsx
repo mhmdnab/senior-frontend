@@ -12,13 +12,16 @@ type User = {
   role: string;
 };
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]); // Specify the type of users
 
   const handleDelete = async (userId: string) => {
     try {
       const token = Cookies.get("token");
-      await axios.delete(`http://localhost:5001/api/admin/${userId}`, {
+      await axios.delete(`${API_BASE}/api/admin/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +37,7 @@ export default function Users() {
   useEffect(() => {
     const token = Cookies.get("token");
     axios
-      .get("http://localhost:5001/api/admin/users", {
+      .get(`${API_BASE}/api/admin/users`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the headers
         },

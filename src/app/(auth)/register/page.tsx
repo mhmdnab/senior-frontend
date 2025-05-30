@@ -4,6 +4,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext"; // <-- import the hook
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function RegisterPage() {
   const router = useRouter();
   const { login } = useAuth();
@@ -27,22 +30,16 @@ export default function RegisterPage() {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:5001/api/auth/register",
-        formData
-      );
+      const res = await axios.post(`${API_BASE}/api/auth/register`, formData);
 
       // Optionally show a message or not
       setMessage("Registration successful!");
 
       // Now, login the user right away (since backend does not return token)
-      const loginRes = await axios.post(
-        "http://localhost:5001/api/auth/login",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      const loginRes = await axios.post(`${API_BASE}/api/auth/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       // Now call context's login with the received token
       login(loginRes.data.token);

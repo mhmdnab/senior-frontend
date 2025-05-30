@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Image from "next/image";
 
 // Product/User Types
 type Product = {
@@ -31,11 +30,14 @@ const getLoggedInUsername = () => Cookies.get("username");
 const getImageUrl = (img?: string) => {
   if (!img) return "/placeholder.svg";
   if (img.startsWith("http")) return img;
-  return `${process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001"}${img}`;
+  return `${
+    process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com"
+  }${img}`;
 };
 
 const DakeshPage = () => {
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
   const router = useRouter();
   const searchParams = useSearchParams();
 

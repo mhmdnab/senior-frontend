@@ -5,6 +5,9 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { useAuth } from "@/contexts/AuthContext"; // <-- import the context hook
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function Login() {
   const router = useRouter();
   const { login } = useAuth();
@@ -15,7 +18,7 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5001/api/auth/login", {
+      const res = await axios.post(`${API_BASE}/api/auth/login`, {
         email,
         password,
       });

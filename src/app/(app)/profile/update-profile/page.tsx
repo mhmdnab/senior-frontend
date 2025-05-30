@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function UpdateProfilePage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -25,21 +28,18 @@ export default function UpdateProfilePage() {
     }
 
     try {
-      const res = await fetch(
-        "http://localhost:5001/api/users/update-profile",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`, // Assuming you use js-cookie
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            oldPassword: formData.oldPassword,
-            newPassword: formData.newPassword,
-          }),
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/users/update-profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`, // Assuming you use js-cookie
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          oldPassword: formData.oldPassword,
+          newPassword: formData.newPassword,
+        }),
+      });
 
       const data = await res.json();
 

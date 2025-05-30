@@ -17,13 +17,9 @@ type Product = {
   createdAt: string;
 };
 
-// read once at module‐scope so it's truly constant
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
 
-/**
- * If `path` starts with "http://" or "https://", return it as-is.
- * Otherwise treat it as a server-relative path and prepend API_BASE.
- */
 function getImageSrc(path: string): string {
   if (!path) return "/placeholder.svg";
   if (/^https?:\/\//.test(path)) {
@@ -38,7 +34,6 @@ export default function ProductsPage() {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // empty deps → never changes size/order
     const fetchProducts = async () => {
       try {
         const res = await axios.get(`${API_BASE}/api/products/`, {

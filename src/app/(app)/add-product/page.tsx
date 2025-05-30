@@ -11,6 +11,9 @@ type DecodedToken = {
   exp: number;
 };
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function AddProductPage() {
   const router = useRouter();
   const [ownerId, setOwnerId] = useState<string | null>(null);
@@ -79,7 +82,7 @@ export default function AddProductPage() {
     formDataToSend.append("image", file);
 
     try {
-      await axios.post("http://localhost:5001/api/products", formDataToSend, {
+      await axios.post(`${API_BASE}/api/products`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
           "Content-Type": "multipart/form-data",

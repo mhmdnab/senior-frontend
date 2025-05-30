@@ -19,6 +19,9 @@ interface Product {
   createdAt: string; // Added
 }
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 const MyProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +47,7 @@ const MyProductsPage = () => {
 
         // --- Fetch ALL products ---
         const res = await axios.get(
-          "http://localhost:5001/api/products" // <-- Call the GET ALL endpoint
+          `${API_BASE}/api/products` // <-- Call the GET ALL endpoint
           // No Authorization header needed here if the endpoint is public
         );
 

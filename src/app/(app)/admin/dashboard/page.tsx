@@ -16,6 +16,9 @@ type Barter = {
   createdAt: string;
 };
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+
 export default function Dashboard() {
   const router = useRouter();
   const { logout } = useAuth();
@@ -35,7 +38,7 @@ export default function Dashboard() {
     async function fetchStats() {
       try {
         const token = Cookies.get("token");
-        const res = await fetch("http://localhost:5001/api/admin/stats", {
+        const res = await fetch(`${API_BASE}/api/admin/stats`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -56,7 +59,7 @@ export default function Dashboard() {
     async function fetchBarters() {
       try {
         const token = Cookies.get("token");
-        const res = await fetch("http://localhost:5001/api/admin/barters", {
+        const res = await fetch(`${API_BASE}/api/admin/barters`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

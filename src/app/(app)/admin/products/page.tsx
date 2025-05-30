@@ -12,6 +12,8 @@ type Product = {
     username: string;
   };
 };
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]); // Specify the type of products
@@ -19,14 +21,11 @@ export default function Products() {
   const handleDelete = async (productId: string) => {
     try {
       const token = Cookies.get("token");
-      await axios.delete(
-        `http://localhost:5001/api/admin/product/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(`${API_BASE}/api/admin/product/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setProducts(products.filter((product) => product._id !== productId)); // Update the state to remove the deleted product
       alert("Product deleted successfully!");
     } catch (err) {
@@ -38,7 +37,7 @@ export default function Products() {
   useEffect(() => {
     const token = Cookies.get("token");
     axios
-      .get("http://localhost:5001/api/admin/products", {
+      .get(`${API_BASE}/api/admin/products`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

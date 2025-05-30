@@ -17,7 +17,8 @@ type Product = {
   createdAt: string;
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
 
 function getImageSrc(path: string): string {
   if (!path) return "";

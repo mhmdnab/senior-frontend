@@ -25,7 +25,7 @@ type Barter = {
 };
 
 export default function RespondBarterPage() {
-  const API_BASE = "http://localhost:5001";
+  const API_BASE = "https://dakesh-backend.onrender.com";
   const router = useRouter();
   const searchParams = useSearchParams();
   const barterId = searchParams.get("barterId");
@@ -86,7 +86,7 @@ export default function RespondBarterPage() {
                   ? barter.productRequestedId.images[0]
                   : `${
                       process.env.NEXT_PUBLIC_API_BASE ||
-                      "http://localhost:5001"
+                      "https://dakesh-backend.onrender.com"
                     }${barter.productRequestedId.images[0]}`
               }
               alt={barter.productRequestedId.title}
@@ -115,7 +115,7 @@ export default function RespondBarterPage() {
                   ? barter.productOfferedId.images[0]
                   : `${
                       process.env.NEXT_PUBLIC_API_BASE ||
-                      "http://localhost:5001"
+                      "https://dakesh-backend.onrender.com"
                     }${barter.productOfferedId.images[0]}`
               }
               alt={barter.productOfferedId.title}
