@@ -44,7 +44,9 @@ export default function RespondBarterPage() {
       return;
     }
     axios
-      .get<Barter>(`${API_BASE}/api/barter/${barterId}`)
+      .get<Barter>(`${API_BASE}/api/barter/${barterId}`, {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+      })
       .then((res) => setBarter(res.data))
       .catch(() => setError("Failed to fetch barter."))
       .finally(() => setLoading(false));
