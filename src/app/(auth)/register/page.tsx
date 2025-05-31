@@ -2,7 +2,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext"; // <-- import the hook
+import { useAuth } from "@/contexts/AuthContext";
+import Cookies from "js-cookie";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
@@ -30,21 +31,25 @@ export default function RegisterPage() {
     e.preventDefault();
 
     try {
+      // 1) Register new user
       const res = await axios.post(`${API_BASE}/api/auth/register`, formData);
-
-      // Optionally show a message or not
       setMessage("Registration successful!");
 
-      // Now, login the user right away (since backend does not return token)
+      // 2) Log them in right away
       const loginRes = await axios.post(`${API_BASE}/api/auth/login`, {
         email: formData.email,
         password: formData.password,
       });
 
-      // Now call context's login with the received token
+      // 3) Store the JWT (so you stay “logged in”)
       login(loginRes.data.token);
 
-      router.push("/"); // or wherever
+      // 4) Also write username & role cookies (exact same as your login page does)
+      Cookies.set("username", loginRes.data.user.username, { expires: 7 });
+      Cookies.set("role", loginRes.data.user.role, { expires: 7 });
+
+      // 5) Redirect home
+      router.push("/");
     } catch (error: any) {
       setMessage(
         error.response?.data?.error ||
