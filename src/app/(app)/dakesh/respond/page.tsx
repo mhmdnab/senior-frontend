@@ -54,18 +54,50 @@ export default function RespondBarterPage() {
 
   const handleDecision = async (decisionType: "approved" | "declined") => {
     setLoading(true);
+
+    if (!barterId) {
+      console.error("barterId is missing");
+      setError("Cannot update: missing barter ID.");
+      setLoading(false);
+      return;
+    }
+
+    // 1) Endpoint must match your Express route exactly:
+    const url = `${API_BASE}/api/barter/${barterId}/decision`;
+    console.log("PATCHing to:", url);
+
+    // 2) Body must have { decision: "approved" } or { decision: "declined" }
+    const payload = { decision: decisionType };
+    console.log("Payload:", payload);
+
+    // 3) Include the Bearer token if this route is protected by auth middleware:
+    const token = Cookies.get("token");
+    console.log("Using token:", token);
+
     try {
-      await axios.patch(
-        `${API_BASE}/api/barter/${barterId}/decision`,
-        { decision: decisionType },
-        {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-        }
-      );
+      const response = await axios.patch(url, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("PATCH response data:", response.data);
+      // If the server saved the decision successfully, update UI state:
       setDecision(decisionType);
-    } catch {
+    } catch (err: any) {
+      if (err.response) {
+        // The server returned 4xx or 5xx—log status + body for debugging
+        console.error("PATCH /barter/:id/decision failed:", {
+          status: err.response.status,
+          data: err.response.data,
+        });
+      } else {
+        // Network or other error
+        console.error("PATCH error:", err.message);
+      }
       setError("Failed to update barter status.");
     }
+
     setLoading(false);
   };
 
