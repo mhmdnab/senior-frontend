@@ -101,8 +101,18 @@ export default function RespondBarterPage() {
     setLoading(false);
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-red-500 min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
+        {error}
+      </div>
+    );
   if (!barter) return <div>Barter not found.</div>;
 
   return (
