@@ -99,7 +99,7 @@ const MyProductsPage = () => {
               {/* Product Image */}
               {product.images && (
                 <Image
-                  src={product.images[0]}
+                  src={`https://dakesh-backend.onrender.com${product.images[0]}`}
                   alt={product.title}
                   width={100}
                   height={100}

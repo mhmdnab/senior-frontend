@@ -49,7 +49,7 @@ const ProductGrid = () => {
               <Link href={productLink} key={key} className="block">
                 <div className="bg-white rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02]">
                   <img
-                    src={product.images[0]}
+                    src={`https://dakesh-backend.onrender.com${product.images[0]}`}
                     alt={product.title}
                     className="w-full h-48 object-cover"
                   />
