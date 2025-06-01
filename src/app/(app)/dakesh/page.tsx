@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getImageSrc } from "@/lib/getImageSrc";
 
 // Product/User Types
 type Product = {
@@ -25,15 +26,6 @@ type User = {
 };
 
 const getLoggedInUsername = () => Cookies.get("username");
-
-// Safe image URL builder
-const getImageUrl = (img?: string) => {
-  if (!img) return "/placeholder.svg";
-  if (img.startsWith("http")) return img;
-  return `${
-    process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com"
-  }${img}`;
-};
 
 const DakeshPage = () => {
   const API_BASE =
@@ -229,7 +221,7 @@ const DakeshPage = () => {
                   <div>
                     <div className="relative w-full h-32 mb-2">
                       <img
-                        src={getImageUrl(product.images?.[0])}
+                        src={getImageSrc(product.images?.[0] || "")}
                         alt={product.title}
                         className="rounded object-cover w-full h-full"
                         style={{ objectFit: "cover" }}

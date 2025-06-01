@@ -7,6 +7,7 @@ import { LogOut, Plus } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { getImageSrc } from "@/lib/getImageSrc";
 
 type Product = {
   _id: string;
@@ -20,15 +21,6 @@ type Product = {
 // Pull from .env.local or fallback
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
-
-function getImageSrc(path: string): string {
-  if (!path) return "";
-  if (/^https?:\/\//.test(path)) {
-    return path;
-  }
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  return `${API_BASE}${clean}`;
-}
 
 export default function ProfilePage() {
   const router = useRouter();

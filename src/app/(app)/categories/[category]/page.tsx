@@ -1,5 +1,6 @@
 // src/app/(app)/categories/[category]/page.tsx
 
+import { getImageSrc } from "@/lib/getImageSrc";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,14 +34,7 @@ export default async function Page({ params }: any) {
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="relative h-48 w-full">
                   <Image
-                    src={
-                      product.images?.[0]?.startsWith("http")
-                        ? product.images[0]
-                        : `${API_BASE}/${product.images[0]?.replace(
-                            /^\/+/,
-                            ""
-                          )}`
-                    }
+                    src={getImageSrc(product.images[0])}
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}

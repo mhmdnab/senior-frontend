@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getImageSrc } from "@/lib/getImageSrc";
 
 interface Product {
   _id: number;
@@ -14,15 +15,7 @@ interface Product {
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
-function getImageSrc(path: string): string {
-  if (!path) return "/placeholder.svg";
-  if (/^https?:\/\//.test(path)) {
-    return path;
-  }
-  // ensure leading slash
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  return `${API_BASE}${clean}`;
-}
+
 const ProductGrid = () => {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
 

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { getImageSrc } from "@/lib/getImageSrc";
 
 type Product = {
   _id: string;
@@ -19,15 +20,6 @@ type Product = {
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
-
-function getImageSrc(path: string): string {
-  if (!path) return "";
-  if (/^https?:\/\//.test(path)) {
-    return path; // already absolute
-  }
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  return `${API_BASE}${clean}`;
-}
 
 export default function ProductPage() {
   const { id: productId } = useParams() as { id: string };

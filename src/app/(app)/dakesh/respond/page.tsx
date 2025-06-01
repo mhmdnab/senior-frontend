@@ -3,6 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getImageSrc } from "@/lib/getImageSrc";
 
 type Product = {
   _id: string;
@@ -131,14 +132,7 @@ export default function RespondBarterPage() {
           <div className="flex items-start gap-4">
             {barter.productRequestedId?.images?.[0] && (
               <img
-                src={
-                  barter.productRequestedId.images[0].startsWith("http")
-                    ? barter.productRequestedId.images[0]
-                    : `${
-                        process.env.NEXT_PUBLIC_API_BASE ||
-                        "https://dakesh-backend.onrender.com"
-                      }${barter.productRequestedId.images[0]}`
-                }
+                src={getImageSrc(barter.productRequestedId.images[0])}
                 alt={barter.productRequestedId.title}
                 className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
               />
