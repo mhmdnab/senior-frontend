@@ -106,101 +106,105 @@ export default function RespondBarterPage() {
   if (!barter) return <div>Barter not found.</div>;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-[#3e2246]/80 rounded-xl shadow-2xl border border-purple-400">
-      <h1 className="text-2xl font-bold mb-6 text-purple-200">
-        Barter Request
-      </h1>
+    <div className="min-h-screen flex items-center justify-center bg-[#f4f4f5] px-4 py-12">
+      {/* 2. Card itself: max width, softer purple, rounded corners, gentle shadow */}
+      <div className="w-full max-w-md bg-[#5d4969] rounded-2xl shadow-lg p-6">
+        <h1 className="text-2xl font-bold mb-6 text-purple-100 text-center">
+          Barter Request
+        </h1>
 
-      {/* Requested Product */}
-      <div className="mb-6 border-b border-purple-400 pb-6">
-        <h2 className="text-lg font-semibold mb-4 text-gray-100">
-          You own this product:
-        </h2>
-        <div className="flex items-start gap-4">
-          {barter.productRequestedId?.images?.[0] && (
-            <img
-              src={
-                barter.productRequestedId.images[0].startsWith("http")
-                  ? barter.productRequestedId.images[0]
-                  : `${
-                      process.env.NEXT_PUBLIC_API_BASE ||
-                      "https://dakesh-backend.onrender.com"
-                    }${barter.productRequestedId.images[0]}`
-              }
-              alt={barter.productRequestedId.title}
-              className="w-24 h-24 object-cover rounded-md border border-purple-300"
-            />
-          )}
-          <div className="flex-1">
-            <h3 className="font-medium text-gray-100">
-              {barter.productRequestedId?.title}
-            </h3>
-            <p className="text-gray-300 text-sm mt-1">
-              {barter.productRequestedId?.description}
-            </p>
+        {/* Requested Product */}
+        <div className="mb-6 border-b border-purple-400/50 pb-6">
+          <h2 className="text-lg font-semibold mb-4 text-gray-100">
+            You own this product:
+          </h2>
+          <div className="flex items-start gap-4">
+            {barter.productRequestedId?.images?.[0] && (
+              <img
+                src={
+                  barter.productRequestedId.images[0].startsWith("http")
+                    ? barter.productRequestedId.images[0]
+                    : `${
+                        process.env.NEXT_PUBLIC_API_BASE ||
+                        "https://dakesh-backend.onrender.com"
+                      }${barter.productRequestedId.images[0]}`
+                }
+                alt={barter.productRequestedId.title}
+                className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
+              />
+            )}
+            <div className="flex-1">
+              <h3 className="font-medium text-gray-100">
+                {barter.productRequestedId?.title}
+              </h3>
+              <p className="text-gray-300 text-sm mt-1">
+                {barter.productRequestedId?.description}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Offered Product */}
-      <div className="mb-6 border-b border-purple-400 pb-6">
-        <h2 className="text-lg font-semibold mb-4 text-gray-100">
-          They offer you:
-        </h2>
-        <div className="flex items-start gap-4">
-          {barter.productOfferedId?.images?.[0] && (
-            <img
-              src={
-                barter.productOfferedId.images[0].startsWith("http")
-                  ? barter.productOfferedId.images[0]
-                  : `${
-                      process.env.NEXT_PUBLIC_API_BASE ||
-                      "https://dakesh-backend.onrender.com"
-                    }${barter.productOfferedId.images[0]}`
-              }
-              alt={barter.productOfferedId.title}
-              className="w-24 h-24 object-cover rounded-md border border-purple-300"
-            />
-          )}
-          <div className="flex-1">
-            <h3 className="font-medium text-gray-100">
-              {barter.productOfferedId?.title}
-            </h3>
-            <p className="text-gray-300 text-sm mt-1">
-              {barter.productOfferedId?.description}
-            </p>
-            <p className="text-xs text-gray-400 mt-2">
-              Offered by:{" "}
-              <span className="font-medium text-purple-200">
-                {barter.offeredBy?.username}
-              </span>
-            </p>
+        {/* Offered Product */}
+        <div className="mb-6 border-b border-purple-400/50 pb-6">
+          <h2 className="text-lg font-semibold mb-4 text-gray-100">
+            They offer you:
+          </h2>
+          <div className="flex items-start gap-4">
+            {barter.productOfferedId?.images?.[0] && (
+              <img
+                src={
+                  barter.productOfferedId.images[0].startsWith("http")
+                    ? barter.productOfferedId.images[0]
+                    : `${
+                        process.env.NEXT_PUBLIC_API_BASE ||
+                        "https://dakesh-backend.onrender.com"
+                      }${barter.productOfferedId.images[0]}`
+                }
+                alt={barter.productOfferedId.title}
+                className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
+              />
+            )}
+            <div className="flex-1">
+              <h3 className="font-medium text-gray-100">
+                {barter.productOfferedId?.title}
+              </h3>
+              <p className="text-gray-300 text-sm mt-1">
+                {barter.productOfferedId?.description}
+              </p>
+              <p className="text-xs text-gray-400 mt-2">
+                Offered by:{" "}
+                <span className="font-medium text-purple-200">
+                  {barter.offeredBy?.username}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {decision ? (
-        <div className="mt-4 text-center">
-          <span className="inline-block px-4 py-2 bg-gray-700 text-gray-100 font-semibold rounded-md">
-            Barter {decision === "approved" ? "approved ✅" : "declined ❌"}
-          </span>
-        </div>
-      ) : (
-        <div className="flex gap-4 mt-4 justify-center">
-          <button
-            className="bg-green-600 hover:bg-green-700 transition-colors text-white px-5 py-2 rounded-md font-medium"
-            onClick={() => handleDecision("approved")}
-          >
-            Approve
-          </button>
-          <button
-            className="bg-red-600 hover:bg-red-700 transition-colors text-white px-5 py-2 rounded-md font-medium"
-            onClick={() => handleDecision("declined")}
-          >
-            Decline
-          </button>
-        </div>
-      )}
+        {/* Approved/Decline Buttons or Result Text */}
+        {decision ? (
+          <div className="mt-4 text-center">
+            <span className="inline-block px-4 py-2 bg-purple-700/60 text-gray-100 font-semibold rounded-lg">
+              Barter {decision === "approved" ? "approved ✅" : "declined ❌"}
+            </span>
+          </div>
+        ) : (
+          <div className="flex gap-4 mt-4 justify-center">
+            <button
+              className="bg-green-600 hover:bg-green-700 transition-colors text-white px-5 py-2 rounded-lg font-medium"
+              onClick={() => handleDecision("approved")}
+            >
+              Approve
+            </button>
+            <button
+              className="bg-red-600 hover:bg-red-700 transition-colors text-white px-5 py-2 rounded-lg font-medium"
+              onClick={() => handleDecision("declined")}
+            >
+              Decline
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
