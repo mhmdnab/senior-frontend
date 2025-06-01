@@ -103,7 +103,7 @@ export default function RespondBarterPage() {
 
   if (loading)
     return (
-      <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
+      <div className="text-white min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
         Loading...
       </div>
     );
@@ -195,7 +195,7 @@ export default function RespondBarterPage() {
         {decision ? (
           <div className="mt-4 text-center">
             <span className="inline-block px-4 py-2 bg-purple-700/60 text-gray-100 font-semibold rounded-lg">
-              Barter {decision === "approved" ? "approved ✅" : "declined ❌"}
+              Barter {decision === "approved" ? "is approved" : "is declined"}
             </span>
           </div>
         ) : (
