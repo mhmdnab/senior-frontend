@@ -94,12 +94,12 @@ export default function ProductsPage() {
               );
             }
 
-            // Otherwise (isAvailable = true), render a clickable Link
+            // Otherwise (isAvailable = true)
             return (
               <Link
                 href={`/products/${product._id}`}
                 key={product._id}
-                className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+                className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition duration-300"
               >
                 <div className="relative w-full h-48">
                   <Image
