@@ -106,7 +106,7 @@ export default function RespondBarterPage() {
   if (!barter) return <div>Barter not found.</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f4f4f5] px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
       {/* 2. Card itself: max width, softer purple, rounded corners, gentle shadow */}
       <div className="w-full max-w-md bg-[#5d4969] rounded-2xl shadow-lg p-6">
         <h1 className="text-2xl font-bold mb-6 text-purple-100 text-center">
