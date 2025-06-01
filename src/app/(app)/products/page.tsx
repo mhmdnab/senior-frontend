@@ -1,17 +1,16 @@
-// src/app/products/page.tsx   (or wherever your ProductsPage lives)
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 type Product = {
   _id: string;
   title: string;
   description: string;
-  images: string[]; // e.g. ["/uploads/abc.jpg"] or full URLs
+  images: string[]; // e.g. ["/uploads/abc.jpg"] or ["https://i.pinimg.com/..."]
   category: string;
   owner: { _id: string; username: string };
   isAvailable: boolean;
@@ -32,14 +31,14 @@ function getImageSrc(path: string): string {
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get<Product[]>(`${API_BASE}/api/products`);
-        setProducts(res.data);
-      } catch (err) {
+        const res = await axios.get(`${API_BASE}/api/products/`);
+        setUserProducts(res.data);
+      } catch (err: any) {
         console.error("Error fetching products:", err);
       }
     };
@@ -47,58 +46,23 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-12">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-12 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Products
         </h1>
         <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
-          Check out the latest items that you might want to barter for.
+          Check out the latest items that you might wanna barter with.
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {products.map((product) => {
-            // If product is unavailable, render a non-clickable card with "Unavailable" overlay
-            if (!product.isAvailable) {
-              return (
-                <div
-                  key={product._id}
-                  className="relative bg-gray-200 rounded-lg shadow-md overflow-hidden opacity-50 cursor-not-allowed"
-                >
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={getImageSrc(product.images?.[0] || "")}
-                      alt={product.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      className="rounded"
-                    />
-                  </div>
-                  {/* Overlay “Unavailable” label */}
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">
-                      Unavailable
-                    </span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-1">
-                      {product.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      By {product.owner?.username || "Unknown"}
-                    </p>
-                  </div>
-                </div>
-              );
-            }
-
-            // Otherwise (isAvailable = true)
-            return (
-              <Link
-                href={`/products/${product._id}`}
-                key={product._id}
-                className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition duration-300"
-              >
+          {userProducts.map((product) => (
+            <Link
+              href={`/products/${product._id}`}
+              key={product._id}
+              className="block"
+            >
+              <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
                 <div className="relative w-full h-48">
                   <Image
                     src={getImageSrc(product.images?.[0] || "")}
@@ -109,16 +73,16 @@ export default function ProductsPage() {
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-1 line-clamp-1">
+                  <h3 className="text-lg font-semibold text-gray-700 mb-1">
                     {product.title}
                   </h3>
                   <p className="text-sm text-gray-500">
                     By {product.owner?.username || "Unknown"}
                   </p>
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
