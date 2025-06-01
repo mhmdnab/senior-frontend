@@ -14,7 +14,15 @@ interface Product {
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
-
+function getImageSrc(path: string): string {
+  if (!path) return "/placeholder.svg";
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+  // ensure leading slash
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE}${clean}`;
+}
 const ProductGrid = () => {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
 
@@ -49,7 +57,7 @@ const ProductGrid = () => {
               <Link href={productLink} key={key} className="block">
                 <div className="bg-white rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02]">
                   <img
-                    src={`https://dakesh-backend.onrender.com${product.images[0]}`}
+                    src={getImageSrc(product.images?.[0] || "")}
                     alt={product.title}
                     className="w-full h-48 object-cover"
                   />

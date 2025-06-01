@@ -22,6 +22,16 @@ interface Product {
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
 
+function getImageSrc(path: string): string {
+  if (!path) return "/placeholder.svg";
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+  // ensure leading slash
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE}${clean}`;
+}
+
 const MyProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +109,7 @@ const MyProductsPage = () => {
               {/* Product Image */}
               {product.images && (
                 <Image
-                  src={`https://dakesh-backend.onrender.com${product.images[0]}`}
+                  src={getImageSrc(product.images?.[0] || "")}
                   alt={product.title}
                   width={100}
                   height={100}
