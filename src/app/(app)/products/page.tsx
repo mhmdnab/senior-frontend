@@ -65,7 +65,6 @@ export default function ProductsPage() {
                   key={product._id}
                   className="relative bg-gray-200 rounded-lg shadow-md overflow-hidden opacity-50 cursor-not-allowed"
                 >
-                  {/* Show image (dimmed) */}
                   <div className="relative w-full h-48">
                     <Image
                       src={getImageSrc(product.images?.[0] || "")}
@@ -81,9 +80,8 @@ export default function ProductsPage() {
                       Unavailable
                     </span>
                   </div>
-                  {/* Title + owner, also dimmed */}
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-1 line-clamp-1">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-1">
                       {product.title}
                     </h3>
                     <p className="text-sm text-gray-500">
