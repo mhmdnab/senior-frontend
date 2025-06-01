@@ -106,13 +106,17 @@ export default function RespondBarterPage() {
   if (!barter) return <div>Barter not found.</div>;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow">
-      <h1 className="text-xl font-bold mb-4">Barter Request</h1>
+    <div className="max-w-lg mx-auto p-6 bg-[#3e2246]/80 rounded-xl shadow-2xl border border-purple-400">
+      <h1 className="text-2xl font-bold mb-6 text-purple-200">
+        Barter Request
+      </h1>
 
       {/* Requested Product */}
-      <div className="mb-4 border-b pb-4">
-        <h2 className="text-lg font-semibold mb-2">You own this product:</h2>
-        <div className="flex items-center gap-4">
+      <div className="mb-6 border-b border-purple-400 pb-6">
+        <h2 className="text-lg font-semibold mb-4 text-gray-100">
+          You own this product:
+        </h2>
+        <div className="flex items-start gap-4">
           {barter.productRequestedId?.images?.[0] && (
             <img
               src={
@@ -124,24 +128,26 @@ export default function RespondBarterPage() {
                     }${barter.productRequestedId.images[0]}`
               }
               alt={barter.productRequestedId.title}
-              className="w-20 h-20 object-cover rounded"
+              className="w-24 h-24 object-cover rounded-md border border-purple-300"
             />
           )}
-          <div>
-            <div className="font-semibold">
+          <div className="flex-1">
+            <h3 className="font-medium text-gray-100">
               {barter.productRequestedId?.title}
-            </div>
-            <div className="text-gray-600 text-sm">
+            </h3>
+            <p className="text-gray-300 text-sm mt-1">
               {barter.productRequestedId?.description}
-            </div>
+            </p>
           </div>
         </div>
       </div>
 
       {/* Offered Product */}
-      <div className="mb-4 border-b pb-4">
-        <h2 className="text-lg font-semibold mb-2">They offer you:</h2>
-        <div className="flex items-center gap-4">
+      <div className="mb-6 border-b border-purple-400 pb-6">
+        <h2 className="text-lg font-semibold mb-4 text-gray-100">
+          They offer you:
+        </h2>
+        <div className="flex items-start gap-4">
           {barter.productOfferedId?.images?.[0] && (
             <img
               src={
@@ -153,37 +159,42 @@ export default function RespondBarterPage() {
                     }${barter.productOfferedId.images[0]}`
               }
               alt={barter.productOfferedId.title}
-              className="w-20 h-20 object-cover rounded"
+              className="w-24 h-24 object-cover rounded-md border border-purple-300"
             />
           )}
-          <div>
-            <div className="font-semibold">
+          <div className="flex-1">
+            <h3 className="font-medium text-gray-100">
               {barter.productOfferedId?.title}
-            </div>
-            <div className="text-gray-600 text-sm">
+            </h3>
+            <p className="text-gray-300 text-sm mt-1">
               {barter.productOfferedId?.description}
-            </div>
-            <div className="text-xs text-gray-400 mt-1">
-              Offered by: {barter.offeredBy?.username}
-            </div>
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              Offered by:{" "}
+              <span className="font-medium text-purple-200">
+                {barter.offeredBy?.username}
+              </span>
+            </p>
           </div>
         </div>
       </div>
 
       {decision ? (
-        <div className="mt-4 text-lg font-semibold text-center">
-          Barter {decision === "approved" ? "approved ✅" : "declined ❌"}!
+        <div className="mt-4 text-center">
+          <span className="inline-block px-4 py-2 bg-gray-700 text-gray-100 font-semibold rounded-md">
+            Barter {decision === "approved" ? "approved ✅" : "declined ❌"}
+          </span>
         </div>
       ) : (
-        <div className="flex gap-2 mt-4 justify-center">
+        <div className="flex gap-4 mt-4 justify-center">
           <button
-            className="bg-green-600 text-white px-4 py-2 rounded"
+            className="bg-green-600 hover:bg-green-700 transition-colors text-white px-5 py-2 rounded-md font-medium"
             onClick={() => handleDecision("approved")}
           >
             Approve
           </button>
           <button
-            className="bg-red-600 text-white px-4 py-2 rounded"
+            className="bg-red-600 hover:bg-red-700 transition-colors text-white px-5 py-2 rounded-md font-medium"
             onClick={() => handleDecision("declined")}
           >
             Decline
