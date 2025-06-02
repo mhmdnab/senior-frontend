@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -99,6 +99,9 @@ export default function Login() {
 
           <p className="text-sm text-[#703381] mt-6 text-center underline">
             <a href="/register">Don't have an account? Register Here</a>
+          </p>
+          <p className="text-sm text-[#703381] mt-6 text-center underline">
+            <a href="/forgot-password">Forgot your password?</a>
           </p>
         </form>
       </div>
