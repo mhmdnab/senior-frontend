@@ -140,7 +140,7 @@ export default function AddProductPage() {
             value={formData.category}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-[#522c5d] text-white focus:outline-none"
+            className="w-full p-2 rounded bg-[#5d3269] text-white focus:outline-none"
           >
             <option value="Electronics">Electronics</option>
             <option value="Clothing">Clothing</option>
