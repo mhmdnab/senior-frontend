@@ -70,30 +70,30 @@ export default function AddProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ownerId || !file) {
-      return alert("All fields including image are required.");
+      return alert("All fields (including the image) are required.");
     }
 
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("category", formData.category);
-    formDataToSend.append("isAvailable", String(formData.isAvailable));
-    formDataToSend.append("owner", ownerId);
-    formDataToSend.append("image", file);
+    const dataToSend = new FormData();
+    dataToSend.append("title", formData.title);
+    dataToSend.append("description", formData.description);
+    dataToSend.append("category", formData.category);
+    dataToSend.append("isAvailable", String(formData.isAvailable));
+    dataToSend.append("image", file);
 
     try {
-      await axios.post(`${API_BASE}/api/products`, formDataToSend, {
+      await axios.post(`${API_BASE}/api/products`, dataToSend, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
-          "Content-Type": "multipart/form-data",
         },
       });
-
       alert("Product added successfully!");
       router.push("/products");
-    } catch (err) {
-      console.error("Error adding product:", err);
-      alert("Failed to add product.");
+    } catch (err: any) {
+      console.error("Error adding product:", {
+        status: err.response?.status,
+        data: err.response?.data,
+      });
+      alert("Failed to add product. See console for details.");
     }
   };
 
@@ -123,6 +123,7 @@ export default function AddProductPage() {
           />
           <input
             type="file"
+            name="image"
             accept="image/*"
             onChange={handleFileChange}
             required

@@ -1,15 +1,16 @@
 // src/lib/getImageSrc.ts
 
-export function getImageSrc(relPath: string): string {
-  // If relPath is already a fully qualified URL, just return it:
-  if (!relPath) return "/placeholder.svg";
+export function getImageSrc(relPath?: string): string {
+  if (!relPath) {
+    return "/placeholder.svg";
+  }
+  // If it already starts with "http://..." or "https://...", return it:
   if (/^https?:\/\//.test(relPath)) {
     return relPath;
   }
-
-  // Otherwise, ensure it has a leading "/" and prefix with your API_BASE:
+  // Otherwise, assume this is a plain filename or "/<filename>" that lives under your /uploads route:
   const clean = relPath.startsWith("/") ? relPath : `/${relPath}`;
-  const base =
-    process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
-  return `${base}${clean}`;
+  // Prepend your backend’s base URL, then "/uploads"
+  const base = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5001";
+  return `${base}/uploads${clean}`;
 }

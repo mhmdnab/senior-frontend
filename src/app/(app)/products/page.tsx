@@ -56,7 +56,7 @@ export default function ProductsPage() {
               <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
                 <div className="relative w-full h-48">
                   <Image
-                    src={getImageSrc(product.images?.[0] || "")}
+                    src={product.images?.[0]}
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}

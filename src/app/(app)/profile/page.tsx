@@ -149,7 +149,7 @@ export default function ProfilePage() {
                   {product.images?.length > 0 && (
                     <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3">
                       <Image
-                        src={getImageSrc(product.images[0])}
+                        src={product.images[0]}
                         alt={product.title}
                         fill
                         style={{ objectFit: "cover" }}

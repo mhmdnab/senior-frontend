@@ -84,7 +84,7 @@ export default function ProductPage() {
           <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-md bg-white">
             {product.images?.length ? (
               <Image
-                src={getImageSrc(product.images[0])}
+                src={product.images[0]}
                 alt={product.title}
                 fill
                 style={{ objectFit: "contain" }}

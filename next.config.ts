@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       "example.com",
       "localhost",
       "dakesh-backend.onrender.com",
+      "ujrfdfzipgxnivlyjjso.supabase.co",
     ],
     remotePatterns: [
       {

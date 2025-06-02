@@ -132,7 +132,7 @@ export default function RespondBarterPage() {
           <div className="flex items-start gap-4">
             {barter.productRequestedId?.images?.[0] && (
               <img
-                src={getImageSrc(barter.productRequestedId.images[0])}
+                src={barter.productRequestedId.images[0]}
                 alt={barter.productRequestedId.title}
                 className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
               />

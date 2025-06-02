@@ -100,7 +100,7 @@ const MyProductsPage = () => {
               {/* Product Image */}
               {product.images && (
                 <Image
-                  src={getImageSrc(product.images?.[0] || "")}
+                  src={product.images?.[0]}
                   alt={product.title}
                   width={100}
                   height={100}

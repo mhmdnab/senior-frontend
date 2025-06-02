@@ -221,7 +221,7 @@ const DakeshPage = () => {
                   <div>
                     <div className="relative w-full h-32 mb-2">
                       <img
-                        src={getImageSrc(product.images?.[0] || "")}
+                        src={product.images?.[0]}
                         alt={product.title}
                         className="rounded object-cover w-full h-full"
                         style={{ objectFit: "cover" }}

@@ -34,7 +34,7 @@ export default async function Page({ params }: any) {
               <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="relative h-48 w-full">
                   <Image
-                    src={getImageSrc(product.images[0])}
+                    src={product.images[0]}
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}
