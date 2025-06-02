@@ -1,23 +1,23 @@
-// app/reset-password/page.tsx
+// pages/reset-password.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 export default function ResetPasswordPage() {
-  // useSearchParams() reads the query string in App Router
-  const params = useSearchParams();
-  const token = params.get("token"); // e.g. "abcd123" if URL is /reset-password?token=abcd123
+  const router = useRouter();
+  const { token } = router.query as { token?: string };
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+  // Optional: wait until token is in the URL before showing the form
   useEffect(() => {
     if (!token) {
-      setError("No token provided in URL.");
+      setError("No token provided.");
     }
   }, [token]);
 
@@ -52,12 +52,14 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center">Reset Password</h1>
+
         {error && (
           <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
         )}
         {message && (
           <p className="text-green-500 text-sm mb-4 text-center">{message}</p>
         )}
+
         {!message && (
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
