@@ -1,23 +1,29 @@
-// pages/reset-password.tsx
+// app/reset-password/[token]/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function ResetPasswordPage() {
+  const params = useParams() as { token?: string };
+  const token = params.token;
   const router = useRouter();
-  const { token } = router.query as { token?: string };
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [ready, setReady] = useState(false);
 
-  // Optional: wait until token is in the URL before showing the form
   useEffect(() => {
-    if (!token) {
-      setError("No token provided.");
+    // Wait for useParams() to populate
+    if (typeof token === "undefined") {
+      // If token is literally undefined (no param in URL), show an error
+      setError("No token provided in URL.");
+      setReady(true);
+    } else {
+      setReady(true);
     }
   }, [token]);
 
@@ -43,10 +49,20 @@ export default function ResetPasswordPage() {
       setMessage(
         res.data.message || "Password successfully reset. You may now log in."
       );
+      // Optionally, redirect once they see success:
+      // setTimeout(() => router.push("/login"), 2000);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error resetting password");
     }
   };
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading…
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
