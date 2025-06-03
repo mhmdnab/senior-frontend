@@ -1,3 +1,4 @@
+// components/CategoriesSection.tsx
 import React from "react";
 import Link from "next/link";
 
@@ -35,21 +36,21 @@ const CategoriesSection = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#232323] py-16 my-auto">
-      <div className="container mx-auto text-center">
+    <div className="min-h-screen bg-[#232323] py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto text-center">
         {/* Main Title */}
-        <h1 className="text-4xl font-bold text-[#cb6ce6] mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#cb6ce6] mb-6 sm:mb-8">
           Dakesh by categories
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg text-[#89499b] mb-8">
+        <p className="text-base sm:text-lg text-[#89499b] mb-6 sm:mb-8">
           Browse our wide selection of products organized by category to easily
-          find what you're looking for.
+          find what you’re looking for.
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 py-12 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 py-8">
           {categories.map((category) => (
             <Link
               href={category.link}
@@ -60,13 +61,13 @@ const CategoriesSection = () => {
                 <img
                   src={category.imageUrl}
                   alt={category.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-40 sm:h-48 object-cover"
                 />
-                <div className="p-4 flex-1 flex flex-col justify-between">
-                  <h3 className="text-lg font-semibold text-white mb-1">
+                <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-1">
                     {category.name}
                   </h3>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 text-xs sm:text-sm">
                     {category.description}
                   </p>
                 </div>
@@ -76,11 +77,11 @@ const CategoriesSection = () => {
         </div>
 
         {/* View More Button */}
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <Link href="/categories">
             <button
               type="button"
-              className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300"
+              className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2 px-4 sm:py-3 sm:px-6 rounded-xl shadow-md transition duration-300 text-sm sm:text-base"
             >
               View More
             </button>
