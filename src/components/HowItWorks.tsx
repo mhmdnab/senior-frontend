@@ -6,16 +6,16 @@ import { Edit, Search, MessageCircle } from "lucide-react";
 
 export default function HowItWorks() {
   return (
-    <div className="bg-white flex items-center justify-center min-h-screen">
-      <div className="container mx-auto text-center px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
+    // Add the same mobile-only padding here, then remove at md+
+    <div className="bg-white flex items-center justify-center min-h-screen pt-12 pb-12 md:pt-0 md:pb-0">
+      <div className="max-w-7xl w-full text-center px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-[#cb6ce6] mb-12">
           How It Works
         </h2>
-        {/* Three Steps */}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Step 1 */}
-          <div className="flex flex-col items-center px-4">
+          <div className="flex flex-col items-center">
             <div className="bg-[#fbf1ff] rounded-full p-6 mb-6">
               <Edit className="w-12 h-12 text-[#cb6ce6]" />
             </div>
@@ -27,8 +27,9 @@ export default function HowItWorks() {
               description of what you want to trade.
             </p>
           </div>
+
           {/* Step 2 */}
-          <div className="flex flex-col items-center px-4">
+          <div className="flex flex-col items-center">
             <div className="bg-[#fbf1ff] rounded-full p-6 mb-6">
               <Search className="w-12 h-12 text-[#cb6ce6]" />
             </div>
@@ -40,8 +41,9 @@ export default function HowItWorks() {
               find what you need.
             </p>
           </div>
+
           {/* Step 3 */}
-          <div className="flex flex-col items-center px-4">
+          <div className="flex flex-col items-center">
             <div className="bg-[#fbf1ff] rounded-full p-6 mb-6">
               <MessageCircle className="w-12 h-12 text-[#cb6ce6]" />
             </div>
