@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 
 // Protected routes
 const protectedRoutes = [
-  "/categories",
   "/profile",
   "/contact",
   "/my-products",
@@ -33,7 +32,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/categories/:path*",
     "/profile",
     "/contact",
     "/my-products",

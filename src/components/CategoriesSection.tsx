@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 
 const CategoriesSection = () => {
-  // Example category data (replace with your actual data)
   const categories = [
     {
       name: "Electronics",
@@ -36,7 +35,7 @@ const CategoriesSection = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#232323] py-16 mt-8">
+    <div className="min-h-screen bg-[#232323] py-16 my-auto">
       <div className="container mx-auto text-center">
         {/* Main Title */}
         <h1 className="text-4xl font-bold text-[#cb6ce6] mb-8">
@@ -50,16 +49,20 @@ const CategoriesSection = () => {
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-6 lg:px-8 py-12 items-stretch">
           {categories.map((category) => (
-            <Link href={category.link} key={category.name} className="block">
-              <div className="bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+            <Link
+              href={category.link}
+              key={category.name}
+              className="block h-full"
+            >
+              <div className="flex flex-col h-full bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
                 <img
                   src={category.imageUrl}
                   alt={category.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className="p-4">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <h3 className="text-lg font-semibold text-white mb-1">
                     {category.name}
                   </h3>

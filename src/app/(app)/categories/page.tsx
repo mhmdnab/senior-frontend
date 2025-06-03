@@ -34,6 +34,14 @@ const Categories = () => {
       link: "/categories/toys",
     },
     {
+      name: "Automobiles",
+      description:
+        "The Automobiles category includes motorized vehicles like cars, motorcycles, trucks, and vans for barter.",
+      imageUrl:
+        "https://i.pinimg.com/736x/3c/11/5f/3c115f879d68db7ac8e32c0f4196e071.jpg", // Placeholder image URL
+      link: "/categories/other",
+    },
+    {
       name: "Other",
       description:
         "Miscellaneous items that don’t fit into specific categories, but are still worth exploring.",
@@ -41,6 +49,7 @@ const Categories = () => {
         "https://i.pinimg.com/736x/7c/72/4b/7c724b52594be48660e723177efcb637.jpg", // Placeholder image URL
       link: "/categories/other",
     },
+
     // Add more categories as needed
   ];
 
@@ -59,16 +68,20 @@ const Categories = () => {
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-0 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-0 py-12 items-stretch">
           {categories.map((category) => (
-            <Link href={category.link} key={category.name} className="block">
-              <div className="bg-white rounded-lg shadow-md hover:shadow-[#cb6ce6] overflow-hidden hover:shadow-2xl transition duration-300">
+            <Link
+              href={category.link}
+              key={category.name}
+              className="block h-full"
+            >
+              <div className="flex flex-col h-full bg-white rounded-lg shadow-xl hover:shadow-[#9c60ad] overflow-hidden transition duration-300">
                 <img
                   src={category.imageUrl}
                   alt={category.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className="p-4">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <h3 className="text-xl font-semibold text-gray-700 mb-2">
                     {category.name}
                   </h3>
