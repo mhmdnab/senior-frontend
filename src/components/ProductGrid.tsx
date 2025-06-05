@@ -18,25 +18,39 @@ const API_BASE =
 
 const ProductGrid = () => {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get(`${API_BASE}/api/products/`);
         setUserProducts(res.data);
       } catch (err) {
         console.error("Error fetching products:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="bg-[#f4f4f5] py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-gray-600 text-lg">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-[#f4f4f5] py-16 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#f4f4f5] py-16 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="max-w-5xl mx-auto text-center">
         {/* Header Text */}
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-8 sm:mb-28">
           Swap What You Have for What You Need!
         </h2>
 

@@ -8,30 +8,48 @@ const CategoriesSection = () => {
       name: "Electronics",
       description: "Explore the latest gadgets and electronic devices.",
       imageUrl:
-        "https://i.pinimg.com/736x/44/d2/ad/44d2add5a8454d1eb4d7fed3015abcd8.jpg",
+        "https://i.pinimg.com/736x/44/d2/ad/44d2add5a8454d1eb4d7fed3015abcd8.jpg", // Placeholder image URL
       link: "/categories/electronics",
     },
     {
       name: "Clothing",
       description: "Discover stylish clothing for every occasion.",
       imageUrl:
-        "https://i.pinimg.com/736x/3d/4d/33/3d4d33650996dc8ff6e0503093627bf0.jpg",
+        "https://i.pinimg.com/736x/3d/4d/33/3d4d33650996dc8ff6e0503093627bf0.jpg", // Placeholder image URL
       link: "/categories/clothing",
-    },
-    {
-      name: "Home & Kitchen",
-      description: "Find everything you need for your home and kitchen.",
-      imageUrl:
-        "https://i.pinimg.com/736x/56/f7/15/56f715fb5e0233a4985911be387bb89b.jpg",
-      link: "/categories/home-kitchen",
     },
     {
       name: "Books",
       description: "Dive into a world of stories and knowledge.",
       imageUrl:
-        "https://i.pinimg.com/736x/47/f6/1b/47f61b4b21f5e3b6fd6d06262100cf78.jpg",
+        "https://i.pinimg.com/736x/56/f7/15/56f715fb5e0233a4985911be387bb89b.jpg", // Placeholder image URL
       link: "/categories/books",
     },
+    {
+      name: "Toys",
+      description:
+        "A wide variety of fun and educational toys for children of all ages.",
+      imageUrl:
+        "https://i.pinimg.com/736x/7b/05/fa/7b05fab78047f0491935e3efcf654776.jpg", // Placeholder image URL
+      link: "/categories/toys",
+    },
+    {
+      name: "Automobiles",
+      description:
+        "The Automobiles category includes motorized vehicles like cars, motorcycles, trucks, and vans for barter.",
+      imageUrl:
+        "https://i.pinimg.com/736x/3c/11/5f/3c115f879d68db7ac8e32c0f4196e071.jpg", // Placeholder image URL
+      link: "/categories/other",
+    },
+    {
+      name: "Other",
+      description:
+        "Miscellaneous items that don’t fit into specific categories, but are still worth exploring.",
+      imageUrl:
+        "https://i.pinimg.com/736x/7c/72/4b/7c724b52594be48660e723177efcb637.jpg", // Placeholder image URL
+      link: "/categories/other",
+    },
+
     // Add more categories as needed
   ];
 
@@ -51,7 +69,7 @@ const CategoriesSection = () => {
 
         {/* Category Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 py-8">
-          {categories.map((category) => (
+          {categories.slice(0, 4).map((category) => (
             <Link
               href={category.link}
               key={category.name}

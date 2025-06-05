@@ -148,6 +148,7 @@ export default function AddProductPage() {
             <option value="Books">Books</option>
             <option value="Toys">Toys</option>
             <option value="Home">Home</option>
+            <option value="Automobiles">Automobiles</option>
             <option value="Other">Other</option>
           </select>
           <button
