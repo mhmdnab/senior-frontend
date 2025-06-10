@@ -39,7 +39,7 @@ const Categories = () => {
         "The Automobiles category includes motorized vehicles like cars, motorcycles, trucks, and vans for barter.",
       imageUrl:
         "https://i.pinimg.com/736x/3c/11/5f/3c115f879d68db7ac8e32c0f4196e071.jpg", // Placeholder image URL
-      link: "/categories/other",
+      link: "/categories/automobiles",
     },
     {
       name: "Other",
