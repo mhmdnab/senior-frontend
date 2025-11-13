@@ -84,47 +84,85 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#522c5d] via-[#232323] to-[#522c5d] flex flex-col md:flex-row">
-      {/** Mobile header (only visible <md) **/}
-      <header className="w-full flex md:hidden items-center justify-between px-4 py-3 bg-[#29162e]/80 border-b border-gray-800">
-        {/* avatar + logout icon */}
-        <div className="flex items-center gap-2">
-          <div className="bg-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-[#522c5d] via-[#232323] to-[#1c101f] flex flex-col md:flex-row">
+      {/* Mobile Header */}
+      <header
+        className="w-full flex md:hidden items-center justify-between px-4 py-4 
+    bg-[#29162e]/70 backdrop-blur-xl border-b border-white/10 shadow-md sticky top-0 z-40"
+      >
+        <div className="flex items-center gap-3">
+          <div className="bg-purple-600 text-white rounded-full w-11 h-11 flex items-center justify-center text-xl font-bold shadow-md">
             {adminName.charAt(0).toUpperCase()}
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-200">Welcome,</span>
-            <span className="text-purple-400 font-semibold">{adminName}</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-xs text-gray-300">Welcome back,</span>
+            <span className="text-purple-300 font-semibold">{adminName}</span>
           </div>
         </div>
+
         <button
           onClick={handleLogout}
-          className="flex items-center gap-1 text-red-500 hover:text-red-400"
+          className="flex items-center gap-1 text-red-400 hover:text-red-300 transition"
         >
           <LogOut className="w-5 h-5" />
         </button>
       </header>
 
-      {/** Sidebar (hidden on mobile) **/}
-      <aside className="hidden md:flex flex-col w-60 bg-[#29162e]/80 border-r border-gray-800 p-6 gap-8">
-        {/* … your existing sidebar content … */}
+      {/* Sidebar (Desktop Only) */}
+      <aside
+        className="hidden md:flex flex-col w-64 bg-[#29162e]/70 backdrop-blur-xl 
+    border-r border-white/10 p-6 gap-10 shadow-lg"
+      >
+        <div className="flex items-center gap-3">
+          <div className="bg-purple-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-md">
+            {adminName.charAt(0)}
+          </div>
+          <div>
+            <p className="text-xs text-gray-300">Admin Panel</p>
+            <p className="text-purple-300 font-semibold">{adminName}</p>
+          </div>
+        </div>
+
+        {/* Add your sidebar nav items here */}
+        <nav className="flex flex-col gap-4">
+          <Link
+            href="/admin/users"
+            className="text-gray-300 hover:text-white transition"
+          >
+            Manage Users
+          </Link>
+          <Link
+            href="/admin/products"
+            className="text-gray-300 hover:text-white transition"
+          >
+            Manage Products
+          </Link>
+        </nav>
       </aside>
 
-      {/** Main content (always full width) **/}
-      <main className="w-full flex-1 flex flex-col items-center justify-start p-4 md:p-6">
-        {/** If you want to center‐limit the cards/table, wrap them further inside a max-w: **/}
-        <div className="w-full max-w-4xl">
-          {/** Action buttons **/}
+      {/* MAIN CONTENT */}
+      <main className="w-full flex-1 flex flex-col items-center p-6">
+        <div className="w-full max-w-5xl">
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <Link href="/admin/users" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto rounded-2xl bg-[#cb6ce6] px-6 py-3 text-white font-semibold shadow-xl hover:bg-purple-700 transition transform hover:scale-105">
+              <button
+                className="w-full sm:w-auto rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 
+            px-6 py-3 text-white font-semibold shadow-xl hover:shadow-purple-900/40 
+            hover:translate-y-[-2px] transition-all"
+              >
                 <div className="flex items-center gap-2">
                   <Users className="w-6 h-6" /> Manage Users
                 </div>
               </button>
             </Link>
+
             <Link href="/admin/products" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto rounded-2xl bg-[#cb6ce6] px-6 py-3 text-white font-semibold shadow-xl hover:bg-purple-700 transition transform hover:scale-105">
+              <button
+                className="w-full sm:w-auto rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 
+            px-6 py-3 text-white font-semibold shadow-xl hover:shadow-purple-900/40 
+            hover:translate-y-[-2px] transition-all"
+              >
                 <div className="flex items-center gap-2">
                   <Box className="w-6 h-6" /> Manage Products
                 </div>
@@ -132,92 +170,108 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {/** Stats row **/}
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-            <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
-              <Users className="w-8 h-8 text-purple-400 mb-2" />
-              <span className="text-2xl font-bold text-white">
+            {/* Users */}
+            <div
+              className="bg-white/5 backdrop-blur-xl border border-purple-500/20 rounded-xl p-6 flex flex-col items-center 
+          shadow-lg hover:shadow-purple-800/30 transition-all hover:-translate-y-2"
+            >
+              <Users className="w-8 h-8 text-purple-300 mb-2" />
+              <span className="text-3xl font-bold text-white">
                 {stats.users}
               </span>
-              <span className="text-gray-400">Total Users</span>
+              <span className="text-gray-400 text-sm">Total Users</span>
             </div>
-            <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
-              <Box className="w-8 h-8 text-purple-400 mb-2" />
-              <span className="text-2xl font-bold text-white">
+
+            {/* Products */}
+            <div
+              className="bg-white/5 backdrop-blur-xl border border-purple-500/20 rounded-xl p-6 flex flex-col items-center 
+          shadow-lg hover:shadow-purple-800/30 transition-all hover:-translate-y-2"
+            >
+              <Box className="w-8 h-8 text-purple-300 mb-2" />
+              <span className="text-3xl font-bold text-white">
                 {stats.products}
               </span>
-              <span className="text-gray-400">Products</span>
+              <span className="text-gray-400 text-sm">Products</span>
             </div>
-            <div className="bg-[#3e2246]/80 rounded-xl p-6 flex flex-col items-center shadow-2xl border border-purple-400 hover:scale-105 transition-all duration-200">
-              <Activity className="w-8 h-8 text-purple-400 mb-2" />
-              <span className="text-2xl font-bold text-white">
+
+            {/* Barters */}
+            <div
+              className="bg-white/5 backdrop-blur-xl border border-purple-500/20 rounded-xl p-6 flex flex-col items-center 
+          shadow-lg hover:shadow-purple-800/30 transition-all hover:-translate-y-2"
+            >
+              <Activity className="w-8 h-8 text-purple-300 mb-2" />
+              <span className="text-3xl font-bold text-white">
                 {stats.barters}
               </span>
-              <span className="text-gray-400">Active Barters</span>
+              <span className="text-gray-400 text-sm">Active Barters</span>
             </div>
           </div>
 
-          {/** Recent Barters table **/}
+          {/* RECENT BARTERS TABLE */}
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-purple-300 mb-4">
               Recent Barters
             </h2>
-            <div className="overflow-x-auto rounded-xl shadow-lg bg-[#29162e]/80">
-              <table className="min-w-full text-left text-gray-100 text-base">
-                <thead className="bg-[#2f1a3b]">
+
+            <div className="overflow-x-auto rounded-xl shadow-2xl bg-[#1e1122]/70 backdrop-blur-xl border border-white/10">
+              <table className="min-w-full text-left text-gray-100 text-sm">
+                <thead className="bg-[#311a38]/80 border-b border-white/10">
                   <tr>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Barter ID
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Offered By
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Offered Product
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Requested From
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Requested Product
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Status
-                    </th>
-                    <th className="px-3 py-2 text-sm font-semibold text-purple-200">
-                      Created At
-                    </th>
+                    {[
+                      "Barter ID",
+                      "Offered By",
+                      "Offered Product",
+                      "Requested From",
+                      "Requested Product",
+                      "Status",
+                      "Created At",
+                    ].map((heading) => (
+                      <th
+                        key={heading}
+                        className="px-4 py-3 font-semibold text-purple-200 uppercase tracking-wide text-xs"
+                      >
+                        {heading}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
+
                 <tbody>
                   {barters.length === 0 ? (
                     <tr>
                       <td
                         colSpan={7}
-                        className="px-3 py-4 text-center text-gray-400 text-base"
+                        className="px-4 py-6 text-center text-gray-400"
                       >
                         No barters found.
                       </td>
                     </tr>
                   ) : (
-                    barters.map((barter) => (
-                      <tr key={barter._id} className="border-t border-gray-700">
-                        <td className="px-3 py-2">{barter._id}</td>
-                        <td className="px-3 py-2">
+                    barters.map((barter, i) => (
+                      <tr
+                        key={barter._id}
+                        className={`border-t border-white/10 ${
+                          i % 2 === 0 ? "bg-white/5" : "bg-white/0"
+                        } hover:bg-white/10 transition`}
+                      >
+                        <td className="px-4 py-3">{barter._id}</td>
+                        <td className="px-4 py-3">
                           {barter.offeredBy?.username || "-"}
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-4 py-3">
                           {barter.productOfferedId?.title || "-"}
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-4 py-3">
                           {barter.requestedFrom?.username || "-"}
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-4 py-3">
                           {barter.productRequestedId?.title || "-"}
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-4 py-3">
                           <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
                               barter.status === "pending"
                                 ? "bg-yellow-700 text-yellow-200"
                                 : barter.status === "approved"
@@ -228,7 +282,7 @@ export default function Dashboard() {
                             {barter.status}
                           </span>
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-4 py-3">
                           {new Date(barter.createdAt).toLocaleString()}
                         </td>
                       </tr>

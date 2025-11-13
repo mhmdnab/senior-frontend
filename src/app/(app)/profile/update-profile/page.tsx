@@ -55,55 +55,66 @@ export default function UpdateProfilePage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12 text-white">
       <form
         onSubmit={handleSubmit}
-        className="bg-[#1f1f1f] bg-opacity-80 p-8 rounded-2xl shadow-2xl w-full max-w-md backdrop-blur-sm"
+        className="bg-[#2a1f33]/80 p-8 rounded-2xl shadow-2xl w-full max-w-md backdrop-blur-md border border-white/10"
       >
-        <h2 className="text-3xl font-bold mb-6 text-white text-center">
+        {/* Title */}
+        <h2 className="text-3xl font-bold mb-8 text-center text-purple-200 tracking-wide">
           Update Profile
         </h2>
 
+        {/* Email */}
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="w-full mb-4 p-3 bg-transparent border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full mb-4 p-3 bg-transparent border border-purple-400/40 text-white placeholder-purple-200/50 rounded-lg 
+                 focus:outline-none focus:ring-2 focus:ring-purple-500"
           required
         />
 
+        {/* Old Password */}
         <input
           type="password"
           name="oldPassword"
           value={formData.oldPassword}
           onChange={handleChange}
           placeholder="Old Password"
-          className="w-full mb-4 p-3 bg-transparent border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full mb-4 p-3 bg-transparent border border-purple-400/40 text-white placeholder-purple-200/50 rounded-lg 
+                 focus:outline-none focus:ring-2 focus:ring-purple-500"
           required
         />
 
+        {/* New Password */}
         <input
           type="password"
           name="newPassword"
           value={formData.newPassword}
           onChange={handleChange}
           placeholder="New Password"
-          className="w-full mb-4 p-3 bg-transparent border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full mb-4 p-3 bg-transparent border border-purple-400/40 text-white placeholder-purple-200/50 rounded-lg 
+                 focus:outline-none focus:ring-2 focus:ring-purple-500"
           required
         />
 
+        {/* Confirm Password */}
         <input
           type="password"
           name="confirmPassword"
           value={formData.confirmPassword}
           onChange={handleChange}
           placeholder="Confirm Password"
-          className="w-full mb-6 p-3 bg-transparent border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full mb-8 p-3 bg-transparent border border-purple-400/40 text-white placeholder-purple-200/50 rounded-lg 
+                 focus:outline-none focus:ring-2 focus:ring-purple-500"
           required
         />
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-purple-600 hover:bg-purple-500 text-white py-3 rounded-xl font-semibold transition-shadow shadow-lg hover:shadow-xl"
+          className="w-full bg-[#cb6ce6] hover:bg-[#b55bd3] text-white py-3 rounded-xl font-semibold
+                 shadow-lg hover:shadow-purple-500/30 transition-all active:scale-[0.97]"
         >
           Update Profile
         </button>

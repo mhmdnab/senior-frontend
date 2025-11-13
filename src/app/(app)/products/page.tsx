@@ -105,7 +105,7 @@ export default function ProductsPage() {
         </p>
 
         {/* CATEGORY FILTER BAR */}
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
           {allCategories.map((cat) => {
             const isActive = cat === selectedCategory;
             return (
@@ -113,14 +113,15 @@ export default function ProductsPage() {
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`
-                  px-4 py-1 rounded-full text-sm font-medium
-                  transition duration-200
-                  ${
-                    isActive
-                      ? "bg-purple-600 text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-200"
-                  }
-                `}
+          px-5 py-2 rounded-full text-sm font-semibold tracking-wide
+          transition-all duration-300
+          backdrop-blur-md border
+          ${
+            isActive
+              ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-purple-400 shadow-lg shadow-purple-900/40 scale-105"
+              : "bg-white/10 text-purple-200 border-white/20 hover:bg-white/20 hover:text-white hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/20 hover:scale-105"
+          }
+        `}
               >
                 {cat}
               </button>
@@ -128,49 +129,63 @@ export default function ProductsPage() {
           })}
         </div>
 
-        {/* PRODUCTS GRID (client-side pagination) */}
+        {/* PRODUCTS GRID */}
         {visibleProducts.length === 0 ? (
           <p className="text-center text-gray-300">No items found.</p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-7">
             {visibleProducts.map((product) => (
               <Link
                 href={`/products/${product._id}`}
                 key={product._id}
                 className="block"
               >
-                <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 relative">
-                  {/* Availability badge in top-right corner */}
+                <div
+                  className="
+                relative rounded-xl overflow-hidden
+                bg-white/90 backdrop-blur-sm
+                border border-white/20
+                shadow-md hover:shadow-2xl
+                hover:-translate-y-1 transition-all duration-300
+              "
+                >
+                  {/* Unavailable Badge */}
                   {!product.isAvailable && (
-                    <span className="absolute top-2 right-2 bg-gray-400 text-white text-xs px-2 py-0.5 rounded">
+                    <span className="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
                       Unavailable
                     </span>
                   )}
 
-                  {/* “New” ribbon if created within last 48 hours */}
+                  {/* New badge */}
                   {new Date().getTime() -
                     new Date(product.createdAt).getTime() <
                     48 * 60 * 60 * 1000 && (
-                    <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded">
+                    <span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full shadow">
                       New
                     </span>
                   )}
 
-                  <div className="relative w-full h-48 bg-gray-100">
+                  {/* Image */}
+                  <div className="relative w-full h-48 bg-gray-200">
                     <Image
                       src={getImageSrc(product.images?.[0] || "")}
                       alt={product.title}
                       fill
                       loading="lazy"
-                      style={{ objectFit: "cover" }}
-                      className="rounded"
+                      className="
+                    object-cover 
+                    transition-transform duration-500 
+                    group-hover:scale-110
+                  "
                     />
                   </div>
+
+                  {/* Content */}
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-1">
+                    <h3 className="text-md font-semibold text-gray-800 mb-1 line-clamp-1">
                       {product.title}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs text-gray-500">
                       By {product.owner?.username || "Unknown"}
                     </p>
                   </div>
@@ -182,12 +197,19 @@ export default function ProductsPage() {
 
         {/* LOAD MORE BUTTON */}
         {visibleCount < filteredProducts.length && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-10">
             <button
               onClick={() =>
                 setVisibleCount((prev) => prev + INITIAL_VISIBLE_COUNT)
               }
-              className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2 px-6 rounded-xl shadow-md transition duration-300"
+              className="
+            bg-purple-600 hover:bg-purple-500 
+            text-white font-semibold 
+            py-2 px-8 rounded-xl 
+            shadow-lg shadow-purple-700/30
+            hover:-translate-y-0.5 
+            transition-all duration-300
+          "
             >
               Load More
             </button>

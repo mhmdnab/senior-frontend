@@ -78,41 +78,58 @@ const MyProductsPage = () => {
   }, []); // Empty dependencies array means this runs once on mount
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">My Products</h1>
+    <div className="p-6 min-h-screen bg-gray-50">
+      <h1 className="text-2xl font-bold mb-6">My Products</h1>
 
-      {/* Display messages based on state */}
-      {loading && <p>Loading products...</p>}
-
+      {/* Display messages */}
+      {loading && <p className="text-gray-600">Loading products...</p>}
       {error && <p className="text-red-500">{error}</p>}
-
       {!loading && !error && products.length === 0 && (
-        <p>You haven’t added any products yet.</p>
+        <p className="text-gray-600">You haven’t added any products yet.</p>
       )}
 
+      {/* Product Grid */}
       {!loading && !error && products.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {products.map((product) => (
             <div
               key={product._id}
-              className="p-4 border rounded shadow bg-white"
+              className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
             >
               {/* Product Image */}
               {product.images && (
-                <Image
-                  src={product.images?.[0]}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="w-full h-48 object-cover rounded mb-4"
-                />
+                <div className="w-full h-48 overflow-hidden">
+                  <Image
+                    src={product.images?.[0]}
+                    alt={product.title}
+                    width={300}
+                    height={300}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
               )}
-              {/* Product Title */}
-              <h2 className="text-lg font-semibold">{product.title}</h2>
-              {/* Product Description */}
-              <p className="text-sm text-gray-600">{product.description}</p>
-              {/* Optional Owner Display */}
-              {/* <p className="text-xs text-gray-400">Owner: {product.owner?.username}</p> */}
+
+              {/* Card Content */}
+              <div className="p-5">
+                <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                  {product.title}
+                </h2>
+
+                <p className="text-sm text-gray-600 line-clamp-2">
+                  {product.description}
+                </p>
+
+                {/* Divider + Optional Button or Future Section */}
+                <div className="mt-4 border-t pt-3 flex justify-between items-center">
+                  <p className="text-xs text-gray-400">
+                    {/* product.owner?.username */}
+                  </p>
+
+                  <button className="text-blue-600 text-sm font-medium hover:underline">
+                    View
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>

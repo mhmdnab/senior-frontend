@@ -54,38 +54,53 @@ const CategoriesSection = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#232323] py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#232323] to-[#1a1a1a] py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto text-center">
         {/* Main Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#cb6ce6] mb-6 sm:mb-8">
-          Dakesh by categories
+        <h1 className="text-4xl font-extrabold text-[#cb6ce6] mb-4 tracking-wide drop-shadow">
+          Dakesh by Categories
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg text-[#89499b] mb-6 sm:mb-8">
-          Browse our wide selection of products organized by category to easily
-          find what you’re looking for.
+        <p className="text-lg text-[#c59cd9] max-w-2xl mx-auto mb-10 leading-relaxed">
+          Browse our collection of products organized by category so you can
+          find exactly what you're looking for — fast, simple, and beautifully
+          structured.
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-10">
           {categories.slice(0, 4).map((category) => (
             <Link
               href={category.link}
               key={category.name}
-              className="block h-full"
+              className="block group"
             >
-              <div className="flex flex-col h-full bg-gradient-to-br from-[#1f1f1f] to-[#2a2a2a] rounded-xl shadow-md hover:shadow-[#cb6ce6]/50 hover:shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+              <div
+                className="
+              bg-white/5 backdrop-blur-xl 
+              border border-white/10 
+              rounded-2xl overflow-hidden shadow-md
+              transition-all duration-300
+              group-hover:shadow-purple-700/40 group-hover:shadow-xl
+              group-hover:-translate-y-2
+            "
+              >
                 <img
                   src={category.imageUrl}
                   alt={category.name}
-                  className="w-full h-40 sm:h-48 object-cover"
+                  className="
+                w-full h-40 sm:h-48 object-cover 
+                transition-transform duration-500 
+                group-hover:scale-105
+              "
                 />
-                <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
-                  <h3 className="text-base sm:text-lg font-semibold text-white mb-1">
+
+                <div className="p-5 text-center">
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     {category.name}
                   </h3>
-                  <p className="text-gray-400 text-xs sm:text-sm">
+                  <p className="text-gray-300 text-sm leading-relaxed">
                     {category.description}
                   </p>
                 </div>
@@ -95,11 +110,16 @@ const CategoriesSection = () => {
         </div>
 
         {/* View More Button */}
-        <div className="mt-6 sm:mt-8">
+        <div className="mt-8">
           <Link href="/categories">
             <button
               type="button"
-              className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2 px-4 sm:py-3 sm:px-6 rounded-xl shadow-md transition duration-300 text-sm sm:text-base"
+              className="
+            bg-gradient-to-r from-purple-600 to-[#cb6ce6]
+            hover:from-purple-500 hover:to-[#b858d4]
+            text-white font-semibold py-3 px-8 rounded-xl
+            shadow-lg shadow-purple-800/30 transition-all duration-300
+          "
             >
               View More
             </button>

@@ -101,66 +101,134 @@ export default function AddProductPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-[#60346c] backdrop-blur-md rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">Add New Product</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10">
+        <h1 className="text-3xl font-extrabold text-[#cb6ce6] mb-6 text-center drop-shadow">
+          Add New Product
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Title */}
           <input
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder="Product Title"
             value={formData.title}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
+            className="
+          w-full px-4 py-3 rounded-lg bg-white/10 text-white
+          placeholder:text-purple-200/50
+          border border-white/20
+          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          outline-none transition
+        "
           />
+
+          {/* Description */}
           <textarea
             name="description"
-            placeholder="Description"
+            placeholder="Product Description"
             value={formData.description}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-[#522c5d] placeholder-gray-400 focus:outline-none"
-          />
+            rows={4}
+            className="
+          w-full px-4 py-3 rounded-lg bg-white/10 text-white
+          placeholder:text-purple-200/50
+          border border-white/20
+          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          outline-none resize-none transition
+        "
+          ></textarea>
+
+          {/* File Upload */}
+          <label className="block text-purple-200/80 text-sm font-semibold">
+            Upload Product Image
+          </label>
           <input
             type="file"
             name="image"
             accept="image/*"
             onChange={handleFileChange}
             required
-            className="w-full p-2 rounded bg-[#522c5d] text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-[#cb6ce6] file:text-white"
+            className="
+          w-full px-4 py-3 rounded-lg bg-white/10 text-white
+          border border-white/20 cursor-pointer
+          file:bg-purple-600 file:text-white file:rounded file:px-4 file:py-2
+          file:border-none file:mr-4
+          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          outline-none transition
+        "
           />
+
+          {/* Preview */}
           {preview && (
             <img
               src={preview}
               alt="Preview"
-              className="w-full h-48 object-cover rounded-md mt-2"
+              className="w-full h-48 object-cover rounded-xl border border-white/20 shadow-lg mt-3"
             />
           )}
+
+          {/* Category */}
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
             required
-            className="w-full p-2 rounded bg-[#5d3269] text-white focus:outline-none"
+            className="
+          w-full px-4 py-3 rounded-lg bg-white/10 text-white
+          border border-white/20
+          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          outline-none transition
+        "
           >
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Books">Books</option>
-            <option value="Toys">Toys</option>
-            <option value="Home">Home</option>
-            <option value="Automobiles">Automobiles</option>
-            <option value="Other">Other</option>
+            <option className="text-gray-700" value="Electronics">
+              Electronics
+            </option>
+            <option className="text-gray-700" value="Clothing">
+              Clothing
+            </option>
+            <option className="text-gray-700" value="Books">
+              Books
+            </option>
+            <option className="text-gray-700" value="Toys">
+              Toys
+            </option>
+            <option className="text-gray-700" value="Home">
+              Home
+            </option>
+            <option className="text-gray-700" value="Automobiles">
+              Automobiles
+            </option>
+            <option className="text-gray-700" value="Other">
+              Other
+            </option>
           </select>
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full hover:bg-[#89499b] bg-[#cb6ce6] text-white py-2 px-4 rounded-md transition"
+            className="
+          w-full py-3 rounded-lg font-semibold text-white
+          bg-gradient-to-r from-purple-600 to-pink-600
+          hover:from-purple-500 hover:to-pink-500
+          shadow-lg shadow-purple-900/40 hover:shadow-purple-700/50
+          transition-all duration-300 active:scale-[0.97]
+        "
           >
             Add Product
           </button>
         </form>
+
+        {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="mt-4 w-full bg-gray-700 text-gray-300 hover:bg-gray-800 py-2 px-4 rounded-md transition"
+          className="
+        mt-5 w-full py-2 rounded-lg text-gray-300
+        bg-white/5 border border-white/10
+        hover:bg-white/10 transition-all
+      "
         >
           Go Back
         </button>

@@ -77,17 +77,24 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="p-8 max-w-full h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323]">
-      <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
-        {/* Image on the left */}
+    <div className="p-8 min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] flex items-center justify-center">
+      <div
+        className="flex flex-col md:flex-row gap-10 items-center max-w-5xl w-full 
+                  bg-white/5 backdrop-blur-md rounded-2xl p-8 
+                  border border-white/10 shadow-xl"
+      >
+        {/* IMAGE SECTION */}
         <div className="w-full md:w-1/3">
-          <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-md bg-white">
+          <div
+            className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg bg-black/10 
+                      border border-white/10 hover:shadow-purple-600/30 hover:scale-[1.02] transition-all duration-300"
+          >
             {product.images?.length ? (
               <Image
                 src={product.images[0]}
                 alt={product.title}
                 fill
-                style={{ objectFit: "contain" }}
+                className="object-contain p-4 transition-transform duration-300 hover:scale-105"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-500">
@@ -97,17 +104,29 @@ export default function ProductPage() {
           </div>
         </div>
 
-        {/* Product details on the right */}
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <h1 className="text-3xl font-bold text-white">{product.title}</h1>
-          <p className="text-white text-sm">
-            By {product.owner?.username || "Unknown"}
+        {/* DETAILS SECTION */}
+        <div className="w-full md:w-1/2 flex flex-col gap-4 text-center md:text-left">
+          <h1 className="text-4xl font-extrabold text-white drop-shadow-md">
+            {product.title}
+          </h1>
+
+          <p className="text-sm text-purple-200 font-medium">
+            By{" "}
+            <span className="text-white">
+              {product.owner?.username || "Unknown"}
+            </span>
           </p>
-          <p className="text-gray-400">{product.description}</p>
+
+          <p className="text-gray-300 text-base leading-relaxed">
+            {product.description}
+          </p>
 
           <button
             onClick={handleDakesh}
-            className="mt-4 w-fit bg-[#cb6ce6] text-white px-6 py-2 rounded-md hover:bg-[#89499b] transition"
+            className="mt-4 inline-block bg-gradient-to-r from-purple-500 to-pink-500 
+                  text-white px-8 py-3 rounded-xl font-semibold 
+                  hover:opacity-90 hover:shadow-lg hover:-translate-y-[2px]
+                  transition-all duration-300 shadow-purple-800/30"
           >
             Dakesh
           </button>

@@ -1,28 +1,44 @@
-import Link from "next/link";
-import Image from "next/image";
+"use client";
 
-const Hero = () => {
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Hero() {
+  const { scrollY } = useScroll();
+
+  // Parallax movement
+  const bgY = useTransform(scrollY, [0, 500], [0, -150]);
+
+  // Larger scale to prevent gaps
+  const bgScale = useTransform(scrollY, [0, 500], [1.2, 1.35]);
+
+  // Text movement
+  const textY = useTransform(scrollY, [0, 300], [0, -60]);
+
   return (
-    <section className="relative h-screen flex bg-[#232323] text-white">
-      {/* Background Image (Optional) */}
-      <div className="absolute inset-0">
+    <section className="relative h-screen flex bg-[#232323] text-white overflow-hidden">
+      {/* Background Image */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          y: bgY,
+          scale: bgScale,
+        }}
+      >
         <Image
-          src={"/assets/herobg.png"}
+          src="/assets/herobg.png"
           alt="Background"
           fill
+          priority
           style={{ objectFit: "cover" }}
           className="opacity-90"
-          priority
         />
-      </div>
+      </motion.div>
 
-      {/* Hero Content */}
-      <div className="relative h-full flex items-center pl-24">
-        {" "}
-        {/* Adjusted for left alignment and vertical centering */}
-        <div className="md:text-left text-center">
-          {" "}
-          {/* Align text to the left */}
+      {/* Content */}
+      <div className="relative h-full flex items-center pl-10 md:pl-24">
+        <motion.div style={{ y: textY }}>
           <h1 className="text-5xl font-bold mb-4">Dakesh</h1>
           <p className="text-xl mb-8">Trade it, Don’t waste it</p>
           <Link href="/products">
@@ -30,10 +46,8 @@ const Hero = () => {
               Dakesh Now
             </button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

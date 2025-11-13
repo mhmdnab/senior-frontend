@@ -118,41 +118,44 @@ export default function RespondBarterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4 py-12">
-      {/* 2. Card itself: max width, softer purple, rounded corners, gentle shadow */}
-      <div className="w-full max-w-md bg-[#5d4969] rounded-2xl shadow-lg p-6">
-        <h1 className="text-2xl font-bold mb-6 text-purple-100 text-center">
+      <div className="w-full max-w-md bg-[#4b3a55]/90 rounded-2xl shadow-2xl p-8 backdrop-blur-md border border-white/10">
+        {/* Title */}
+        <h1 className="text-3xl font-bold mb-8 text-purple-200 text-center tracking-wide">
           Barter Request
         </h1>
 
-        {/* Requested Product */}
-        <div className="mb-6 border-b border-purple-400/50 pb-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-100">
+        {/* Your Product */}
+        <div className="mb-8 pb-6 border-b border-purple-300/30">
+          <h2 className="text-lg font-semibold mb-4 text-purple-100 tracking-wide">
             You own this product:
           </h2>
+
           <div className="flex items-start gap-4">
             {barter.productRequestedId?.images?.[0] && (
               <img
                 src={barter.productRequestedId.images[0]}
                 alt={barter.productRequestedId.title}
-                className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
+                className="w-24 h-24 object-cover rounded-lg border border-purple-400/40 shadow-md shadow-purple-900/30"
               />
             )}
+
             <div className="flex-1">
-              <h3 className="font-medium text-gray-100">
+              <h3 className="font-semibold text-white text-lg">
                 {barter.productRequestedId?.title}
               </h3>
-              <p className="text-gray-300 text-sm mt-1">
+              <p className="text-purple-200/80 text-sm mt-1 leading-relaxed">
                 {barter.productRequestedId?.description}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Offered Product */}
-        <div className="mb-6 border-b border-purple-400/50 pb-6">
-          <h2 className="text-lg font-semibold mb-4 text-gray-100">
+        {/* Their Offered Product */}
+        <div className="mb-8 pb-6 border-b border-purple-300/30">
+          <h2 className="text-lg font-semibold mb-4 text-purple-100 tracking-wide">
             They offer you:
           </h2>
+
           <div className="flex items-start gap-4">
             {barter.productOfferedId?.images?.[0] && (
               <img
@@ -165,19 +168,22 @@ export default function RespondBarterPage() {
                       }${barter.productOfferedId.images[0]}`
                 }
                 alt={barter.productOfferedId.title}
-                className="w-24 h-24 object-cover rounded-lg border border-purple-300/40"
+                className="w-24 h-24 object-cover rounded-lg border border-purple-400/40 shadow-md shadow-purple-900/30"
               />
             )}
+
             <div className="flex-1">
-              <h3 className="font-medium text-gray-100">
+              <h3 className="font-semibold text-white text-lg">
                 {barter.productOfferedId?.title}
               </h3>
-              <p className="text-gray-300 text-sm mt-1">
+
+              <p className="text-purple-200/80 text-sm mt-1 leading-relaxed">
                 {barter.productOfferedId?.description}
               </p>
-              <p className="text-xs text-gray-400 mt-2">
+
+              <p className="text-xs text-purple-300/70 mt-2">
                 Offered by:{" "}
-                <span className="font-medium text-purple-200">
+                <span className="font-semibold text-purple-200">
                   {barter.offeredBy?.username}
                 </span>
               </p>
@@ -185,23 +191,32 @@ export default function RespondBarterPage() {
           </div>
         </div>
 
-        {/* Approved/Decline Buttons or Result Text */}
+        {/* Decision */}
         {decision ? (
-          <div className="mt-4 text-center">
-            <span className="inline-block px-4 py-2 bg-purple-700/60 text-gray-100 font-semibold rounded-lg">
-              Barter {decision === "approved" ? "is approved" : "is declined"}
+          <div className="mt-6 text-center">
+            <span
+              className={`inline-block px-5 py-2 rounded-lg text-white font-semibold text-lg shadow-md shadow-purple-900/40
+            ${
+              decision === "approved"
+                ? "bg-green-600/80 border border-green-400/40"
+                : "bg-red-600/80 border border-red-400/40"
+            }
+          `}
+            >
+              Barter {decision === "approved" ? "Approved" : "Declined"}
             </span>
           </div>
         ) : (
-          <div className="flex gap-4 mt-4 justify-center">
+          <div className="flex gap-5 mt-6 justify-center">
             <button
-              className="bg-green-600 hover:bg-green-700 transition-colors text-white px-5 py-2 rounded-lg font-medium"
+              className="bg-green-600 hover:bg-green-700 transition-all px-6 py-2 rounded-lg text-white font-semibold shadow-md shadow-green-900/40"
               onClick={() => handleDecision("approved")}
             >
               Approve
             </button>
+
             <button
-              className="bg-red-600 hover:bg-red-700 transition-colors text-white px-5 py-2 rounded-lg font-medium"
+              className="bg-red-600 hover:bg-red-700 transition-all px-6 py-2 rounded-lg text-white font-semibold shadow-md shadow-red-900/40"
               onClick={() => handleDecision("declined")}
             >
               Decline

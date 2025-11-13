@@ -47,41 +47,66 @@ export default function Products() {
   }, []);
 
   return (
-    <div className="bg-gray-50 p-6 rounded-xl shadow-lg">
+    <div className="bg-gradient-to-br from-[#522c5d] via-[#232323] to-[#1c101f] p-6 shadow-2xl min-h-screen backdrop-blur-xl">
       {/* Go Back Button */}
       <button
         onClick={() => window.history.back()}
-        className="mb-6 inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 font-semibold text-sm"
+        className="mb-6 inline-flex items-center gap-2 text-purple-200 hover:text-purple-100 font-semibold text-sm transition"
       >
         ← Go Back
       </button>
 
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Products</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700 text-sm uppercase tracking-wider">
-              <th className="text-left px-6 py-3">Title</th>
-              <th className="text-left px-6 py-3">Category</th>
-              <th className="text-left px-6 py-3">Owner</th>
-              <th className="text-left px-6 py-3">Actions</th>
+      {/* Title */}
+      <h2 className="text-3xl font-bold text-[#cb6ce6] mb-8 drop-shadow-sm">
+        Products
+      </h2>
+
+      {/* Table Wrapper */}
+      <div className="overflow-x-auto rounded-xl shadow-lg bg-white/5 backdrop-blur-md border border-white/10">
+        <table className="min-w-full text-left text-gray-100 text-sm">
+          <thead className="bg-white/10 border-b border-white/10">
+            <tr>
+              <th className="px-6 py-3 uppercase text-xs font-semibold tracking-wide text-purple-200">
+                Title
+              </th>
+              <th className="px-6 py-3 uppercase text-xs font-semibold tracking-wide text-purple-200">
+                Category
+              </th>
+              <th className="px-6 py-3 uppercase text-xs font-semibold tracking-wide text-purple-200">
+                Owner
+              </th>
+              <th className="px-6 py-3 uppercase text-xs font-semibold tracking-wide text-purple-200">
+                Actions
+              </th>
             </tr>
           </thead>
+
           <tbody>
-            {products.map((product: Product) => (
+            {products.map((product: Product, idx: number) => (
               <tr
                 key={product._id}
-                className="border-t hover:bg-gray-50 transition duration-200"
+                className={`
+              border-t border-white/10 transition
+              ${idx % 2 === 0 ? "bg-white/5" : "bg-white/0"}
+              hover:bg-white/10
+            `}
               >
-                <td className="px-6 py-4 text-gray-800">{product.title}</td>
-                <td className="px-6 py-4 text-gray-600">{product.category}</td>
-                <td className="px-6 py-4 text-gray-600">
+                <td className="px-6 py-4 text-white">{product.title}</td>
+                <td className="px-6 py-4 text-purple-200">
+                  {product.category}
+                </td>
+                <td className="px-6 py-4 text-purple-200">
                   {product.owner?.username || "N/A"}
                 </td>
+
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleDelete(product._id)}
-                    className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md text-sm"
+                    className="
+                  bg-red-600/80 hover:bg-red-500 
+                  text-white text-sm px-4 py-1.5 rounded-lg 
+                  transition shadow-md hover:shadow-red-900/40
+                "
                   >
                     Delete
                   </button>

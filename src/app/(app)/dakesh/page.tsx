@@ -194,36 +194,39 @@ export default function DakeshPage() {
   };
 
   return (
-    <div className="p-6 w-full mx-auto bg-gradient-to-tr from-[#522c5d] to-[#232323]">
-      <h1 className="text-2xl font-bold mb-4 text-white">Initiate Barter</h1>
+    <div className="p-8 w-full mx-auto min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-white">
+      {/* Page Title */}
+      <h1 className="text-3xl font-bold mb-4">Initiate Barter</h1>
 
+      {/* If product ID is passed */}
       {productIdToBarterFor && (
-        <p className="mb-4 text-white">
-          You are offering a product to barter for the product:{" "}
-          <span className="font-semibold">{productIdToBarterFor}</span>
+        <p className="mb-4 text-purple-200">
+          You are offering a product to barter for:
+          <span className="font-semibold text-white ml-1">
+            {productIdToBarterFor}
+          </span>
         </p>
       )}
 
+      {/* Barter Initiated Message */}
       {barterInitiated && otherUserEmail && (
-        <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow-lg">
-          <h3 className="text-xl font-semibold mb-2">
-            Barter Request Initiated!
-          </h3>
-          <p className="mb-3">
-            The owner of the product you want has been notified.
-          </p>
-          <p>You can contact them directly:</p>
-          <p className="font-bold text-lg">Email: {otherUserEmail}</p>
-          <div className="mt-4 flex gap-3">
+        <div className="mt-6 p-6 rounded-xl border border-green-400/40 bg-green-900/20 text-green-200 shadow-xl">
+          <h3 className="text-2xl font-bold mb-2">Barter Request Sent!</h3>
+          <p className="mb-2">The product owner has been notified.</p>
+          <p>You can contact them directly at:</p>
+          <p className="font-bold text-lg mt-1">{otherUserEmail}</p>
+
+          <div className="mt-6 flex gap-4">
             <button
               onClick={() => setBarterInitiated(false)}
-              className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition"
+              className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md transition"
             >
               Close
             </button>
+
             <button
               onClick={handleGoHome}
-              className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-md transition"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-md transition font-semibold"
             >
               Go to Homepage
             </button>
@@ -231,73 +234,95 @@ export default function DakeshPage() {
         </div>
       )}
 
-      {loading && <p className="text-white">Loading your products...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {/* Loading / Error */}
+      {loading && <p className="text-purple-200">Loading your products...</p>}
+      {error && <p className="text-red-400">{error}</p>}
 
+      {/* No products in same category */}
       {!loading && !error && targetProduct && myProducts.length === 0 && (
-        <p className="text-[#f58d33]">
-          You have no products in the same category (
-          <span className="font-semibold">{targetProduct.category}</span>) to
-          offer.
+        <p className="text-orange-300">
+          You have no products in the{" "}
+          <span className="font-semibold">{targetProduct.category}</span>{" "}
+          category.
         </p>
       )}
 
+      {/* Product Selection */}
       {!loading && !error && myProducts.length > 0 && !barterInitiated && (
-        <div className="mt-6">
-          <h2 className="text-xl text-white font-semibold mb-3">
-            Choose one of your products (Category:{" "}
-            <span className="font-medium">{targetProduct?.category}</span>)
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold text-purple-200 mb-4">
+            Select one of your products to offer (Category:{" "}
+            <span className="text-white">{targetProduct?.category}</span>)
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {myProducts.map((product) => (
-              <div
-                key={product._id}
-                className={`p-4 border rounded shadow cursor-pointer transition-transform transform hover:scale-105 ${
-                  selectedProductToOffer === product._id
-                    ? "bg-green-200 border-green-500"
-                    : "bg-white hover:border-gray-300"
-                }`}
-                onClick={() => handleProductSelect(product._id)}
-              >
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedProductToOffer === product._id}
-                    onChange={() => handleProductSelect(product._id)}
-                    className="mr-2"
-                  />
-                  <div>
-                    <div className="relative w-full h-32 mb-2 bg-gray-100">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {myProducts.map((product) => {
+              const selected = selectedProductToOffer === product._id;
+
+              return (
+                <div
+                  key={product._id}
+                  onClick={() => handleProductSelect(product._id)}
+                  className={`
+                cursor-pointer rounded-xl transition-all duration-300 p-4 border shadow-lg
+                ${
+                  selected
+                    ? "bg-[#cb6ce6]/20 border-purple-400 shadow-purple-800"
+                    : "bg-white/10 border-white/20 hover:bg-white/20"
+                }
+                hover:-translate-y-1
+              `}
+                >
+                  <label className="cursor-pointer flex flex-col">
+                    {/* Image */}
+                    <div className="relative w-full h-36 mb-3 rounded-md overflow-hidden">
                       <img
                         src={getImageSrc(product.images?.[0] || "")}
                         alt={product.title}
-                        className="rounded object-cover w-full h-full"
+                        className="object-cover w-full h-full rounded-md"
                       />
                     </div>
-                    <h3 className="text-lg font-semibold">{product.title}</h3>
-                    <p className="text-sm text-gray-600">
+
+                    {/* Checkbox + Title */}
+                    <div className="flex items-center gap-2 mb-1">
+                      <input
+                        type="checkbox"
+                        checked={selected}
+                        onChange={() => handleProductSelect(product._id)}
+                        className="w-4 h-4 accent-purple-500"
+                      />
+                      <h3 className="text-lg font-bold text-white">
+                        {product.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-purple-200 text-sm">
                       {product.description}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-300 mt-1">
                       Owner: {product.owner.username}
                     </p>
-                  </div>
-                </label>
-              </div>
-            ))}
+                  </label>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
+      {/* Submit Button */}
       {!loading && !error && myProducts.length > 0 && !barterInitiated && (
         <button
           onClick={handleInitiateBarter}
           disabled={!selectedProductToOffer || loading}
-          className={`mt-6 py-2 px-6 rounded-md font-bold transition-colors duration-300 ${
-            !selectedProductToOffer || loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-500 hover:bg-green-700 text-white"
-          }`}
+          className={`
+        mt-8 py-3 px-6 rounded-md font-bold text-lg transition-all duration-300
+        ${
+          !selectedProductToOffer || loading
+            ? "bg-gray-500 cursor-not-allowed text-gray-300"
+            : "bg-purple-600 hover:bg-purple-500 text-white shadow-lg hover:shadow-purple-900"
+        }
+      `}
         >
           {loading ? "Initiating..." : "Initiate Barter"}
         </button>

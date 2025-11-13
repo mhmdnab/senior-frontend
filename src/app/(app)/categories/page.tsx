@@ -54,38 +54,52 @@ const Categories = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-16 px-5 md:px-12">
+    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-20 px-5 md:px-12">
       <div className="container mx-auto text-center">
         {/* Main Title */}
-        <h1 className="text-4xl font-bold text-[#cb6ce6] mb-8">
-          Dakesh by categories
+        <h1 className="text-4xl font-extrabold text-[#cb6ce6] mb-4 drop-shadow">
+          Dakesh by Categories
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg text-[#89499b] mb-8">
+        <p className="text-lg text-[#d9b2e6] max-w-2xl mx-auto mb-12">
           Browse our wide selection of products organized by category to easily
           find what you're looking for to trade.
         </p>
 
         {/* Category Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4 sm:px-0 py-12 items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 px-2 sm:px-0 py-12 items-stretch">
           {categories.map((category) => (
             <Link
               href={category.link}
               key={category.name}
-              className="block h-full"
+              className="block h-full group"
             >
-              <div className="flex flex-col h-full bg-white rounded-lg shadow-xl hover:shadow-[#9c60ad] overflow-hidden transition duration-300">
-                <img
-                  src={category.imageUrl}
-                  alt={category.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4 flex-1 flex flex-col justify-between">
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              <div
+                className="
+              flex flex-col h-full rounded-2xl overflow-hidden
+              bg-white/5 backdrop-blur-xl border border-white/10
+              shadow-lg transition-all duration-300
+              group-hover:shadow-purple-700/40 group-hover:-translate-y-2
+            "
+              >
+                <div className="relative w-full h-48 overflow-hidden">
+                  <img
+                    src={category.imageUrl}
+                    alt={category.name}
+                    className="
+                  w-full h-full object-cover 
+                  transition-transform duration-500
+                  group-hover:scale-110
+                "
+                  />
+                </div>
+
+                <div className="p-5 flex-1 flex flex-col justify-between text-left">
+                  <h3 className="text-xl font-semibold text-white mb-2">
                     {category.name}
                   </h3>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-300 text-sm">
                     {category.description}
                   </p>
                 </div>

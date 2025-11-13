@@ -17,33 +17,53 @@ export default async function Page({ params }: any) {
 
   return (
     <div className="p-8 bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen">
-      <h1 className="text-2xl font-bold capitalize mb-6 text-white">
+      <h1 className="text-3xl font-extrabold capitalize mb-8 text-[#cb6ce6] drop-shadow">
         {params.category} Products
       </h1>
 
       {products.length === 0 ? (
-        <p className="text-white">No products found in this category.</p>
+        <p className="text-purple-200 text-lg">
+          No products found in this category.
+        </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product: any) => (
             <Link
               key={product._id}
               href={`/products/${product._id}`}
-              className="block"
+              className="block group"
             >
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                <div className="relative h-48 w-full">
+              <div
+                className="
+              bg-white/10 backdrop-blur-lg 
+              border border-white/10 rounded-2xl 
+              overflow-hidden shadow-lg
+              transition-all duration-300
+              group-hover:shadow-purple-700/40
+              group-hover:-translate-y-2
+            "
+              >
+                {/* Image */}
+                <div className="relative h-52 w-full overflow-hidden">
                   <Image
                     src={product.images[0]}
                     alt={product.title}
                     fill
                     style={{ objectFit: "cover" }}
                     sizes="(max-width: 768px) 100vw, 25vw"
+                    className="
+                  transition-transform duration-500
+                  group-hover:scale-110
+                "
                   />
                 </div>
-                <div className="p-4">
-                  <h2 className="text-lg font-semibold">{product.title}</h2>
-                  <p className="text-sm text-gray-500">
+
+                {/* Content */}
+                <div className="p-5">
+                  <h2 className="text-xl font-semibold text-white mb-1">
+                    {product.title}
+                  </h2>
+                  <p className="text-sm text-purple-200">
                     By {product.owner?.username || "Unknown"}
                   </p>
                 </div>
