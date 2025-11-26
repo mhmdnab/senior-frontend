@@ -87,22 +87,34 @@ export default function ProductsPage() {
   // 8. Show a loading message if we're still fetching
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] flex items-center justify-center">
-        <p className="text-lg text-[#cbcbcb]">Loading products...</p>
+      <div className="relative min-h-screen bg-[#141018] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+        <div className="relative z-10 flex flex-col items-center gap-3 text-center px-6">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Marketplace
+          </p>
+          <p className="text-lg text-slate-200">Loading products…</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-12 overflow-x-hidden">
-      <div className="container mx-auto px-4">
+    <div className="relative min-h-screen bg-[#141018] py-14 overflow-x-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.18),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.18),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.05),transparent_32%)]" />
+      <div className="absolute -bottom-32 -right-24 w-80 h-80 bg-[#cb6ce6]/15 blur-3xl rounded-full" />
+      <div className="absolute -top-24 -left-16 w-64 h-64 bg-[#89499b]/15 blur-3xl rounded-full" />
+      <div className="relative container mx-auto px-4">
         {/* Page Title */}
-        <h1 className="text-3xl font-bold text-white mb-4 text-center">
-          Products
-        </h1>
-        <p className="text-xl font-semibold text-[#cbcbcb] mb-8 text-center">
-          Check out the latest items that you might wanna barter with.
-        </p>
+        <div className="text-center space-y-3 mb-10">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Marketplace
+          </p>
+          <h1 className="text-4xl font-bold text-white">Products</h1>
+          <p className="text-lg font-semibold text-slate-200/85">
+            Check out the latest items that you might want to barter with.
+          </p>
+        </div>
 
         {/* CATEGORY FILTER BAR */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
@@ -118,8 +130,8 @@ export default function ProductsPage() {
           backdrop-blur-md border
           ${
             isActive
-              ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-purple-400 shadow-lg shadow-purple-900/40 scale-105"
-              : "bg-white/10 text-purple-200 border-white/20 hover:bg-white/20 hover:text-white hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/20 hover:scale-105"
+              ? "bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b] text-slate-950 border-[#cb6ce6]/40 shadow-lg shadow-[#cb6ce6]/30 scale-105"
+              : "bg-white/5 text-slate-100 border-white/10 hover:bg-white/10 hover:text-white hover:border-[#cb6ce6]/40 hover:shadow-md hover:shadow-[#cb6ce6]/25 hover:scale-105"
           }
         `}
               >
@@ -143,15 +155,16 @@ export default function ProductsPage() {
                 <div
                   className="
                 relative rounded-xl overflow-hidden
-                bg-white/90 backdrop-blur-sm
-                border border-white/20
-                shadow-md hover:shadow-2xl
+                bg-white/5 backdrop-blur-md
+                border border-white/10
+                shadow-[0_15px_40px_-20px_rgba(203,108,230,0.45)]
+                hover:shadow-[#cb6ce6]/35
                 hover:-translate-y-1 transition-all duration-300
               "
                 >
                   {/* Unavailable Badge */}
                   {!product.isAvailable && (
-                    <span className="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
+                    <span className="absolute top-2 right-2 bg-slate-900/80 text-white text-xs px-2 py-0.5 rounded-full shadow">
                       Unavailable
                     </span>
                   )}
@@ -160,13 +173,13 @@ export default function ProductsPage() {
                   {new Date().getTime() -
                     new Date(product.createdAt).getTime() <
                     48 * 60 * 60 * 1000 && (
-                    <span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full shadow">
+                    <span className="absolute top-2 left-2 bg-[#f7d7ff] text-slate-900 text-xs px-2 py-0.5 rounded-full shadow">
                       New
                     </span>
                   )}
 
                   {/* Image */}
-                  <div className="relative w-full h-48 bg-gray-200">
+                  <div className="relative w-full h-48 bg-slate-900/60">
                     <Image
                       src={getImageSrc(product.images?.[0] || "")}
                       alt={product.title}
@@ -182,10 +195,10 @@ export default function ProductsPage() {
 
                   {/* Content */}
                   <div className="p-4">
-                    <h3 className="text-md font-semibold text-gray-800 mb-1 line-clamp-1">
+                    <h3 className="text-md font-semibold text-white mb-1 line-clamp-1">
                       {product.title}
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-slate-300">
                       By {product.owner?.username || "Unknown"}
                     </p>
                   </div>
@@ -203,11 +216,11 @@ export default function ProductsPage() {
                 setVisibleCount((prev) => prev + INITIAL_VISIBLE_COUNT)
               }
               className="
-            bg-purple-600 hover:bg-purple-500 
-            text-white font-semibold 
-            py-2 px-8 rounded-xl 
-            shadow-lg shadow-purple-700/30
-            hover:-translate-y-0.5 
+            bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b]
+            text-slate-950 font-semibold 
+            py-2.5 px-8 rounded-xl 
+            shadow-lg shadow-[#cb6ce6]/30
+            hover:-translate-y-0.5 hover:shadow-[#cb6ce6]/35
             transition-all duration-300
           "
             >

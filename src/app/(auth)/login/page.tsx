@@ -4,9 +4,12 @@ import axios from "axios";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useAuth } from "@/contexts/AuthContext"; // <-- import the context hook
+import Link from "next/link";
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE || "https://dakesh-backend.onrender.com";
+  process.env.NEXT_PUBLIC_API_BASE ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://dakesh-backend.onrender.com";
 
 export default function Login() {
   const router = useRouter();
@@ -55,87 +58,130 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
-      <div
-        className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 
-                  p-8 rounded-2xl shadow-xl shadow-black/30"
-      >
-        <h1 className="text-3xl font-extrabold text-white mb-6 text-center drop-shadow">
-          Login
-        </h1>
+    <div className="relative min-h-screen bg-[#141018] text-slate-50 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+      <div className="absolute -bottom-28 -left-24 w-64 h-64 rounded-full bg-[#cb6ce6]/15 blur-3xl" />
+      <div className="absolute -top-16 -right-8 w-64 h-64 rounded-full bg-[#89499b]/20 blur-3xl" />
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1">
-              Email
-            </label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Type your email"
-              required
-              className="
-            w-full px-4 py-2 rounded-lg bg-white/20 text-white
-            border border-white/30 focus:border-purple-400 focus:ring-2 
-            focus:ring-purple-500/40 transition-all placeholder-purple-200/50
-          "
-            />
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 md:py-24">
+        <div className="flex items-center gap-3 mb-10">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#cb6ce6] via-[#b36ce0] to-[#89499b] shadow-lg shadow-[#cb6ce6]/35 border border-white/10 flex items-center justify-center text-lg font-bold text-slate-950">
+            Dk
           </div>
-
-          {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="
-            w-full px-4 py-2 rounded-lg bg-white/20 text-white
-            border border-white/30 focus:border-purple-400 focus:ring-2 
-            focus:ring-purple-500/40 transition-all placeholder-purple-200/50
-          "
-            />
-          </div>
-
-          {/* Error */}
-          {error && (
-            <p className="text-red-400 text-sm text-center font-medium">
-              {error}
+            <p className="text-sm uppercase tracking-[0.25em] text-[#f7d7ff]/80">
+              Welcome back
             </p>
-          )}
+            <p className="text-base text-slate-200">
+              Continue swapping and keep your matches moving.
+            </p>
+          </div>
+        </div>
 
-          {/* Button */}
-          <button
-            type="submit"
-            className="
-          w-full py-3 rounded-lg font-semibold 
-          bg-gradient-to-r from-purple-500 to-pink-500 
-          hover:opacity-90 hover:shadow-lg hover:shadow-purple-800/40
-          transition-all duration-300 text-white
-        "
+        <div className="grid gap-8 md:grid-cols-[1.05fr,1fr] bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-[0_25px_70px_-35px_rgba(203,108,230,0.35)] backdrop-blur-xl">
+          <div className="space-y-6 md:pr-6">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+                Login to Dakesh
+              </h1>
+              <p className="mt-3 text-lg text-slate-200/90">
+                Pick up where you left off. Chat with swappers, share photos,
+                and close your next trade.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  title: "Secure by design",
+                  desc: "Session tokens stored safely.",
+                },
+                {
+                  title: "Smart notifications",
+                  desc: "Stay on top of new offers.",
+                },
+                {
+                  title: "Saved preferences",
+                  desc: "We remember your filters.",
+                },
+                {
+                  title: "Live support",
+                  desc: "Reach out when you need help.",
+                },
+              ].map(({ title, desc }) => (
+                <div
+                  key={title}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+                >
+                  <p className="text-sm font-semibold text-[#f7d7ff]">
+                    {title}
+                  </p>
+                  <p className="text-sm text-slate-200/90 mt-1">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <form
+            onSubmit={handleLogin}
+            className="space-y-5 bg-slate-950/50 rounded-2xl border border-white/10 p-6 sm:p-8 shadow-inner shadow-[#cb6ce6]/10"
           >
-            Login
-          </button>
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-200">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                autoComplete="email"
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+              />
+            </div>
 
-          {/* Links */}
-          <p className="text-sm text-purple-200 mt-4 text-center">
-            <a href="/register" className="hover:underline">
-              Don’t have an account? Register here
-            </a>
-          </p>
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-200">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                autoComplete="current-password"
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+              />
+            </div>
 
-          <p className="text-sm text-purple-200 mt-2 text-center">
-            <a href="/forgot-password" className="hover:underline">
-              Forgot your password?
-            </a>
-          </p>
-        </form>
+            {error && (
+              <p className="text-[#f7d7ff] text-sm text-center font-medium">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full py-3.5 rounded-xl font-semibold bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b] text-slate-950 shadow-lg shadow-[#cb6ce6]/30 hover:translate-y-[-1px] hover:shadow-xl hover:shadow-[#cb6ce6]/35 transition"
+            >
+              Sign in
+            </button>
+
+            <div className="flex items-center justify-between text-sm text-slate-300">
+              <Link
+                href="/register"
+                className="font-semibold text-[#f7d7ff] hover:text-white underline underline-offset-4"
+              >
+                Create an account
+              </Link>
+              <Link href="/forgot-password" className="hover:text-slate-100">
+                Forgot password?
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

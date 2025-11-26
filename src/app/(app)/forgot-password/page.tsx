@@ -28,39 +28,66 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Forgot Password</h1>
-        {error && (
-          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
-        )}
-        {message && (
-          <p className="text-green-500 text-sm mb-4 text-center">{message}</p>
-        )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Enter your email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#cb6ce6] focus:border-[#cb6ce6]"
-              placeholder="you@example.com"
-              required
-            />
+    <div className="relative min-h-screen bg-[#141018] text-slate-50 overflow-hidden px-4">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+      <div className="absolute -bottom-32 -left-32 w-72 h-72 rounded-full bg-[#cb6ce6]/15 blur-3xl" />
+      <div className="absolute -top-20 -right-10 w-64 h-64 rounded-full bg-[#89499b]/20 blur-3xl" />
+
+      <div className="relative z-10 max-w-lg mx-auto py-16">
+        <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-[0_25px_70px_-35px_rgba(203,108,230,0.35)] p-8 sm:p-10 space-y-6">
+          <div className="text-center space-y-2">
+            <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+              Account help
+            </p>
+            <h1 className="text-3xl font-semibold">Forgot Password</h1>
+            <p className="text-slate-200/80">
+              Enter your email and we’ll send you a link to reset your password.
+            </p>
           </div>
-          <button
-            type="submit"
-            className="w-full bg-[#cb6ce6] hover:bg-[#89499b] text-white py-2 px-4 rounded-md transition duration-300"
-          >
-            Send Reset Link
-          </button>
-          <p className="text-sm text-[#703381] mt-6 text-center">
-            <a href="/login">Back to Login</a>
+
+          {error && (
+            <p className="text-center text-sm text-[#f7d7ff] font-medium">
+              {error}
+            </p>
+          )}
+          {message && (
+            <p className="text-center text-sm text-[#9ef0c0] font-medium">
+              {message}
+            </p>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-200">
+                Enter your email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-3.5 rounded-xl font-semibold bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b] text-slate-950 shadow-lg shadow-[#cb6ce6]/30 hover:translate-y-[-1px] hover:shadow-xl hover:shadow-[#cb6ce6]/35 transition"
+            >
+              Send reset link
+            </button>
+          </form>
+
+          <p className="text-sm text-slate-300 text-center">
+            Remembered it?{" "}
+            <a
+              href="/login"
+              className="font-semibold text-[#f7d7ff] hover:text-white underline underline-offset-4"
+            >
+              Back to login
+            </a>
           </p>
-        </form>
+        </div>
       </div>
     </div>
   );

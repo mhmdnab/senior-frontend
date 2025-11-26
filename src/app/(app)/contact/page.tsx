@@ -38,21 +38,25 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-tr from-[#522c5d] to-[#232323] min-h-screen flex items-center justify-center py-20 px-4 relative overflow-hidden">
-      {/* Floating Background Accents */}
+    <div className="relative min-h-screen bg-[#141018] text-slate-50 flex items-center justify-center py-20 px-4 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
       <div className="absolute top-10 left-[-50px] w-72 h-72 bg-[#cb6ce6]/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none"></div>
       <div className="absolute bottom-0 right-[-80px] w-96 h-96 bg-[#89499b]/20 rounded-full blur-3xl animate-float pointer-events-none"></div>
 
       {/* Card */}
-      <div className="relative w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl px-8 py-10">
-        <h2 className="text-3xl font-extrabold text-[#cb6ce6] mb-3 text-center drop-shadow-sm">
-          Let’s Connect
-        </h2>
-
-        <p className="text-[#d9b2e6] mb-10 text-center leading-relaxed">
-          We’d love to hear from you. Send us a message and we’ll reply as soon
-          as possible.
-        </p>
+      <div className="relative w-full max-w-lg bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_25px_70px_-35px_rgba(203,108,230,0.35)] px-8 py-10 space-y-4">
+        <div className="text-center space-y-2">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Contact
+          </p>
+          <h2 className="text-3xl font-extrabold text-white drop-shadow-sm">
+            Let’s Connect
+          </h2>
+          <p className="text-slate-200/85">
+            We’d love to hear from you. Send us a message and we’ll reply as soon
+            as possible.
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
@@ -71,9 +75,9 @@ const ContactForm = () => {
               onChange={handleChange}
               className="
             w-full px-4 py-3 rounded-lg bg-white/10 text-white
-            placeholder:text-purple-200/50
+            placeholder:text-slate-300/70
             border border-white/20
-            focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+            focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
             outline-none transition
           "
               placeholder="Enter your name"
@@ -97,9 +101,9 @@ const ContactForm = () => {
               onChange={handleChange}
               className="
             w-full px-4 py-3 rounded-lg bg-white/10 text-white
-            placeholder:text-purple-200/50
+            placeholder:text-slate-300/70
             border border-white/20
-            focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+            focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
             outline-none transition
           "
               placeholder="Enter your email"
@@ -123,9 +127,9 @@ const ContactForm = () => {
               rows={5}
               className="
             w-full px-4 py-3 rounded-lg bg-white/10 text-white
-            placeholder:text-purple-200/50
+            placeholder:text-slate-300/70
             border border-white/20
-            focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+            focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
             outline-none resize-none transition
           "
               placeholder="Write your message here..."
@@ -137,13 +141,10 @@ const ContactForm = () => {
           <button
             type="submit"
             className="
-          w-full py-3 rounded-lg font-semibold text-white
-          bg-gradient-to-r from-purple-600 to-pink-600
-          hover:from-purple-500 hover:to-pink-500
-          shadow-md shadow-purple-900/40
-          hover:shadow-purple-700/50
-          transition-all duration-300
-          active:scale-[0.97]
+          w-full py-3.5 rounded-lg font-semibold text-slate-950
+          bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b]
+          hover:shadow-lg hover:shadow-[#cb6ce6]/35
+          transition-all duration-300 active:scale-[0.98]
         "
           >
             Send Message

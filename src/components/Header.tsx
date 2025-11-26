@@ -7,10 +7,7 @@ const Header = () => {
   const { isLoggedIn } = useAuth();
 
   return (
-    <header
-      className="flex flex-col md:flex-row items-center justify-between 
-  px-4 py-3 bg-[#232323] border-b border-[#3a3a3a] shadow-md sticky top-0 z-50"
-    >
+    <header className="flex flex-col md:flex-row items-center justify-between px-4 py-3 bg-[#141018]/95 backdrop-blur-md border-b border-white/10 shadow-lg sticky top-0 z-50">
       {/* Logo */}
       <div className="flex justify-center md:justify-start mb-3 md:mb-0">
         <Link href="/">
@@ -66,10 +63,10 @@ const Header = () => {
         <Link href="/products">
           <button
             className="
-          px-4 py-2 rounded-lg text-white text-sm md:text-base font-semibold
-          bg-gradient-to-r from-purple-600 to-pink-600
-          hover:from-purple-500 hover:to-pink-500
-          shadow-md hover:shadow-purple-900/40
+          px-4 py-2 rounded-lg text-slate-950 text-sm md:text-base font-semibold
+          bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b]
+          hover:from-[#d077ee] hover:to-[#9c55af]
+          shadow-md shadow-[#cb6ce6]/30 hover:shadow-lg hover:shadow-[#cb6ce6]/35
           transition-all duration-300
         "
           >

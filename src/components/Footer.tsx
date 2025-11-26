@@ -5,8 +5,8 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1e1e1e] py-10 border-t border-[#3a3a3a]">
-      <div className="container mx-auto px-6">
+    <footer className="bg-[#100c14] py-10 border-t border-white/10">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Top Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
@@ -23,7 +23,7 @@ const Footer = () => {
           </div>
 
           {/* Social Icons */}
-          <div className="flex items-center gap-5 text-gray-400">
+          <div className="flex items-center gap-5 text-slate-300">
             <Link href="https://facebook.com" target="_blank">
               <FaFacebook className="h-6 w-6 hover:text-[#cb6ce6] transition" />
             </Link>
@@ -40,10 +40,10 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-[#3a3a3a] my-6"></div>
+        <div className="border-t border-white/10 my-6"></div>
 
         {/* Bottom Row */}
-        <div className="text-center text-gray-400 text-sm">
+        <div className="text-center text-slate-400 text-sm">
           © {new Date().getFullYear()}{" "}
           <span className="text-[#cb6ce6] font-semibold">Dakesh</span>. All
           Rights Reserved.

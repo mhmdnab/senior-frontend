@@ -78,62 +78,72 @@ const MyProductsPage = () => {
   }, []); // Empty dependencies array means this runs once on mount
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
-      <h1 className="text-2xl font-bold mb-6">My Products</h1>
+    <div className="relative min-h-screen bg-[#141018] text-slate-100 px-6 py-12 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+      <div className="absolute -bottom-32 -right-24 w-80 h-80 bg-[#cb6ce6]/15 blur-3xl rounded-full" />
+      <div className="absolute -top-24 -left-16 w-64 h-64 bg-[#89499b]/15 blur-3xl rounded-full" />
+      <div className="relative">
+        <div className="flex flex-col gap-2 mb-8">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Listings
+          </p>
+          <h1 className="text-3xl font-bold">My Products</h1>
+        </div>
 
-      {/* Display messages */}
-      {loading && <p className="text-gray-600">Loading products...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {!loading && !error && products.length === 0 && (
-        <p className="text-gray-600">You haven’t added any products yet.</p>
-      )}
+        {/* Display messages */}
+        {loading && <p className="text-slate-300">Loading products...</p>}
+        {error && <p className="text-[#f7d7ff]">{error}</p>}
+        {!loading && !error && products.length === 0 && (
+          <p className="text-slate-300">You haven’t added any products yet.</p>
+        )}
 
-      {/* Product Grid */}
-      {!loading && !error && products.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
-            >
-              {/* Product Image */}
-              {product.images && (
-                <div className="w-full h-48 overflow-hidden">
-                  <Image
-                    src={product.images?.[0]}
-                    alt={product.title}
-                    width={300}
-                    height={300}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              )}
+        {/* Product Grid */}
+        {!loading && !error && products.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <div
+                key={product._id}
+                className="group bg-white/5 rounded-xl shadow-lg shadow-[#cb6ce6]/20 border border-white/10 hover:shadow-[#cb6ce6]/30 transition-all duration-300 overflow-hidden"
+              >
+                {/* Product Image */}
+                {product.images && (
+                  <div className="w-full h-48 overflow-hidden">
+                    <Image
+                      src={getImageSrc(product.images?.[0])}
+                      alt={product.title}
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
 
-              {/* Card Content */}
-              <div className="p-5">
-                <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                  {product.title}
-                </h2>
+                {/* Card Content */}
+                <div className="p-5 space-y-2">
+                  <h2 className="text-lg font-semibold text-white mb-1 line-clamp-1">
+                    {product.title}
+                  </h2>
 
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {product.description}
-                </p>
-
-                {/* Divider + Optional Button or Future Section */}
-                <div className="mt-4 border-t pt-3 flex justify-between items-center">
-                  <p className="text-xs text-gray-400">
-                    {/* product.owner?.username */}
+                  <p className="text-sm text-slate-200/80 line-clamp-2">
+                    {product.description}
                   </p>
 
-                  <button className="text-blue-600 text-sm font-medium hover:underline">
-                    View
-                  </button>
+                  {/* Divider + Optional Button or Future Section */}
+                  <div className="mt-3 border-t border-white/10 pt-3 flex justify-between items-center">
+                    <p className="text-xs text-slate-300/80">
+                      {product.category}
+                    </p>
+
+                    <button className="text-sm font-semibold text-[#f7d7ff] hover:text-white underline underline-offset-4">
+                      View
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

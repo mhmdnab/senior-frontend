@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Hero() {
   const { scrollY } = useScroll();
 
-  // Parallax movement
+  // Parallax movement to match hero mood
   const bgY = useTransform(scrollY, [0, 500], [0, -150]);
 
   // Larger scale to prevent gaps
@@ -17,7 +17,7 @@ export default function Hero() {
   const textY = useTransform(scrollY, [0, 300], [0, -60]);
 
   return (
-    <section className="relative h-screen flex bg-[#232323] text-white overflow-hidden">
+    <section className="relative h-screen flex bg-[#141018] text-white overflow-hidden">
       {/* Background Image */}
       <motion.div
         className="absolute inset-0"
@@ -42,7 +42,7 @@ export default function Hero() {
           <h1 className="text-5xl font-bold mb-4">Dakesh</h1>
           <p className="text-xl mb-8">Trade it, Don’t waste it</p>
           <Link href="/products">
-            <button className="px-8 py-3 bg-[#cb6ce6] text-white rounded-lg text-lg font-semibold hover:bg-[#89499b] transition duration-300">
+            <button className="px-8 py-3 bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b] text-slate-950 rounded-lg text-lg font-semibold hover:shadow-lg hover:shadow-[#cb6ce6]/30 transition duration-300">
               Dakesh Now
             </button>
           </Link>

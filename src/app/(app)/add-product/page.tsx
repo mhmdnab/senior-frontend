@@ -97,14 +97,27 @@ export default function AddProductPage() {
     }
   };
 
-  if (checkingAuth) return <p className="text-white">Checking auth...</p>;
+  if (checkingAuth)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#141018] text-slate-200">
+        Checking auth...
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] text-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10">
-        <h1 className="text-3xl font-extrabold text-[#cb6ce6] mb-6 text-center drop-shadow">
-          Add New Product
-        </h1>
+    <div className="relative min-h-screen bg-[#141018] text-slate-100 flex items-center justify-center p-6 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+      <div className="absolute -bottom-32 -right-24 w-80 h-80 bg-[#cb6ce6]/15 blur-3xl rounded-full" />
+      <div className="absolute -top-24 -left-16 w-64 h-64 bg-[#89499b]/15 blur-3xl rounded-full" />
+      <div className="relative w-full max-w-lg bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_25px_70px_-35px_rgba(203,108,230,0.35)] p-10">
+        <div className="text-center space-y-2 mb-4">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Listing
+          </p>
+          <h1 className="text-3xl font-extrabold text-white drop-shadow">
+            Add New Product
+          </h1>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
@@ -117,9 +130,9 @@ export default function AddProductPage() {
             required
             className="
           w-full px-4 py-3 rounded-lg bg-white/10 text-white
-          placeholder:text-purple-200/50
+          placeholder:text-slate-300/70
           border border-white/20
-          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
           outline-none transition
         "
           />
@@ -134,15 +147,15 @@ export default function AddProductPage() {
             rows={4}
             className="
           w-full px-4 py-3 rounded-lg bg-white/10 text-white
-          placeholder:text-purple-200/50
+          placeholder:text-slate-300/70
           border border-white/20
-          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
           outline-none resize-none transition
         "
           ></textarea>
 
           {/* File Upload */}
-          <label className="block text-purple-200/80 text-sm font-semibold">
+          <label className="block text-slate-200 text-sm font-semibold">
             Upload Product Image
           </label>
           <input
@@ -154,9 +167,9 @@ export default function AddProductPage() {
             className="
           w-full px-4 py-3 rounded-lg bg-white/10 text-white
           border border-white/20 cursor-pointer
-          file:bg-purple-600 file:text-white file:rounded file:px-4 file:py-2
+          file:bg-[#cb6ce6] file:text-slate-950 file:rounded file:px-4 file:py-2
           file:border-none file:mr-4
-          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
           outline-none transition
         "
           />
@@ -179,7 +192,7 @@ export default function AddProductPage() {
             className="
           w-full px-4 py-3 rounded-lg bg-white/10 text-white
           border border-white/20
-          focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40
+          focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/40
           outline-none transition
         "
           >
@@ -210,11 +223,10 @@ export default function AddProductPage() {
           <button
             type="submit"
             className="
-          w-full py-3 rounded-lg font-semibold text-white
-          bg-gradient-to-r from-purple-600 to-pink-600
-          hover:from-purple-500 hover:to-pink-500
-          shadow-lg shadow-purple-900/40 hover:shadow-purple-700/50
-          transition-all duration-300 active:scale-[0.97]
+          w-full py-3.5 rounded-lg font-semibold text-slate-950
+          bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b]
+          hover:shadow-lg hover:shadow-[#cb6ce6]/35
+          transition-all duration-300 active:scale-[0.98]
         "
           >
             Add Product

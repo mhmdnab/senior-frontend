@@ -54,18 +54,24 @@ const Categories = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#522c5d] to-[#232323] py-20 px-5 md:px-12">
-      <div className="container mx-auto text-center">
+    <div className="relative min-h-screen bg-[#141018] py-20 px-5 md:px-12 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.18),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.18),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.05),transparent_32%)]" />
+      <div className="absolute -bottom-32 -right-24 w-80 h-80 bg-[#cb6ce6]/15 blur-3xl rounded-full" />
+      <div className="absolute -top-24 -left-16 w-64 h-64 bg-[#89499b]/15 blur-3xl rounded-full" />
+      <div className="relative container mx-auto text-center">
         {/* Main Title */}
-        <h1 className="text-4xl font-extrabold text-[#cb6ce6] mb-4 drop-shadow">
-          Dakesh by Categories
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-lg text-[#d9b2e6] max-w-2xl mx-auto mb-12">
-          Browse our wide selection of products organized by category to easily
-          find what you're looking for to trade.
-        </p>
+        <div className="flex flex-col items-center gap-3 mb-10">
+          <p className="text-sm uppercase tracking-[0.35em] text-[#f7d7ff]/80">
+            Categories
+          </p>
+          <h1 className="text-4xl font-extrabold text-white drop-shadow">
+            Dakesh by Categories
+          </h1>
+          <p className="text-lg text-slate-200 max-w-2xl mx-auto">
+            Browse our wide selection of products organized by category to
+            easily find what you're looking for to trade.
+          </p>
+        </div>
 
         {/* Category Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 px-2 sm:px-0 py-12 items-stretch">
@@ -79,8 +85,8 @@ const Categories = () => {
                 className="
               flex flex-col h-full rounded-2xl overflow-hidden
               bg-white/5 backdrop-blur-xl border border-white/10
-              shadow-lg transition-all duration-300
-              group-hover:shadow-purple-700/40 group-hover:-translate-y-2
+              shadow-lg shadow-[#cb6ce6]/25 transition-all duration-300
+              group-hover:shadow-[#cb6ce6]/40 group-hover:-translate-y-2
             "
               >
                 <div className="relative w-full h-48 overflow-hidden">
@@ -99,7 +105,7 @@ const Categories = () => {
                   <h3 className="text-xl font-semibold text-white mb-2">
                     {category.name}
                   </h3>
-                  <p className="text-gray-300 text-sm">
+                  <p className="text-slate-300 text-sm">
                     {category.description}
                   </p>
                 </div>

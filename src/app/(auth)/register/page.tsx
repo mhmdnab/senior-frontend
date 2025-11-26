@@ -61,96 +61,132 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#522c5d] to-[#232323] px-4">
-      <div
-        className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 
-                  p-8 rounded-2xl shadow-xl shadow-black/30"
-      >
-        <h1 className="text-3xl font-extrabold text-white mb-6 text-center drop-shadow">
-          Register
-        </h1>
+    <div className="relative min-h-screen bg-[#141018] text-slate-50 overflow-hidden">
+      <div className="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_20%_20%,rgba(203,108,230,0.22),transparent_30%),radial-gradient(circle_at_80%_0,rgba(137,73,155,0.2),transparent_28%),radial-gradient(circle_at_60%_80%,rgba(255,255,255,0.06),transparent_32%)]" />
+      <div className="absolute -bottom-32 -left-32 w-72 h-72 rounded-full bg-[#cb6ce6]/15 blur-3xl" />
+      <div className="absolute -top-20 -right-10 w-64 h-64 rounded-full bg-[#89499b]/20 blur-3xl" />
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1">
-              Name
-            </label>
-            <input
-              name="username"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Enter your name"
-              required
-              className="
-            w-full px-4 py-2 rounded-lg bg-white/20 text-white
-            border border-white/30 focus:border-purple-400 focus:ring-2 
-            focus:ring-purple-500/40 transition-all placeholder-purple-200/50
-          "
-            />
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 md:py-24">
+        <div className="flex items-center gap-3 mb-10">
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#cb6ce6] via-[#b36ce0] to-[#89499b] shadow-lg shadow-[#cb6ce6]/35 border border-white/10 flex items-center justify-center text-lg font-bold text-slate-950">
+            Dk
           </div>
-
-          {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1">
-              Email
-            </label>
-            <input
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              required
-              className="
-            w-full px-4 py-2 rounded-lg bg-white/20 text-white
-            border border-white/30 focus:border-purple-400 focus:ring-2 
-            focus:ring-purple-500/40 transition-all placeholder-purple-200/50
-          "
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-1">
-              Password
-            </label>
-            <input
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              required
-              className="
-            w-full px-4 py-2 rounded-lg bg-white/20 text-white
-            border border-white/30 focus:border-purple-400 focus:ring-2 
-            focus:ring-purple-500/40 transition-all placeholder-purple-200/50
-          "
-            />
-          </div>
-
-          {/* Register Button */}
-          <button
-            type="submit"
-            className="
-          w-full py-3 rounded-lg font-semibold 
-          bg-gradient-to-r from-purple-500 to-pink-500 
-          hover:opacity-90 hover:shadow-lg hover:shadow-purple-800/40
-          transition-all duration-300 text-white
-        "
-          >
-            Register
-          </button>
-
-          {/* Error / Success Message */}
-          {message && (
-            <p className="text-center text-sm text-red-400 font-medium mt-2">
-              {message}
+            <p className="text-sm uppercase tracking-[0.25em] text-[#f7d7ff]/80">
+              Dakesh Exchange
             </p>
-          )}
-        </form>
+            <p className="text-base text-slate-200">
+              Trade smarter. Waste less. Join the community.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-[1.05fr,1fr] bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-[0_25px_70px_-35px_rgba(203,108,230,0.35)] backdrop-blur-xl">
+          <div className="space-y-6 md:pr-6">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+                Register and start swapping in minutes
+              </h1>
+              <p className="mt-3 text-lg text-slate-200/90">
+                Create your profile, list what you have, and discover what the
+                community is offering. No clutter, no waste.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                "Verified community of swappers",
+                "Track offers and responses easily",
+                "Save wishlists for quick matches",
+                "Mobile-friendly experience",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+                >
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#cb6ce6] shadow-[0_0_0_3px_rgba(203,108,230,0.2)]" />
+                  <p className="text-sm sm:text-base text-slate-100">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5 bg-slate-950/50 rounded-2xl border border-white/10 p-6 sm:p-8 shadow-inner shadow-[#cb6ce6]/10"
+          >
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-200">
+                Name
+              </label>
+              <input
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Nora Abdelrahman"
+                required
+                autoComplete="name"
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-200">
+                Email
+              </label>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                required
+                autoComplete="email"
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-200">
+                Password
+              </label>
+              <input
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a secure password"
+                required
+                autoComplete="new-password"
+                className="w-full rounded-xl bg-white/10 border border-white/15 text-white px-4 py-3 placeholder:text-slate-400/80 focus:border-[#cb6ce6] focus:ring-2 focus:ring-[#cb6ce6]/50 transition"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3.5 rounded-xl font-semibold bg-gradient-to-r from-[#cb6ce6] via-[#b36ce0] to-[#89499b] text-slate-950 shadow-lg shadow-[#cb6ce6]/30 hover:translate-y-[-1px] hover:shadow-xl hover:shadow-[#cb6ce6]/35 transition"
+            >
+              Create account
+            </button>
+
+            {message && (
+              <p className="text-center text-sm text-[#f7d7ff] font-medium">
+                {message}
+              </p>
+            )}
+
+            <p className="text-sm text-slate-300 text-center">
+              Already part of Dakesh?{" "}
+              <a
+                href="/login"
+                className="text-emerald-200 font-semibold hover:text-emerald-100 underline underline-offset-4"
+              >
+                Log in instead
+              </a>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
